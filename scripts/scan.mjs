@@ -1,0 +1,194 @@
+#!/usr/bin/env node
+// Scans GitHub for AI agent frameworks/tools and writes public/data.json.
+// Combines a curated seed (data/seed.json) with topic-based auto-discovery.
+//
+// Auth: set GITHUB_TOKEN (in CI it's provided automatically; locally run
+//   GITHUB_TOKEN=$(gh auth token) node scripts/scan.mjs
+
+import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, "..");
+
+const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
+const API = "https://api.github.com";
+
+const headers = {
+  Accept: "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2022-11-28",
+  "User-Agent": "agent-landscape-scanner",
+  ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
+};
+
+let apiCalls = 0;
+
+async function gh(path) {
+  apiCalls++;
+  const url = path.startsWith("http") ? path : `${API}${path}`;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const res = await fetch(url, { headers });
+    if (res.status === 403 || res.status === 429) {
+      const reset = Number(res.headers.get("x-ratelimit-reset")) * 1000;
+      const wait = Math.max(1000, reset - Date.now());
+      if (wait < 90_000 && attempt < 3) {
+        console.warn(`Rate limited; waiting ${Math.round(wait / 1000)}s...`);
+        await new Promise((r) => setTimeout(r, wait));
+        continue;
+      }
+    }
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      throw new Error(`GitHub ${res.status} for ${url}: ${body.slice(0, 200)}`);
+    }
+    return res.json();
+  }
+  throw new Error(`Exhausted retries for ${url}`);
+}
+
+function normalizeRepo(r) {
+  return {
+    repo: r.full_name,
+    name: r.name,
+    owner: r.owner?.login ?? r.full_name.split("/")[0],
+    description: r.description ?? "",
+    url: r.html_url,
+    homepage: r.homepage || "",
+    stars: r.stargazers_count ?? 0,
+    forks: r.forks_count ?? 0,
+    openIssues: r.open_issues_count ?? 0,
+    language: r.language ?? "",
+    license: r.license?.spdx_id && r.license.spdx_id !== "NOASSERTION" ? r.license.spdx_id : "",
+    topics: r.topics ?? [],
+    pushedAt: r.pushed_at ?? null,
+    createdAt: r.created_at ?? null,
+    archived: !!r.archived,
+  };
+}
+
+async function fetchRepo(fullName) {
+  try {
+    const r = await gh(`/repos/${fullName}`);
+    return normalizeRepo(r);
+  } catch (e) {
+    console.warn(`  skip ${fullName}: ${e.message}`);
+    return null;
+  }
+}
+
+async function discoverByTopic(topic, minStars, perTopic) {
+  // GitHub search: repos with the topic, sorted by stars.
+  const q = encodeURIComponent(`topic:${topic} stars:>=${minStars}`);
+  const per = Math.min(perTopic, 100);
+  try {
+    const data = await gh(`/search/repositories?q=${q}&sort=stars&order=desc&per_page=${per}`);
+    return (data.items ?? []).map(normalizeRepo);
+  } catch (e) {
+    console.warn(`  topic ${topic} failed: ${e.message}`);
+    return [];
+  }
+}
+
+// Keep auto-discovery credible: a discovered repo must show an agent-ish signal,
+// and must not be on the denylist. Curated entries bypass this entirely.
+const AGENT_SIGNAL = /\bagent|agentic|autonomous|llm|multi-?agent|crew|\bmcp\b|model context protocol|a2a|gpt|copilot|assistant|orchestrat|rag\b|retrieval-augmented|tool[- ]?use|function[- ]?calling|chatbot|swarm/i;
+
+function isRelevant(project, denylist) {
+  if (denylist.has(project.repo.toLowerCase())) return false;
+  const text = `${project.repo} ${project.description} ${project.topics.join(" ")}`;
+  return AGENT_SIGNAL.test(text);
+}
+
+function categorize(project, seedCategories) {
+  // Heuristic auto-categorization for discovered repos.
+  const text = `${project.repo} ${project.description} ${project.topics.join(" ")}`.toLowerCase();
+  const rules = [
+    ["voice", /voice|speech|telephony|realtime audio|tts|stt/],
+    ["computer-use", /browser-use|computer use|gui agent|web automation|playwright agent|screen/],
+    ["coding", /coding agent|code agent|software engineer|swe|programmer|developer agent|repo/],
+    ["protocols", /\bmcp\b|model context protocol|a2a|agent2agent|interop/],
+    ["memory-rag", /memory|rag|retrieval|vector|embedding|knowledge graph/],
+    ["observability", /observ|tracing|eval|monitor|telemetry|llmops/],
+    ["orchestration", /multi-?agent|orchestrat|crew|swarm|workflow|graph/],
+    ["autonomous", /autonomous|auto-?gpt|babyagi|self-?improv|goal-driven/],
+    ["runtimes", /low-?code|no-?code|platform|deploy|hosting|builder|workflow automation/],
+  ];
+  for (const [cat, re] of rules) {
+    if (re.test(text)) return cat;
+  }
+  return "frameworks";
+}
+
+async function main() {
+  if (!TOKEN) {
+    console.warn("⚠  No GITHUB_TOKEN set — running unauthenticated (60 req/hr). Results may be partial.");
+  }
+  const seed = JSON.parse(await readFile(join(ROOT, "data", "seed.json"), "utf8"));
+  const categoryIds = new Set(seed.categories.map((c) => c.id));
+
+  const byRepo = new Map(); // full_name(lower) -> project
+
+  // 1) Curated seed (authoritative categories)
+  console.log(`Enriching ${seed.projects.length} curated projects...`);
+  for (const item of seed.projects) {
+    const data = await fetchRepo(item.repo);
+    if (!data || data.archived) continue;
+    const key = data.repo.toLowerCase();
+    data.category = categoryIds.has(item.category) ? item.category : "frameworks";
+    data.curated = true;
+    byRepo.set(key, data);
+  }
+
+  // 2) Topic-based auto-discovery (hybrid)
+  const disc = seed.discovery || {};
+  const topics = disc.topics || [];
+  const denylist = new Set((disc.denylist || []).map((s) => s.toLowerCase()));
+  let dropped = 0;
+  console.log(`Discovering via ${topics.length} GitHub topics...`);
+  for (const topic of topics) {
+    const found = await discoverByTopic(topic, disc.minStars ?? 1500, disc.maxPerTopic ?? 30);
+    for (const data of found) {
+      if (data.archived) continue;
+      const key = data.repo.toLowerCase();
+      if (byRepo.has(key)) continue; // curated wins
+      if (!isRelevant(data, denylist)) { dropped++; continue; } // skip off-topic noise
+      data.category = categorize(data, categoryIds);
+      data.curated = false;
+      byRepo.set(key, data);
+    }
+  }
+  if (dropped) console.log(`  filtered out ${dropped} off-topic / denylisted discovered repos`);
+
+  const projects = [...byRepo.values()].sort((a, b) => b.stars - a.stars);
+
+  // Build per-category counts
+  const counts = {};
+  for (const p of projects) counts[p.category] = (counts[p.category] || 0) + 1;
+
+  const out = {
+    generatedAt: new Date().toISOString(),
+    source: "github",
+    apiCalls,
+    totals: {
+      projects: projects.length,
+      curated: projects.filter((p) => p.curated).length,
+      discovered: projects.filter((p) => !p.curated).length,
+      stars: projects.reduce((s, p) => s + p.stars, 0),
+    },
+    categories: seed.categories.map((c) => ({ ...c, count: counts[c.id] || 0 })),
+    projects,
+  };
+
+  await mkdir(join(ROOT, "public"), { recursive: true });
+  await writeFile(join(ROOT, "public", "data.json"), JSON.stringify(out, null, 2));
+  console.log(
+    `✓ Wrote public/data.json — ${projects.length} projects ` +
+      `(${out.totals.curated} curated, ${out.totals.discovered} discovered), ${apiCalls} API calls.`
+  );
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

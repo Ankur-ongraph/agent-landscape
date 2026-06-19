@@ -1,0 +1,169 @@
+{
+  "categories": [
+    {
+      "id": "frameworks",
+      "name": "Agent Frameworks",
+      "description": "General-purpose libraries for building LLM-powered agents."
+    },
+    {
+      "id": "orchestration",
+      "name": "Multi-Agent Orchestration",
+      "description": "Frameworks for coordinating multiple agents, roles, and workflows."
+    },
+    {
+      "id": "autonomous",
+      "name": "Autonomous Agents",
+      "description": "Goal-driven agents that plan and execute long-running tasks."
+    },
+    {
+      "id": "coding",
+      "name": "Coding Agents",
+      "description": "Agents that read, write, and ship software."
+    },
+    {
+      "id": "computer-use",
+      "name": "Browser & Computer Use",
+      "description": "Agents that drive browsers, GUIs, and operating systems."
+    },
+    {
+      "id": "protocols",
+      "name": "Protocols & Interop",
+      "description": "Standards and gateways for tool/agent interoperability (MCP, A2A)."
+    },
+    {
+      "id": "memory-rag",
+      "name": "Memory & RAG",
+      "description": "Long-term memory, retrieval, and knowledge stores for agents."
+    },
+    {
+      "id": "observability",
+      "name": "Observability & Eval",
+      "description": "Tracing, evaluation, and monitoring for agent systems."
+    },
+    {
+      "id": "runtimes",
+      "name": "Runtimes & Platforms",
+      "description": "Hosting, deployment, and low-code platforms for agents."
+    },
+    {
+      "id": "voice",
+      "name": "Voice Agents",
+      "description": "Realtime speech and telephony agent frameworks."
+    }
+  ],
+  "projects": [
+    { "repo": "langchain-ai/langchain", "category": "frameworks" },
+    { "repo": "run-llama/llama_index", "category": "frameworks" },
+    { "repo": "microsoft/semantic-kernel", "category": "frameworks" },
+    { "repo": "deepset-ai/haystack", "category": "frameworks" },
+    { "repo": "BerriAI/litellm", "category": "frameworks" },
+    { "repo": "pydantic/pydantic-ai", "category": "frameworks" },
+    { "repo": "openai/openai-agents-python", "category": "frameworks" },
+    { "repo": "google/adk-python", "category": "frameworks" },
+    { "repo": "strands-agents/sdk-python", "category": "frameworks" },
+    { "repo": "agno-agi/agno", "category": "frameworks" },
+    { "repo": "stanfordnlp/dspy", "category": "frameworks" },
+    { "repo": "sgl-project/sglang", "category": "frameworks" },
+    { "repo": "letta-ai/letta", "category": "frameworks" },
+    { "repo": "superagent-ai/superagent", "category": "frameworks" },
+    { "repo": "transitive-bullshit/agentic", "category": "frameworks" },
+
+    { "repo": "microsoft/autogen", "category": "orchestration" },
+    { "repo": "crewAIInc/crewAI", "category": "orchestration" },
+    { "repo": "langchain-ai/langgraph", "category": "orchestration" },
+    { "repo": "geekan/MetaGPT", "category": "orchestration" },
+    { "repo": "joaomdmoura/crewAI", "category": "orchestration" },
+    { "repo": "camel-ai/camel", "category": "orchestration" },
+    { "repo": "OpenBMB/ChatDev", "category": "orchestration" },
+    { "repo": "i-am-bee/beeai-framework", "category": "orchestration" },
+    { "repo": "kyrolabs/awesome-agents", "category": "orchestration" },
+    { "repo": "ag2ai/ag2", "category": "orchestration" },
+
+    { "repo": "Significant-Gravitas/AutoGPT", "category": "autonomous" },
+    { "repo": "yoheinakajima/babyagi", "category": "autonomous" },
+    { "repo": "reworkd/AgentGPT", "category": "autonomous" },
+    { "repo": "TransformerOptimus/SuperAGI", "category": "autonomous" },
+    { "repo": "AntonOsika/gpt-engineer", "category": "autonomous" },
+    { "repo": "assafelovic/gpt-researcher", "category": "autonomous" },
+    { "repo": "OpenBMB/XAgent", "category": "autonomous" },
+    { "repo": "Pythagora-io/gpt-pilot", "category": "autonomous" },
+
+    { "repo": "All-Hands-AI/OpenHands", "category": "coding" },
+    { "repo": "Aider-AI/aider", "category": "coding" },
+    { "repo": "princeton-nlp/SWE-agent", "category": "coding" },
+    { "repo": "cline/cline", "category": "coding" },
+    { "repo": "RooCodeInc/Roo-Code", "category": "coding" },
+    { "repo": "block/goose", "category": "coding" },
+    { "repo": "continuedev/continue", "category": "coding" },
+    { "repo": "smol-ai/developer", "category": "coding" },
+    { "repo": "OpenInterpreter/open-interpreter", "category": "coding" },
+    { "repo": "stitionai/devika", "category": "coding" },
+
+    { "repo": "browser-use/browser-use", "category": "computer-use" },
+    { "repo": "Skyvern-AI/skyvern", "category": "computer-use" },
+    { "repo": "microsoft/OmniParser", "category": "computer-use" },
+    { "repo": "lavague-ai/LaVague", "category": "computer-use" },
+    { "repo": "OpenAdaptAI/OpenAdapt", "category": "computer-use" },
+    { "repo": "mannaandpoem/OpenManus", "category": "computer-use" },
+
+    { "repo": "modelcontextprotocol/servers", "category": "protocols" },
+    { "repo": "modelcontextprotocol/python-sdk", "category": "protocols" },
+    { "repo": "modelcontextprotocol/typescript-sdk", "category": "protocols" },
+    { "repo": "a2aproject/A2A", "category": "protocols" },
+    { "repo": "punkpeye/awesome-mcp-servers", "category": "protocols" },
+    { "repo": "modelcontextprotocol/inspector", "category": "protocols" },
+
+    { "repo": "mem0ai/mem0", "category": "memory-rag" },
+    { "repo": "topoteretes/cognee", "category": "memory-rag" },
+    { "repo": "MemTensor/MemOS", "category": "memory-rag" },
+    { "repo": "getzep/zep", "category": "memory-rag" },
+    { "repo": "weaviate/weaviate", "category": "memory-rag" },
+    { "repo": "qdrant/qdrant", "category": "memory-rag" },
+    { "repo": "chroma-core/chroma", "category": "memory-rag" },
+
+    { "repo": "langfuse/langfuse", "category": "observability" },
+    { "repo": "Arize-ai/phoenix", "category": "observability" },
+    { "repo": "traceloop/openllmetry", "category": "observability" },
+    { "repo": "comet-ml/opik", "category": "observability" },
+    { "repo": "agenta-ai/agenta", "category": "observability" },
+    { "repo": "confident-ai/deepeval", "category": "observability" },
+    { "repo": "Helicone/helicone", "category": "observability" },
+
+    { "repo": "FlowiseAI/Flowise", "category": "runtimes" },
+    { "repo": "langgenius/dify", "category": "runtimes" },
+    { "repo": "n8n-io/n8n", "category": "runtimes" },
+    { "repo": "langflow-ai/langflow", "category": "runtimes" },
+    { "repo": "activepieces/activepieces", "category": "runtimes" },
+    { "repo": "khoj-ai/khoj", "category": "runtimes" },
+    { "repo": "e2b-dev/e2b", "category": "runtimes" },
+    { "repo": "RasaHQ/rasa", "category": "runtimes" },
+
+    { "repo": "livekit/agents", "category": "voice" },
+    { "repo": "pipecat-ai/pipecat", "category": "voice" },
+    { "repo": "vocodedev/vocode-core", "category": "voice" }
+  ],
+  "discovery": {
+    "topics": [
+      "ai-agents",
+      "llm-agent",
+      "agent-framework",
+      "autonomous-agents",
+      "multi-agent",
+      "ai-agent-framework",
+      "agentic-ai",
+      "agentic-workflow",
+      "mcp-server"
+    ],
+    "minStars": 1500,
+    "maxPerTopic": 30,
+    "defaultCategory": "frameworks",
+    "denylist": [
+      "thedaviddias/Front-End-Checklist",
+      "kamranahmedse/developer-roadmap",
+      "awesome-selfhosted/awesome-selfhosted",
+      "public-apis/public-apis",
+      "donnemartin/system-design-primer",
+      "github/gitignore"
+    ]
+  }
+}

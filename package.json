@@ -1,0 +1,15 @@
+{
+  "name": "agent-landscape",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A live landscape tracker for AI agent frameworks & tools, scanned from GitHub.",
+  "scripts": {
+    "scan": "node scripts/scan.mjs",
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/scan.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

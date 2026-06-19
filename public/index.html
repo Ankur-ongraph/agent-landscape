@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Landscape — Live tracker of AI agent frameworks & tools</title>
+  <meta name="description" content="A live, auto-updating landscape of AI agent frameworks and tools, scanned daily from GitHub." />
+  <link rel="preconnect" href="https://github.com" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <span class="logo">🤖</span>
+        <div>
+          <h1>Agent Landscape</h1>
+          <p class="tagline">A live map of the AI agent framework &amp; tooling ecosystem</p>
+        </div>
+      </div>
+      <div class="stats" id="stats"><!-- filled by JS --></div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="wrap toolbar-inner">
+      <input id="search" type="search" placeholder="Search projects, e.g. crewai, browser, memory…" autocomplete="off" />
+      <div class="controls">
+        <label class="select">
+          Sort
+          <select id="sort">
+            <option value="stars">Most stars</option>
+            <option value="updated">Recently updated</option>
+            <option value="created">Newest</option>
+            <option value="name">Name (A–Z)</option>
+          </select>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="curatedOnly" /> Curated only
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <nav class="chips" id="chips"><div class="wrap chips-inner"></div></nav>
+
+  <main class="wrap" id="board">
+    <div class="loading">Loading the landscape…</div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>
+        Data scanned from <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>,
+        refreshed daily via GitHub Actions.
+        <span id="generated"></span>
+      </p>
+      <p class="muted">
+        Curated seed + topic auto-discovery. Inspired by the
+        <a href="https://landscape.cncf.io" target="_blank" rel="noopener">CNCF Landscape</a>.
+        Missing a project? Open a PR on the seed list.
+      </p>
+    </div>
+  </footer>
+
+  <div class="detail-backdrop" id="backdrop" hidden>
+    <div class="detail-card" id="detail" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
