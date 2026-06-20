@@ -1,69 +1,149 @@
 {
   "categories": [
     {
+      "id": "serving",
+      "name": "Models & Serving",
+      "icon": "🥩",
+      "role": "Raw ingredients",
+      "pick": "Pick a model + a way to run it",
+      "description": "Run, host, quantize and route the LLMs your agent thinks with. Infra, not agents."
+    },
+    {
       "id": "frameworks",
       "name": "Agent Frameworks",
-      "description": "General-purpose libraries for building LLM-powered agents."
+      "icon": "🍳",
+      "role": "The base",
+      "pick": "Pick ONE as your foundation",
+      "description": "Libraries to build a single agent: prompts, tool-calling, the reasoning loop."
     },
     {
       "id": "orchestration",
-      "name": "Multi-Agent Orchestration",
-      "description": "Frameworks for coordinating multiple agents, roles, and workflows."
+      "name": "Orchestration & Multi-Agent",
+      "icon": "🧑‍🍳",
+      "role": "Many cooks",
+      "pick": "Add when one agent isn't enough",
+      "description": "Coordinate roles, hand-offs, graphs and workflows across multiple agents."
     },
     {
       "id": "autonomous",
       "name": "Autonomous Agents",
-      "description": "Goal-driven agents that plan and execute long-running tasks."
+      "icon": "🍲",
+      "role": "Set & simmer",
+      "pick": "Reference designs, run with care",
+      "description": "Goal-driven agents that plan and execute long-running tasks on their own."
     },
     {
       "id": "coding",
       "name": "Coding Agents",
-      "description": "Agents that read, write, and ship software."
+      "icon": "🔪",
+      "role": "Sous-chefs",
+      "pick": "Pick by your editor / workflow",
+      "description": "Agents that read, write, refactor and ship software."
+    },
+    {
+      "id": "skills",
+      "name": "Skills & Recipes",
+      "icon": "📖",
+      "role": "Recipes",
+      "pick": "Add ready-made skills your agent can follow",
+      "description": "Reusable agent skills, opinionated harnesses and skill packs (Anthropic Skills, gstack, superpowers)."
+    },
+    {
+      "id": "sandboxes",
+      "name": "Sandboxes & MicroVMs",
+      "icon": "🔥",
+      "role": "The stove",
+      "pick": "Add to run agent code safely",
+      "description": "Isolated microVM & sandbox runtimes where agents execute code and tools safely (E2B, Firecracker, microsandbox)."
     },
     {
       "id": "computer-use",
       "name": "Browser & Computer Use",
-      "description": "Agents that drive browsers, GUIs, and operating systems."
-    },
-    {
-      "id": "protocols",
-      "name": "Protocols & Interop",
-      "description": "Standards and gateways for tool/agent interoperability (MCP, A2A)."
+      "icon": "🖐️",
+      "role": "Hands & eyes",
+      "pick": "Add to act in a browser / GUI",
+      "description": "Drive browsers, desktops and operating systems via clicks and vision."
     },
     {
       "id": "memory-rag",
-      "name": "Memory & RAG",
-      "description": "Long-term memory, retrieval, and knowledge stores for agents."
+      "name": "Memory & Knowledge",
+      "icon": "🧂",
+      "role": "The spice rack",
+      "pick": "Add so your agent remembers & retrieves",
+      "description": "Long-term memory, retrieval (RAG) and vector stores for grounding."
+    },
+    {
+      "id": "data",
+      "name": "Data & Documents",
+      "icon": "📄",
+      "role": "Mise en place",
+      "pick": "Add to feed clean data to your agent",
+      "description": "Parse, extract, chunk and clean documents & web data for RAG and agents (markitdown, docling, unstructured)."
+    },
+    {
+      "id": "protocols",
+      "name": "Tools & Protocols",
+      "icon": "🍴",
+      "role": "Utensils",
+      "pick": "Add to connect tools & agents",
+      "description": "Standards and servers that connect agents to tools and to each other (MCP, A2A)."
     },
     {
       "id": "observability",
       "name": "Observability & Eval",
-      "description": "Tracing, evaluation, and monitoring for agent systems."
+      "icon": "🔍",
+      "role": "Taste test",
+      "pick": "Add before you ship",
+      "description": "Trace, evaluate, monitor and debug agent behavior in dev and prod."
     },
     {
       "id": "runtimes",
       "name": "Runtimes & Platforms",
-      "description": "Hosting, deployment, and low-code platforms for agents."
+      "icon": "🍱",
+      "role": "Meal kits",
+      "pick": "Use to assemble without much code",
+      "description": "Low-code builders, workflow automation and hosting for agents."
     },
     {
       "id": "voice",
-      "name": "Voice Agents",
-      "description": "Realtime speech and telephony agent frameworks."
+      "name": "Voice & Speech",
+      "icon": "🎙️",
+      "role": "Ears & voice",
+      "pick": "Add for speech in / speech out",
+      "description": "Speech recognition (Whisper/ASR), text-to-speech, and realtime conversational audio."
     }
   ],
   "projects": [
+    { "repo": "vllm-project/vllm", "category": "serving" },
+    { "repo": "sgl-project/sglang", "category": "serving" },
+    { "repo": "ggml-org/llama.cpp", "category": "serving" },
+    { "repo": "ollama/ollama", "category": "serving" },
+    { "repo": "huggingface/text-generation-inference", "category": "serving" },
+    { "repo": "mudler/LocalAI", "category": "serving" },
+    { "repo": "InternLM/lmdeploy", "category": "serving" },
+    { "repo": "xorbitsai/inference", "category": "serving" },
+    { "repo": "BerriAI/litellm", "category": "serving" },
+    { "repo": "tensorzero/tensorzero", "category": "serving" },
+    { "repo": "NVIDIA/TensorRT-LLM", "category": "serving" },
+    { "repo": "NVIDIA/NeMo", "category": "serving" },
+    { "repo": "NVIDIA/Megatron-LM", "category": "serving" },
+
+    { "repo": "microsoft/markitdown", "category": "data" },
+    { "repo": "docling-project/docling", "category": "data" },
+    { "repo": "Unstructured-IO/unstructured", "category": "data" },
+    { "repo": "firecrawl/firecrawl", "category": "data" },
+    { "repo": "jina-ai/reader", "category": "data" },
+
     { "repo": "langchain-ai/langchain", "category": "frameworks" },
     { "repo": "run-llama/llama_index", "category": "frameworks" },
     { "repo": "microsoft/semantic-kernel", "category": "frameworks" },
     { "repo": "deepset-ai/haystack", "category": "frameworks" },
-    { "repo": "BerriAI/litellm", "category": "frameworks" },
     { "repo": "pydantic/pydantic-ai", "category": "frameworks" },
     { "repo": "openai/openai-agents-python", "category": "frameworks" },
     { "repo": "google/adk-python", "category": "frameworks" },
     { "repo": "strands-agents/sdk-python", "category": "frameworks" },
     { "repo": "agno-agi/agno", "category": "frameworks" },
     { "repo": "stanfordnlp/dspy", "category": "frameworks" },
-    { "repo": "sgl-project/sglang", "category": "frameworks" },
     { "repo": "letta-ai/letta", "category": "frameworks" },
     { "repo": "superagent-ai/superagent", "category": "frameworks" },
     { "repo": "transitive-bullshit/agentic", "category": "frameworks" },
@@ -72,13 +152,12 @@
     { "repo": "crewAIInc/crewAI", "category": "orchestration" },
     { "repo": "langchain-ai/langgraph", "category": "orchestration" },
     { "repo": "geekan/MetaGPT", "category": "orchestration" },
-    { "repo": "joaomdmoura/crewAI", "category": "orchestration" },
     { "repo": "camel-ai/camel", "category": "orchestration" },
     { "repo": "OpenBMB/ChatDev", "category": "orchestration" },
     { "repo": "i-am-bee/beeai-framework", "category": "orchestration" },
-    { "repo": "kyrolabs/awesome-agents", "category": "orchestration" },
     { "repo": "ag2ai/ag2", "category": "orchestration" },
 
+    { "repo": "openclaw/openclaw", "category": "autonomous" },
     { "repo": "Significant-Gravitas/AutoGPT", "category": "autonomous" },
     { "repo": "yoheinakajima/babyagi", "category": "autonomous" },
     { "repo": "reworkd/AgentGPT", "category": "autonomous" },
@@ -106,13 +185,6 @@
     { "repo": "OpenAdaptAI/OpenAdapt", "category": "computer-use" },
     { "repo": "mannaandpoem/OpenManus", "category": "computer-use" },
 
-    { "repo": "modelcontextprotocol/servers", "category": "protocols" },
-    { "repo": "modelcontextprotocol/python-sdk", "category": "protocols" },
-    { "repo": "modelcontextprotocol/typescript-sdk", "category": "protocols" },
-    { "repo": "a2aproject/A2A", "category": "protocols" },
-    { "repo": "punkpeye/awesome-mcp-servers", "category": "protocols" },
-    { "repo": "modelcontextprotocol/inspector", "category": "protocols" },
-
     { "repo": "mem0ai/mem0", "category": "memory-rag" },
     { "repo": "topoteretes/cognee", "category": "memory-rag" },
     { "repo": "MemTensor/MemOS", "category": "memory-rag" },
@@ -120,6 +192,13 @@
     { "repo": "weaviate/weaviate", "category": "memory-rag" },
     { "repo": "qdrant/qdrant", "category": "memory-rag" },
     { "repo": "chroma-core/chroma", "category": "memory-rag" },
+
+    { "repo": "modelcontextprotocol/servers", "category": "protocols" },
+    { "repo": "modelcontextprotocol/python-sdk", "category": "protocols" },
+    { "repo": "modelcontextprotocol/typescript-sdk", "category": "protocols" },
+    { "repo": "a2aproject/A2A", "category": "protocols" },
+    { "repo": "punkpeye/awesome-mcp-servers", "category": "protocols" },
+    { "repo": "modelcontextprotocol/inspector", "category": "protocols" },
 
     { "repo": "langfuse/langfuse", "category": "observability" },
     { "repo": "Arize-ai/phoenix", "category": "observability" },
@@ -135,12 +214,32 @@
     { "repo": "langflow-ai/langflow", "category": "runtimes" },
     { "repo": "activepieces/activepieces", "category": "runtimes" },
     { "repo": "khoj-ai/khoj", "category": "runtimes" },
-    { "repo": "e2b-dev/e2b", "category": "runtimes" },
     { "repo": "RasaHQ/rasa", "category": "runtimes" },
+
+    { "repo": "garrytan/gstack", "category": "skills" },
+    { "repo": "anthropics/skills", "category": "skills" },
+    { "repo": "mattpocock/skills", "category": "skills" },
+    { "repo": "obra/superpowers", "category": "skills" },
+    { "repo": "addyosmani/agent-skills", "category": "skills" },
+    { "repo": "kepano/obsidian-skills", "category": "skills" },
+
+    { "repo": "e2b-dev/e2b", "category": "sandboxes" },
+    { "repo": "superradcompany/microsandbox", "category": "sandboxes" },
+    { "repo": "firecracker-microvm/firecracker", "category": "sandboxes" },
+    { "repo": "smol-machines/smolvm", "category": "sandboxes" },
+    { "repo": "kubernetes-sigs/agent-sandbox", "category": "sandboxes" },
+    { "repo": "trycua/cua", "category": "sandboxes" },
+    { "repo": "mattpocock/sandcastle", "category": "sandboxes" },
 
     { "repo": "livekit/agents", "category": "voice" },
     { "repo": "pipecat-ai/pipecat", "category": "voice" },
-    { "repo": "vocodedev/vocode-core", "category": "voice" }
+    { "repo": "vocodedev/vocode-core", "category": "voice" },
+    { "repo": "openai/whisper", "category": "voice" },
+    { "repo": "SYSTRAN/faster-whisper", "category": "voice" },
+    { "repo": "m-bain/whisperX", "category": "voice" },
+    { "repo": "coqui-ai/TTS", "category": "voice" },
+    { "repo": "fishaudio/fish-speech", "category": "voice" },
+    { "repo": "rhasspy/piper", "category": "voice" }
   ],
   "discovery": {
     "topics": [
@@ -152,10 +251,40 @@
       "ai-agent-framework",
       "agentic-ai",
       "agentic-workflow",
-      "mcp-server"
+      "mcp-server",
+      "speech-recognition",
+      "text-to-speech",
+      "speech-to-text",
+      "document-parsing",
+      "llm-inference"
     ],
     "minStars": 1500,
     "maxPerTopic": 30,
+    "maxPerQuery": 40,
+    "queries": [
+      "ai agent",
+      "ai assistant",
+      "llm agent",
+      "autonomous agent",
+      "agent framework",
+      "ai coding agent",
+      "computer use agent",
+      "multi agent",
+      "rag agent",
+      "personal ai assistant",
+      "whisper speech to text",
+      "text to speech",
+      "document to markdown",
+      "pdf parsing llm",
+      "llm inference serving",
+      "rag pipeline",
+      "agent sandbox",
+      "code sandbox agent",
+      "microvm",
+      "claude skills",
+      "agent skills",
+      "claude code"
+    ],
     "defaultCategory": "frameworks",
     "denylist": [
       "thedaviddias/Front-End-Checklist",
@@ -163,7 +292,10 @@
       "awesome-selfhosted/awesome-selfhosted",
       "public-apis/public-apis",
       "donnemartin/system-design-primer",
-      "github/gitignore"
+      "github/gitignore",
+      "Snailclimb/JavaGuide",
+      "jwasham/coding-interview-university",
+      "codecrafters-io/build-your-own-x"
     ]
   }
 }

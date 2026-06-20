@@ -90,13 +90,31 @@ async function discoverByTopic(topic, minStars, perTopic) {
   }
 }
 
+async function discoverByQuery(query, minStars, perQuery) {
+  // Free-text search sorted by stars — catches big repos that don't use our
+  // exact topic tags (e.g. openclaw/openclaw, tagged only "ai"/"assistant").
+  const q = encodeURIComponent(`${query} stars:>=${minStars}`);
+  const per = Math.min(perQuery, 100);
+  try {
+    const data = await gh(`/search/repositories?q=${q}&sort=stars&order=desc&per_page=${per}`);
+    return (data.items ?? []).map(normalizeRepo);
+  } catch (e) {
+    console.warn(`  query "${query}" failed: ${e.message}`);
+    return [];
+  }
+}
+
 // Keep auto-discovery credible: a discovered repo must show an agent-ish signal,
 // and must not be on the denylist. Curated entries bypass this entirely.
 const AGENT_SIGNAL = /\bagent|agentic|autonomous|llm|multi-?agent|crew|\bmcp\b|model context protocol|a2a|gpt|copilot|assistant|orchestrat|rag\b|retrieval-augmented|tool[- ]?use|function[- ]?calling|chatbot|swarm/i;
+// Keyword search surfaces lots of reading material, not tools — exclude it.
+const NON_TOOL = /awesome[-_]|[-_]?roadmap|tutorial|course|handbook|cheat-?sheet|guide|interview|\bbook\b|notes?\b|study-|learn(ing)?[-_]|100-days|from-scratch|examples?$|bootcamp|curriculum|papers?-?list|reading-list|leetcode|system-design|coding-?interview|build-your-own/i;
 
 function isRelevant(project, denylist) {
   if (denylist.has(project.repo.toLowerCase())) return false;
+  const name = project.repo.split("/")[1] || "";
   const text = `${project.repo} ${project.description} ${project.topics.join(" ")}`;
+  if (NON_TOOL.test(name) || NON_TOOL.test(project.description)) return false;
   return AGENT_SIGNAL.test(text);
 }
 
@@ -104,11 +122,15 @@ function categorize(project, seedCategories) {
   // Heuristic auto-categorization for discovered repos.
   const text = `${project.repo} ${project.description} ${project.topics.join(" ")}`.toLowerCase();
   const rules = [
-    ["voice", /voice|speech|telephony|realtime audio|tts|stt/],
+    ["sandboxes", /sandbox|micro-?vm|firecracker|unikernel|code interpreter|isolated (execution|runtime|environment)|\be2b\b/],
+    ["serving", /\bvllm\b|sglang|llama\.?cpp|\bgguf\b|quantiz|inference engine|inference server|model serving|llm serving|serving engine|text-generation-inference|tensorrt|triton inference|lmdeploy|\bollama\b|localai|llm gateway|model gateway|llm proxy|\bnemo\b|megatron/],
+    ["voice", /whisper|speech recognition|speech-to-text|text-to-speech|\btts\b|\bstt\b|\basr\b|\bvoice\b|telephony|realtime audio|transcrib/],
+    ["skills", /\bskills?\b|skill[- ]pack|skill registry|superpowers|claude code setup|agent harness|opinionated (claude|agent)/],
     ["computer-use", /browser-use|computer use|gui agent|web automation|playwright agent|screen/],
     ["coding", /coding agent|code agent|software engineer|swe|programmer|developer agent|repo/],
+    ["data", /markitdown|docling|unstructured|to markdown|document (parsing|conversion|extraction|loader)|\bpdf\b|\bocr\b|\betl\b|data extraction|web scrap|firecrawl|\bcrawl|ingest|chunking/],
     ["protocols", /\bmcp\b|model context protocol|a2a|agent2agent|interop/],
-    ["memory-rag", /memory|rag|retrieval|vector|embedding|knowledge graph/],
+    ["memory-rag", /memory|rag\b|retrieval|vector|embedding|knowledge graph/],
     ["observability", /observ|tracing|eval|monitor|telemetry|llmops/],
     ["orchestration", /multi-?agent|orchestrat|crew|swarm|workflow|graph/],
     ["autonomous", /autonomous|auto-?gpt|babyagi|self-?improv|goal-driven/],
@@ -159,6 +181,27 @@ async function main() {
     }
   }
   if (dropped) console.log(`  filtered out ${dropped} off-topic / denylisted discovered repos`);
+
+  // 3) Keyword search by stars — catches big repos that don't use our topic tags
+  const queries = disc.queries || [];
+  if (queries.length) {
+    console.log(`Discovering via ${queries.length} keyword searches...`);
+    let kept = 0;
+    for (const query of queries) {
+      const found = await discoverByQuery(query, disc.minStars ?? 1500, disc.maxPerQuery ?? 40);
+      for (const data of found) {
+        if (data.archived) continue;
+        const key = data.repo.toLowerCase();
+        if (byRepo.has(key)) continue; // curated / topic wins
+        if (!isRelevant(data, denylist)) continue;
+        data.category = categorize(data, categoryIds);
+        data.curated = false;
+        byRepo.set(key, data);
+        kept++;
+      }
+    }
+    console.log(`  added ${kept} repos from keyword search`);
+  }
 
   const projects = [...byRepo.values()].sort((a, b) => b.stars - a.stars);
 
