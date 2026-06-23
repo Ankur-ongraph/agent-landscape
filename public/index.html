@@ -31,6 +31,7 @@
           Sort
           <select id="sort">
             <option value="stars">Most stars</option>
+            <option value="hn">Most discussed (HN)</option>
             <option value="updated">Recently updated</option>
             <option value="created">Newest</option>
             <option value="name">Name (A–Z)</option>
@@ -57,9 +58,9 @@
         <span id="generated"></span>
       </p>
       <p class="muted">
-        Curated seed + topic auto-discovery. Inspired by the
-        <a href="https://landscape.cncf.io" target="_blank" rel="noopener">CNCF Landscape</a>.
-        Missing a project? Open a PR on the seed list.
+        Discovery: curated seed + GitHub topic &amp; keyword search, ranked by stars.
+        The <span class="hn">Y</span> badge is HackerNews discussion (via the Algolia API) — a reliable cross-check on real traction.
+        Inspired by the <a href="https://landscape.cncf.io" target="_blank" rel="noopener">CNCF Landscape</a>.
       </p>
     </div>
   </footer>

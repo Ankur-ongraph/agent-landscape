@@ -104,6 +104,39 @@ async function discoverByQuery(query, minStars, perQuery) {
   }
 }
 
+// HackerNews (Algolia) signal — free, no key. Returns top story points and
+// the number of stories that linked this repo. A reliable, hard-to-game source.
+async function fetchHN(repo) {
+  const url = `https://hn.algolia.com/api/v1/search?query=${encodeURIComponent("github.com/" + repo)}&restrictSearchableAttributes=url&hitsPerPage=30`;
+  try {
+    const res = await fetch(url, { headers: { "User-Agent": "agent-landscape-scanner" } });
+    if (!res.ok) return null;
+    const j = await res.json();
+    const needle = `github.com/${repo}`.toLowerCase();
+    const hits = (j.hits || []).filter((h) => (h.url || "").toLowerCase().includes(needle));
+    if (!hits.length) return { points: 0, stories: 0, url: "" };
+    let points = 0, top = null;
+    for (const h of hits) {
+      if ((h.points || 0) > points) { points = h.points || 0; top = h; }
+    }
+    return { points, stories: hits.length, url: top ? `https://news.ycombinator.com/item?id=${top.objectID}` : "" };
+  } catch {
+    return null;
+  }
+}
+
+async function enrichHN(projects, concurrency = 8) {
+  let i = 0;
+  async function worker() {
+    while (i < projects.length) {
+      const p = projects[i++];
+      const hn = await fetchHN(p.repo);
+      if (hn) { p.hnPoints = hn.points; p.hnStories = hn.stories; p.hnUrl = hn.url; }
+    }
+  }
+  await Promise.all(Array.from({ length: concurrency }, () => worker()));
+}
+
 // Keep auto-discovery credible: a discovered repo must show an agent-ish signal,
 // and must not be on the denylist. Curated entries bypass this entirely.
 const AGENT_SIGNAL = /\bagent|agentic|autonomous|llm|multi-?agent|crew|\bmcp\b|model context protocol|a2a|gpt|copilot|assistant|orchestrat|rag\b|retrieval-augmented|tool[- ]?use|function[- ]?calling|chatbot|swarm/i;
@@ -204,6 +237,13 @@ async function main() {
   }
 
   const projects = [...byRepo.values()].sort((a, b) => b.stars - a.stars);
+
+  // 4) HackerNews signal — corroborate GitHub stars with real discussion.
+  // A repo with huge stars but zero HN presence is a red flag (star-farming).
+  console.log(`Enriching ${projects.length} repos with HackerNews signal...`);
+  await enrichHN(projects);
+  const withHN = projects.filter((p) => p.hnPoints > 0).length;
+  console.log(`  ${withHN} repos have HN discussion`);
 
   // Build per-category counts
   const counts = {};

@@ -108,6 +108,7 @@ function sortProjects(list) {
   const s = state.sort;
   const cmp = {
     stars: (a, b) => b.stars - a.stars,
+    hn: (a, b) => (b.hnPoints || 0) - (a.hnPoints || 0) || b.stars - a.stars,
     updated: (a, b) => new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0),
     created: (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0),
     name: (a, b) => a.name.localeCompare(b.name),
@@ -129,6 +130,7 @@ function cardHtml(p) {
         <div class="desc">${escapeHtml(p.description) || "<em>No description</em>"}</div>
         <div class="meta">
           <span class="star">★ ${fmt(p.stars)}</span>
+          ${p.hnPoints ? `<span class="hn" title="${p.hnStories} HN ${p.hnStories === 1 ? "story" : "stories"}">Y ${fmt(p.hnPoints)}</span>` : ""}
           ${lang ? `<span>${lang}</span>` : ""}
           <span>↻ ${timeAgo(p.pushedAt)}</span>
         </div>
@@ -162,8 +164,8 @@ function render() {
         <div class="cat-head">
           <h2>${cat.name}</h2>
           <span class="count">${items.length}</span>
-          <span class="desc">${cat.description}</span>
         </div>
+        ${cat.when ? `<p class="cat-when"><span class="tag">When to use</span>${escapeHtml(cat.when)}</p>` : (cat.description ? `<p class="cat-when">${escapeHtml(cat.description)}</p>` : "")}
         <div class="grid">${cards}</div>
       </section>`);
   }
@@ -195,11 +197,12 @@ function openDetail(repo) {
       <div class="kv"><div class="k">Language</div><div class="v">${p.language || "—"}</div></div>
       <div class="kv"><div class="k">License</div><div class="v">${p.license || "—"}</div></div>
       <div class="kv"><div class="k">Last push</div><div class="v">${timeAgo(p.pushedAt)}</div></div>
-      <div class="kv"><div class="k">Open issues</div><div class="v">${fmt(p.openIssues)}</div></div>
+      <div class="kv"><div class="k">Hacker News</div><div class="v">${p.hnPoints ? `<span class="hn">Y ${fmt(p.hnPoints)}</span>` : "—"}</div></div>
     </div>
     ${topics ? `<div class="chips-inner" style="padding:0 0 12px">${topics}</div>` : ""}
     <div class="detail-actions">
       <a class="btn primary" href="${p.url}" target="_blank" rel="noopener">Open on GitHub →</a>
+      ${p.hnUrl ? `<a class="btn" href="${p.hnUrl}" target="_blank" rel="noopener">Hacker News</a>` : ""}
       ${p.homepage ? `<a class="btn" href="${p.homepage}" target="_blank" rel="noopener">Website</a>` : ""}
     </div>`;
   el("detail").querySelector(".close").addEventListener("click", closeDetail);

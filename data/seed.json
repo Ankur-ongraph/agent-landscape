@@ -6,7 +6,8 @@
       "icon": "🥩",
       "role": "Raw ingredients",
       "pick": "Pick a model + a way to run it",
-      "description": "Run, host, quantize and route the LLMs your agent thinks with. Infra, not agents."
+      "description": "Run, host, quantize and route the LLMs your agent thinks with. Infra, not agents.",
+      "when": "Use when you want to run or host the LLM yourself — your own hardware or cloud — instead of calling a hosted API."
     },
     {
       "id": "frameworks",
@@ -14,7 +15,8 @@
       "icon": "🍳",
       "role": "The base",
       "pick": "Pick ONE as your foundation",
-      "description": "Libraries to build a single agent: prompts, tool-calling, the reasoning loop."
+      "description": "Libraries to build a single agent: prompts, tool-calling, the reasoning loop.",
+      "when": "Use to build a single agent in code: prompting, tool-calling, the reasoning loop. Pick one as your foundation."
     },
     {
       "id": "orchestration",
@@ -22,7 +24,8 @@
       "icon": "🧑‍🍳",
       "role": "Many cooks",
       "pick": "Add when one agent isn't enough",
-      "description": "Coordinate roles, hand-offs, graphs and workflows across multiple agents."
+      "description": "Coordinate roles, hand-offs, graphs and workflows across multiple agents.",
+      "when": "Use when one agent isn’t enough and you need several agents, roles, hand-offs, or a workflow/graph."
     },
     {
       "id": "autonomous",
@@ -30,7 +33,8 @@
       "icon": "🍲",
       "role": "Set & simmer",
       "pick": "Reference designs, run with care",
-      "description": "Goal-driven agents that plan and execute long-running tasks on their own."
+      "description": "Goal-driven agents that plan and execute long-running tasks on their own.",
+      "when": "Use when you want a goal-driven agent that plans and runs long tasks on its own (great as reference designs)."
     },
     {
       "id": "coding",
@@ -38,7 +42,8 @@
       "icon": "🔪",
       "role": "Sous-chefs",
       "pick": "Pick by your editor / workflow",
-      "description": "Agents that read, write, refactor and ship software."
+      "description": "Agents that read, write, refactor and ship software.",
+      "when": "Use when you want an agent that reads, writes, refactors and ships code in your repo or editor."
     },
     {
       "id": "skills",
@@ -46,7 +51,8 @@
       "icon": "📖",
       "role": "Recipes",
       "pick": "Add ready-made skills your agent can follow",
-      "description": "Reusable agent skills, opinionated harnesses and skill packs (Anthropic Skills, gstack, superpowers)."
+      "description": "Reusable agent skills, opinionated harnesses and skill packs (Anthropic Skills, gstack, superpowers).",
+      "when": "Use to give your agent ready-made, reusable skills/recipes instead of hand-writing every behavior."
     },
     {
       "id": "sandboxes",
@@ -54,7 +60,8 @@
       "icon": "🔥",
       "role": "The stove",
       "pick": "Add to run agent code safely",
-      "description": "Isolated microVM & sandbox runtimes where agents execute code and tools safely (E2B, Firecracker, microsandbox)."
+      "description": "Isolated microVM & sandbox runtimes where agents execute code and tools safely (E2B, Firecracker, microsandbox).",
+      "when": "Use when your agent runs untrusted code or tools and you need an isolated, safe place to execute it."
     },
     {
       "id": "computer-use",
@@ -62,7 +69,8 @@
       "icon": "🖐️",
       "role": "Hands & eyes",
       "pick": "Add to act in a browser / GUI",
-      "description": "Drive browsers, desktops and operating systems via clicks and vision."
+      "description": "Drive browsers, desktops and operating systems via clicks and vision.",
+      "when": "Use when your agent must act in a real browser, GUI, or desktop by seeing the screen and clicking."
     },
     {
       "id": "memory-rag",
@@ -70,7 +78,8 @@
       "icon": "🧂",
       "role": "The spice rack",
       "pick": "Add so your agent remembers & retrieves",
-      "description": "Long-term memory, retrieval (RAG) and vector stores for grounding."
+      "description": "Long-term memory, retrieval (RAG) and vector stores for grounding.",
+      "when": "Use to give your agent long-term memory and retrieval over your own knowledge (RAG, vector stores)."
     },
     {
       "id": "data",
@@ -78,7 +87,8 @@
       "icon": "📄",
       "role": "Mise en place",
       "pick": "Add to feed clean data to your agent",
-      "description": "Parse, extract, chunk and clean documents & web data for RAG and agents (markitdown, docling, unstructured)."
+      "description": "Parse, extract, chunk and clean documents & web data for RAG and agents (markitdown, docling, unstructured).",
+      "when": "Use to turn messy docs, PDFs and web pages into clean, structured text your agent or RAG can consume."
     },
     {
       "id": "protocols",
@@ -86,7 +96,8 @@
       "icon": "🍴",
       "role": "Utensils",
       "pick": "Add to connect tools & agents",
-      "description": "Standards and servers that connect agents to tools and to each other (MCP, A2A)."
+      "description": "Standards and servers that connect agents to tools and to each other (MCP, A2A).",
+      "when": "Use to connect your agent to external tools and to other agents via standards like MCP and A2A."
     },
     {
       "id": "observability",
@@ -94,7 +105,8 @@
       "icon": "🔍",
       "role": "Taste test",
       "pick": "Add before you ship",
-      "description": "Trace, evaluate, monitor and debug agent behavior in dev and prod."
+      "description": "Trace, evaluate, monitor and debug agent behavior in dev and prod.",
+      "when": "Use to trace, evaluate and monitor what your agent actually did — in development and in production."
     },
     {
       "id": "runtimes",
@@ -102,7 +114,8 @@
       "icon": "🍱",
       "role": "Meal kits",
       "pick": "Use to assemble without much code",
-      "description": "Low-code builders, workflow automation and hosting for agents."
+      "description": "Low-code builders, workflow automation and hosting for agents.",
+      "when": "Use to assemble or host an agent with little-to-no code: low-code builders, workflow automation, hosting."
     },
     {
       "id": "voice",
@@ -110,136 +123,463 @@
       "icon": "🎙️",
       "role": "Ears & voice",
       "pick": "Add for speech in / speech out",
-      "description": "Speech recognition (Whisper/ASR), text-to-speech, and realtime conversational audio."
+      "description": "Speech recognition (Whisper/ASR), text-to-speech, and realtime conversational audio.",
+      "when": "Use when your agent needs to listen (speech-to-text), talk (text-to-speech), or hold a live voice call."
     }
   ],
   "projects": [
-    { "repo": "vllm-project/vllm", "category": "serving" },
-    { "repo": "sgl-project/sglang", "category": "serving" },
-    { "repo": "ggml-org/llama.cpp", "category": "serving" },
-    { "repo": "ollama/ollama", "category": "serving" },
-    { "repo": "huggingface/text-generation-inference", "category": "serving" },
-    { "repo": "mudler/LocalAI", "category": "serving" },
-    { "repo": "InternLM/lmdeploy", "category": "serving" },
-    { "repo": "xorbitsai/inference", "category": "serving" },
-    { "repo": "BerriAI/litellm", "category": "serving" },
-    { "repo": "tensorzero/tensorzero", "category": "serving" },
-    { "repo": "NVIDIA/TensorRT-LLM", "category": "serving" },
-    { "repo": "NVIDIA/NeMo", "category": "serving" },
-    { "repo": "NVIDIA/Megatron-LM", "category": "serving" },
-
-    { "repo": "microsoft/markitdown", "category": "data" },
-    { "repo": "docling-project/docling", "category": "data" },
-    { "repo": "Unstructured-IO/unstructured", "category": "data" },
-    { "repo": "firecrawl/firecrawl", "category": "data" },
-    { "repo": "jina-ai/reader", "category": "data" },
-
-    { "repo": "langchain-ai/langchain", "category": "frameworks" },
-    { "repo": "run-llama/llama_index", "category": "frameworks" },
-    { "repo": "microsoft/semantic-kernel", "category": "frameworks" },
-    { "repo": "deepset-ai/haystack", "category": "frameworks" },
-    { "repo": "pydantic/pydantic-ai", "category": "frameworks" },
-    { "repo": "openai/openai-agents-python", "category": "frameworks" },
-    { "repo": "google/adk-python", "category": "frameworks" },
-    { "repo": "strands-agents/sdk-python", "category": "frameworks" },
-    { "repo": "agno-agi/agno", "category": "frameworks" },
-    { "repo": "stanfordnlp/dspy", "category": "frameworks" },
-    { "repo": "letta-ai/letta", "category": "frameworks" },
-    { "repo": "superagent-ai/superagent", "category": "frameworks" },
-    { "repo": "transitive-bullshit/agentic", "category": "frameworks" },
-
-    { "repo": "microsoft/autogen", "category": "orchestration" },
-    { "repo": "crewAIInc/crewAI", "category": "orchestration" },
-    { "repo": "langchain-ai/langgraph", "category": "orchestration" },
-    { "repo": "geekan/MetaGPT", "category": "orchestration" },
-    { "repo": "camel-ai/camel", "category": "orchestration" },
-    { "repo": "OpenBMB/ChatDev", "category": "orchestration" },
-    { "repo": "i-am-bee/beeai-framework", "category": "orchestration" },
-    { "repo": "ag2ai/ag2", "category": "orchestration" },
-
-    { "repo": "openclaw/openclaw", "category": "autonomous" },
-    { "repo": "Significant-Gravitas/AutoGPT", "category": "autonomous" },
-    { "repo": "yoheinakajima/babyagi", "category": "autonomous" },
-    { "repo": "reworkd/AgentGPT", "category": "autonomous" },
-    { "repo": "TransformerOptimus/SuperAGI", "category": "autonomous" },
-    { "repo": "AntonOsika/gpt-engineer", "category": "autonomous" },
-    { "repo": "assafelovic/gpt-researcher", "category": "autonomous" },
-    { "repo": "OpenBMB/XAgent", "category": "autonomous" },
-    { "repo": "Pythagora-io/gpt-pilot", "category": "autonomous" },
-
-    { "repo": "All-Hands-AI/OpenHands", "category": "coding" },
-    { "repo": "Aider-AI/aider", "category": "coding" },
-    { "repo": "princeton-nlp/SWE-agent", "category": "coding" },
-    { "repo": "cline/cline", "category": "coding" },
-    { "repo": "RooCodeInc/Roo-Code", "category": "coding" },
-    { "repo": "block/goose", "category": "coding" },
-    { "repo": "continuedev/continue", "category": "coding" },
-    { "repo": "smol-ai/developer", "category": "coding" },
-    { "repo": "OpenInterpreter/open-interpreter", "category": "coding" },
-    { "repo": "stitionai/devika", "category": "coding" },
-
-    { "repo": "browser-use/browser-use", "category": "computer-use" },
-    { "repo": "Skyvern-AI/skyvern", "category": "computer-use" },
-    { "repo": "microsoft/OmniParser", "category": "computer-use" },
-    { "repo": "lavague-ai/LaVague", "category": "computer-use" },
-    { "repo": "OpenAdaptAI/OpenAdapt", "category": "computer-use" },
-    { "repo": "mannaandpoem/OpenManus", "category": "computer-use" },
-
-    { "repo": "mem0ai/mem0", "category": "memory-rag" },
-    { "repo": "topoteretes/cognee", "category": "memory-rag" },
-    { "repo": "MemTensor/MemOS", "category": "memory-rag" },
-    { "repo": "getzep/zep", "category": "memory-rag" },
-    { "repo": "weaviate/weaviate", "category": "memory-rag" },
-    { "repo": "qdrant/qdrant", "category": "memory-rag" },
-    { "repo": "chroma-core/chroma", "category": "memory-rag" },
-
-    { "repo": "modelcontextprotocol/servers", "category": "protocols" },
-    { "repo": "modelcontextprotocol/python-sdk", "category": "protocols" },
-    { "repo": "modelcontextprotocol/typescript-sdk", "category": "protocols" },
-    { "repo": "a2aproject/A2A", "category": "protocols" },
-    { "repo": "punkpeye/awesome-mcp-servers", "category": "protocols" },
-    { "repo": "modelcontextprotocol/inspector", "category": "protocols" },
-
-    { "repo": "langfuse/langfuse", "category": "observability" },
-    { "repo": "Arize-ai/phoenix", "category": "observability" },
-    { "repo": "traceloop/openllmetry", "category": "observability" },
-    { "repo": "comet-ml/opik", "category": "observability" },
-    { "repo": "agenta-ai/agenta", "category": "observability" },
-    { "repo": "confident-ai/deepeval", "category": "observability" },
-    { "repo": "Helicone/helicone", "category": "observability" },
-
-    { "repo": "FlowiseAI/Flowise", "category": "runtimes" },
-    { "repo": "langgenius/dify", "category": "runtimes" },
-    { "repo": "n8n-io/n8n", "category": "runtimes" },
-    { "repo": "langflow-ai/langflow", "category": "runtimes" },
-    { "repo": "activepieces/activepieces", "category": "runtimes" },
-    { "repo": "khoj-ai/khoj", "category": "runtimes" },
-    { "repo": "RasaHQ/rasa", "category": "runtimes" },
-
-    { "repo": "garrytan/gstack", "category": "skills" },
-    { "repo": "anthropics/skills", "category": "skills" },
-    { "repo": "mattpocock/skills", "category": "skills" },
-    { "repo": "obra/superpowers", "category": "skills" },
-    { "repo": "addyosmani/agent-skills", "category": "skills" },
-    { "repo": "kepano/obsidian-skills", "category": "skills" },
-
-    { "repo": "e2b-dev/e2b", "category": "sandboxes" },
-    { "repo": "superradcompany/microsandbox", "category": "sandboxes" },
-    { "repo": "firecracker-microvm/firecracker", "category": "sandboxes" },
-    { "repo": "smol-machines/smolvm", "category": "sandboxes" },
-    { "repo": "kubernetes-sigs/agent-sandbox", "category": "sandboxes" },
-    { "repo": "trycua/cua", "category": "sandboxes" },
-    { "repo": "mattpocock/sandcastle", "category": "sandboxes" },
-
-    { "repo": "livekit/agents", "category": "voice" },
-    { "repo": "pipecat-ai/pipecat", "category": "voice" },
-    { "repo": "vocodedev/vocode-core", "category": "voice" },
-    { "repo": "openai/whisper", "category": "voice" },
-    { "repo": "SYSTRAN/faster-whisper", "category": "voice" },
-    { "repo": "m-bain/whisperX", "category": "voice" },
-    { "repo": "coqui-ai/TTS", "category": "voice" },
-    { "repo": "fishaudio/fish-speech", "category": "voice" },
-    { "repo": "rhasspy/piper", "category": "voice" }
+    {
+      "repo": "vllm-project/vllm",
+      "category": "serving"
+    },
+    {
+      "repo": "sgl-project/sglang",
+      "category": "serving"
+    },
+    {
+      "repo": "ggml-org/llama.cpp",
+      "category": "serving"
+    },
+    {
+      "repo": "ollama/ollama",
+      "category": "serving"
+    },
+    {
+      "repo": "huggingface/text-generation-inference",
+      "category": "serving"
+    },
+    {
+      "repo": "mudler/LocalAI",
+      "category": "serving"
+    },
+    {
+      "repo": "InternLM/lmdeploy",
+      "category": "serving"
+    },
+    {
+      "repo": "xorbitsai/inference",
+      "category": "serving"
+    },
+    {
+      "repo": "BerriAI/litellm",
+      "category": "serving"
+    },
+    {
+      "repo": "tensorzero/tensorzero",
+      "category": "serving"
+    },
+    {
+      "repo": "NVIDIA/TensorRT-LLM",
+      "category": "serving"
+    },
+    {
+      "repo": "NVIDIA/NeMo",
+      "category": "serving"
+    },
+    {
+      "repo": "NVIDIA/Megatron-LM",
+      "category": "serving"
+    },
+    {
+      "repo": "microsoft/markitdown",
+      "category": "data"
+    },
+    {
+      "repo": "docling-project/docling",
+      "category": "data"
+    },
+    {
+      "repo": "Unstructured-IO/unstructured",
+      "category": "data"
+    },
+    {
+      "repo": "firecrawl/firecrawl",
+      "category": "data"
+    },
+    {
+      "repo": "jina-ai/reader",
+      "category": "data"
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "category": "frameworks"
+    },
+    {
+      "repo": "run-llama/llama_index",
+      "category": "frameworks"
+    },
+    {
+      "repo": "microsoft/semantic-kernel",
+      "category": "frameworks"
+    },
+    {
+      "repo": "deepset-ai/haystack",
+      "category": "frameworks"
+    },
+    {
+      "repo": "pydantic/pydantic-ai",
+      "category": "frameworks"
+    },
+    {
+      "repo": "openai/openai-agents-python",
+      "category": "frameworks"
+    },
+    {
+      "repo": "google/adk-python",
+      "category": "frameworks"
+    },
+    {
+      "repo": "strands-agents/sdk-python",
+      "category": "frameworks"
+    },
+    {
+      "repo": "agno-agi/agno",
+      "category": "frameworks"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
+      "category": "frameworks"
+    },
+    {
+      "repo": "letta-ai/letta",
+      "category": "frameworks"
+    },
+    {
+      "repo": "superagent-ai/superagent",
+      "category": "frameworks"
+    },
+    {
+      "repo": "transitive-bullshit/agentic",
+      "category": "frameworks"
+    },
+    {
+      "repo": "microsoft/autogen",
+      "category": "orchestration"
+    },
+    {
+      "repo": "crewAIInc/crewAI",
+      "category": "orchestration"
+    },
+    {
+      "repo": "langchain-ai/langgraph",
+      "category": "orchestration"
+    },
+    {
+      "repo": "geekan/MetaGPT",
+      "category": "orchestration"
+    },
+    {
+      "repo": "camel-ai/camel",
+      "category": "orchestration"
+    },
+    {
+      "repo": "OpenBMB/ChatDev",
+      "category": "orchestration"
+    },
+    {
+      "repo": "i-am-bee/beeai-framework",
+      "category": "orchestration"
+    },
+    {
+      "repo": "ag2ai/ag2",
+      "category": "orchestration"
+    },
+    {
+      "repo": "openclaw/openclaw",
+      "category": "autonomous"
+    },
+    {
+      "repo": "Significant-Gravitas/AutoGPT",
+      "category": "autonomous"
+    },
+    {
+      "repo": "yoheinakajima/babyagi",
+      "category": "autonomous"
+    },
+    {
+      "repo": "reworkd/AgentGPT",
+      "category": "autonomous"
+    },
+    {
+      "repo": "TransformerOptimus/SuperAGI",
+      "category": "autonomous"
+    },
+    {
+      "repo": "AntonOsika/gpt-engineer",
+      "category": "autonomous"
+    },
+    {
+      "repo": "assafelovic/gpt-researcher",
+      "category": "autonomous"
+    },
+    {
+      "repo": "OpenBMB/XAgent",
+      "category": "autonomous"
+    },
+    {
+      "repo": "Pythagora-io/gpt-pilot",
+      "category": "autonomous"
+    },
+    {
+      "repo": "All-Hands-AI/OpenHands",
+      "category": "coding"
+    },
+    {
+      "repo": "Aider-AI/aider",
+      "category": "coding"
+    },
+    {
+      "repo": "princeton-nlp/SWE-agent",
+      "category": "coding"
+    },
+    {
+      "repo": "cline/cline",
+      "category": "coding"
+    },
+    {
+      "repo": "RooCodeInc/Roo-Code",
+      "category": "coding"
+    },
+    {
+      "repo": "block/goose",
+      "category": "coding"
+    },
+    {
+      "repo": "continuedev/continue",
+      "category": "coding"
+    },
+    {
+      "repo": "smol-ai/developer",
+      "category": "coding"
+    },
+    {
+      "repo": "OpenInterpreter/open-interpreter",
+      "category": "coding"
+    },
+    {
+      "repo": "stitionai/devika",
+      "category": "coding"
+    },
+    {
+      "repo": "browser-use/browser-use",
+      "category": "computer-use"
+    },
+    {
+      "repo": "Skyvern-AI/skyvern",
+      "category": "computer-use"
+    },
+    {
+      "repo": "microsoft/OmniParser",
+      "category": "computer-use"
+    },
+    {
+      "repo": "lavague-ai/LaVague",
+      "category": "computer-use"
+    },
+    {
+      "repo": "OpenAdaptAI/OpenAdapt",
+      "category": "computer-use"
+    },
+    {
+      "repo": "mannaandpoem/OpenManus",
+      "category": "computer-use"
+    },
+    {
+      "repo": "mem0ai/mem0",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "topoteretes/cognee",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "MemTensor/MemOS",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "getzep/zep",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "weaviate/weaviate",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "qdrant/qdrant",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "chroma-core/chroma",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "modelcontextprotocol/servers",
+      "category": "protocols"
+    },
+    {
+      "repo": "modelcontextprotocol/python-sdk",
+      "category": "protocols"
+    },
+    {
+      "repo": "modelcontextprotocol/typescript-sdk",
+      "category": "protocols"
+    },
+    {
+      "repo": "a2aproject/A2A",
+      "category": "protocols"
+    },
+    {
+      "repo": "punkpeye/awesome-mcp-servers",
+      "category": "protocols"
+    },
+    {
+      "repo": "modelcontextprotocol/inspector",
+      "category": "protocols"
+    },
+    {
+      "repo": "langfuse/langfuse",
+      "category": "observability"
+    },
+    {
+      "repo": "Arize-ai/phoenix",
+      "category": "observability"
+    },
+    {
+      "repo": "traceloop/openllmetry",
+      "category": "observability"
+    },
+    {
+      "repo": "comet-ml/opik",
+      "category": "observability"
+    },
+    {
+      "repo": "agenta-ai/agenta",
+      "category": "observability"
+    },
+    {
+      "repo": "confident-ai/deepeval",
+      "category": "observability"
+    },
+    {
+      "repo": "Helicone/helicone",
+      "category": "observability"
+    },
+    {
+      "repo": "FlowiseAI/Flowise",
+      "category": "runtimes"
+    },
+    {
+      "repo": "langgenius/dify",
+      "category": "runtimes"
+    },
+    {
+      "repo": "n8n-io/n8n",
+      "category": "runtimes"
+    },
+    {
+      "repo": "langflow-ai/langflow",
+      "category": "runtimes"
+    },
+    {
+      "repo": "activepieces/activepieces",
+      "category": "runtimes"
+    },
+    {
+      "repo": "khoj-ai/khoj",
+      "category": "runtimes"
+    },
+    {
+      "repo": "RasaHQ/rasa",
+      "category": "runtimes"
+    },
+    {
+      "repo": "garrytan/gstack",
+      "category": "skills"
+    },
+    {
+      "repo": "anthropics/skills",
+      "category": "skills"
+    },
+    {
+      "repo": "mattpocock/skills",
+      "category": "skills"
+    },
+    {
+      "repo": "obra/superpowers",
+      "category": "skills"
+    },
+    {
+      "repo": "addyosmani/agent-skills",
+      "category": "skills"
+    },
+    {
+      "repo": "kepano/obsidian-skills",
+      "category": "skills"
+    },
+    {
+      "repo": "e2b-dev/e2b",
+      "category": "sandboxes"
+    },
+    {
+      "repo": "superradcompany/microsandbox",
+      "category": "sandboxes"
+    },
+    {
+      "repo": "firecracker-microvm/firecracker",
+      "category": "sandboxes"
+    },
+    {
+      "repo": "smol-machines/smolvm",
+      "category": "sandboxes"
+    },
+    {
+      "repo": "kubernetes-sigs/agent-sandbox",
+      "category": "sandboxes"
+    },
+    {
+      "repo": "trycua/cua",
+      "category": "sandboxes"
+    },
+    {
+      "repo": "mattpocock/sandcastle",
+      "category": "sandboxes"
+    },
+    {
+      "repo": "livekit/agents",
+      "category": "voice"
+    },
+    {
+      "repo": "pipecat-ai/pipecat",
+      "category": "voice"
+    },
+    {
+      "repo": "vocodedev/vocode-core",
+      "category": "voice"
+    },
+    {
+      "repo": "openai/whisper",
+      "category": "voice"
+    },
+    {
+      "repo": "SYSTRAN/faster-whisper",
+      "category": "voice"
+    },
+    {
+      "repo": "m-bain/whisperX",
+      "category": "voice"
+    },
+    {
+      "repo": "coqui-ai/TTS",
+      "category": "voice"
+    },
+    {
+      "repo": "fishaudio/fish-speech",
+      "category": "voice"
+    },
+    {
+      "repo": "rhasspy/piper",
+      "category": "voice"
+    }
   ],
   "discovery": {
     "topics": [

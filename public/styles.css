@@ -109,6 +109,22 @@ main.wrap { padding-top: 24px; padding-bottom: 60px; }
   border: 1px solid var(--border); border-radius: 999px; padding: 1px 9px;
 }
 .cat-head .desc { color: var(--muted); font-size: 12.5px; }
+.cat-head { margin-bottom: 8px; }
+.cat-when {
+  margin: 0 0 14px; color: #cdd5e3; font-size: 13.5px; line-height: 1.5; max-width: 96ch;
+}
+.cat-when .tag {
+  display: inline-block; margin-right: 9px; color: #9fb4ff;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+  border: 1px solid rgba(91, 140, 255, 0.4); background: rgba(91, 140, 255, 0.1);
+  border-radius: 5px; padding: 2px 7px; vertical-align: middle;
+}
+/* HackerNews signal badge */
+.hn {
+  color: #ff8c42; font-variant-numeric: tabular-nums; font-weight: 600;
+}
+.card .meta .hn::before, .detail-grid .hn::before { content: ""; }
+.site-footer .hn { font-weight: 700; }
 
 .grid {
   display: grid; gap: 10px;
