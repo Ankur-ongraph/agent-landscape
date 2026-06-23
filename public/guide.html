@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Field Guide — Agent Landscape</title>
+  <meta name="description" content="A guide to the AI agent landscape: what each category is, the problem it addresses, how it helps, and a technical 101." />
+  <link rel="preconnect" href="https://github.com" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="./" style="text-decoration:none;color:inherit">
+        <span class="logo">📖</span>
+        <div>
+          <h1>The Field Guide</h1>
+          <p class="tagline">What each aisle is, the problem it solves, and how it helps</p>
+        </div>
+      </a>
+      <a class="btn" href="./">← Back to the landscape</a>
+    </div>
+  </header>
+
+  <div class="guide-wrap wrap">
+    <aside class="guide-index">
+      <nav id="guideIndex"></nav>
+    </aside>
+    <main class="guide-main" id="guideMain">
+      <div class="loading">Loading the guide…</div>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="muted">
+        Modeled on the <a href="https://landscape.cncf.io/guide" target="_blank" rel="noopener">CNCF Landscape Guide</a>.
+        Each category is broken down into what it is, the problem it addresses, how it helps, and a technical 101.
+      </p>
+    </div>
+  </footer>
+
+  <script src="guide.js"></script>
+</body>
+</html>

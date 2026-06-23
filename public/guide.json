@@ -1,0 +1,86 @@
+{
+  "serving": {
+    "whatItIs": "The infrastructure that runs the large language models your agent thinks with — engines and servers that load model weights and turn prompts into tokens, plus gateways that route requests across many models.",
+    "problem": "Hosted model APIs are convenient but cost per token, send your data to a third party, and lock you to one vendor's models and rate limits. Many teams need to run open-weight models on their own GPUs for cost, privacy, latency, or offline use.",
+    "howItHelps": "These tools load and serve models efficiently (batching, KV-cache, quantization) so you get high throughput on your own hardware, and gateways give you one OpenAI-compatible endpoint in front of any model so you can swap or load-balance without changing code.",
+    "technical101": "Inference engines like vLLM, SGLang and llama.cpp implement paged attention, continuous batching and GGUF/quantized weights to maximize tokens/sec per GPU. Runners like Ollama and LocalAI wrap them in a simple local server; gateways like LiteLLM normalize 100+ providers behind the OpenAI API. Stacks like NVIDIA NeMo and TensorRT-LLM target large-scale, GPU-optimized deployment."
+  },
+  "frameworks": {
+    "whatItIs": "Libraries for building a single agent in code — they wrap the model call in a loop that can use tools, parse structured output, and decide what to do next.",
+    "problem": "A raw model call just returns text. Turning that into an agent that can call functions, retry, validate output, and chain steps means writing a lot of plumbing (prompt templates, tool schemas, parsing, error handling) that's easy to get wrong.",
+    "howItHelps": "Frameworks give you batteries-included primitives — tool/function calling, structured outputs, the reasoning loop, memory hooks, streaming — so you describe the agent's tools and goal and the library runs the loop.",
+    "technical101": "Most expose an \"agent\" abstraction over chat completions with tool-calling: you register typed tools, the model emits tool calls, the framework executes them and feeds results back until the model produces a final answer. LangChain and LlamaIndex are broad ecosystems; Pydantic-AI and the OpenAI/Google SDKs emphasize typed, production-grade loops; DSPy compiles prompts as programs you optimize rather than hand-tune."
+  },
+  "orchestration": {
+    "whatItIs": "Frameworks for coordinating multiple agents (or multiple steps) — assigning roles, passing work between them, and defining the control flow as a graph or workflow.",
+    "problem": "One agent with one prompt struggles with big, multi-stage tasks. Splitting work across specialized agents (planner, researcher, coder, reviewer) needs a way to route messages, share state, and control who runs when — otherwise you get loops, lost context, and chaos.",
+    "howItHelps": "These tools model the team: define agents and their roles, the hand-offs between them, and a graph/state machine that decides execution order, with shared memory and stopping conditions.",
+    "technical101": "Approaches range from conversational (AutoGen's agents that message each other) to role-based crews (CrewAI) to explicit state graphs (LangGraph) where nodes are steps and edges are transitions with checkpointing. The graph model gives you deterministic control, retries, and human-in-the-loop pauses that free-form agent chatter lacks."
+  },
+  "autonomous": {
+    "whatItIs": "Goal-driven agents that take a high-level objective and try to plan and execute the whole thing on their own — breaking it into steps, running tools, and iterating until done.",
+    "problem": "Most agents do one bounded task. Some goals (\"research X and write a report\", \"build this app\") need open-ended planning, self-correction, and long-running execution that a single prompt can't cover.",
+    "howItHelps": "Autonomous agents add a plan-act-observe-reflect loop on top of a model: they generate a task list, execute tasks with tools, evaluate results, and replan — running for many steps with little supervision.",
+    "technical101": "Pioneered by AutoGPT and BabyAGI, these use the model as a planner that writes and reprioritizes a task queue, plus tools (web, files, code) to act. They're powerful demos but can loop, drift, or burn tokens, so treat most as reference designs and add guardrails — budgets, approvals, sandboxes — before production."
+  },
+  "coding": {
+    "whatItIs": "Agents specialized for software — they read your repository, write and edit code, run commands and tests, and ship changes, usually inside an editor, terminal, or CI.",
+    "problem": "General chat models can suggest code but can't navigate a real codebase, run the build, see the errors, and iterate. Doing that by hand — copy-pasting between editor and chat — is slow and loses context.",
+    "howItHelps": "Coding agents connect the model to your files, shell, and tests so it can grep the repo, make multi-file edits, run the code, read failures, and fix them — turning \"suggest a snippet\" into \"implement and verify a change\".",
+    "technical101": "They combine repo indexing/retrieval, a tool loop (read/write file, run command, search), and a diff/patch format the model emits. SWE-agent and OpenHands target autonomous issue-fixing; Aider, Cline and Continue integrate with your editor/terminal for pair-programming. Quality hinges on test feedback and how well the agent grounds edits in the actual code."
+  },
+  "skills": {
+    "whatItIs": "Packaged, reusable \"skills\" — prompt + tools + instructions for a specific capability — and the opinionated harnesses and registries that let an agent load many of them on demand.",
+    "problem": "Re-teaching an agent the same procedure (how to open a PR, run research, format a doc) in every project is wasteful, and giant prompts bloat context. Teams want to share proven agent behaviors like libraries.",
+    "howItHelps": "Skills externalize behavior into small, named units the agent discovers and loads only when relevant, so you compose capabilities instead of hand-writing each one — and version and share them across projects.",
+    "technical101": "A skill is typically a folder with a description, instructions, and optional scripts/tools; the harness indexes them and injects the right one based on the task, keeping context small. Anthropic's Skills define the format; gstack, superpowers and mattpocock/skills are opinionated collections and harnesses for coding agents like Claude Code."
+  },
+  "sandboxes": {
+    "whatItIs": "Isolated execution environments — microVMs and sandboxes — where an agent can run code, install packages, and use a shell without touching your machine or production.",
+    "problem": "Agents that execute model-generated code are a security risk: that code can delete files, exfiltrate secrets, or run forever. You need to run it somewhere disposable and contained, with hard limits.",
+    "howItHelps": "These give each agent run a fresh, locked-down box — filesystem, network, CPU/memory limits, fast startup and teardown — so untrusted code runs safely and reproducibly, then is thrown away.",
+    "technical101": "MicroVMs like Firecracker boot a minimal hardware-virtualized guest in ~100ms — stronger isolation than containers at near-container speed. E2B, microsandbox and agent-sandbox package this as code-interpreter/agent runtimes with SDKs; the tradeoff is isolation strength versus startup latency and resource overhead."
+  },
+  "computer-use": {
+    "whatItIs": "Agents that operate a real browser, GUI, or desktop the way a person does — seeing the screen and clicking, typing, and navigating.",
+    "problem": "Lots of software has no API. To book a flight, fill a portal, or test a web app, an agent must drive the actual interface, which means perceiving a screen and producing mouse/keyboard actions reliably.",
+    "howItHelps": "These tools give the model eyes and hands: they screenshot or read the accessibility tree, let the model decide the next action, and execute clicks and keystrokes — automating any app that has a UI.",
+    "technical101": "Two main approaches: DOM/accessibility-driven (browser-use, Playwright-based) which read structured page elements, and vision-driven (OmniParser, UI-TARS) which parse pixels into clickable regions for screen/OS control. Reliability comes from grounding each action to the right element and recovering when the UI changes."
+  },
+  "memory-rag": {
+    "whatItIs": "Systems that give an agent long-term memory and retrieval over your own data — vector stores, memory layers, and RAG pipelines that fetch relevant facts at query time.",
+    "problem": "Models have a fixed context window and no memory between sessions, and they don't know your private or up-to-date data. Stuffing everything into the prompt is impossible and expensive.",
+    "howItHelps": "These store knowledge and past interactions outside the model and retrieve just the relevant pieces to ground each response — so the agent \"remembers\" users and answers from your documents instead of hallucinating.",
+    "technical101": "RAG embeds your data into vectors, stores them in a database (Qdrant, Weaviate, Chroma), and at query time retrieves the nearest chunks to add to the prompt. Memory layers (mem0, Zep, Letta) add summarization, user/session memory, and knowledge graphs so relevant context persists and is recalled across turns."
+  },
+  "data": {
+    "whatItIs": "Tools that turn messy, real-world inputs — PDFs, Office docs, HTML, scans — into clean, structured text and chunks an agent or RAG system can actually use.",
+    "problem": "Your knowledge lives in formats models can't read well: complex PDFs, tables, slide decks, images, websites. Feeding raw bytes in produces garbage; you need faithful extraction first.",
+    "howItHelps": "These parse and normalize documents — layout, tables, headings, OCR — into markdown/JSON, and crawl and clean web pages, so the downstream agent gets accurate, well-segmented content.",
+    "technical101": "Converters like markitdown and docling preserve document structure (headings, tables, reading order) and OCR scans; unstructured and loaders split content into typed elements; web tools like Firecrawl and Jina Reader render and strip pages to LLM-friendly markdown. Extraction quality and chunking strategy directly determine RAG accuracy."
+  },
+  "protocols": {
+    "whatItIs": "Open standards and servers that connect agents to external tools and to each other — most notably the Model Context Protocol (MCP) and agent-to-agent (A2A) protocols.",
+    "problem": "Every tool integration used to be bespoke glue code, and every framework reinvented it. Without a standard, tools aren't portable across agents and agents can't interoperate.",
+    "howItHelps": "A shared protocol lets any compliant agent discover and call any compliant tool, server, or other agent, so integrations are written once and reused everywhere — like a USB port for AI tools.",
+    "technical101": "MCP defines a client-server spec where servers expose tools, resources, and prompts over a standard transport that any MCP client (Claude, IDEs, frameworks) can use. A2A standardizes agent-to-agent messaging and capability discovery. The payoff is a growing marketplace of reusable servers instead of N×M custom integrations."
+  },
+  "observability": {
+    "whatItIs": "Tooling to see and measure what your agent actually did — tracing each step and LLM call, evaluating output quality, and monitoring cost, latency, and errors in dev and production.",
+    "problem": "Agents are non-deterministic and multi-step, so when they give a wrong or expensive answer it's hard to know which prompt, tool, or step caused it. You can't improve what you can't measure.",
+    "howItHelps": "These capture full traces of prompts, tool calls, and responses, let you score outputs with evals/test sets, and dashboard cost, latency, and failures — so you can debug regressions and prove quality before shipping.",
+    "technical101": "Tracing tools (Langfuse, Phoenix, OpenLLMetry) instrument each LLM/tool span, often via OpenTelemetry, with token and cost accounting. Eval frameworks (DeepEval and others) run datasets through your agent and grade with metrics or LLM-as-judge. Together they form the observe-evaluate-improve loop for non-deterministic systems."
+  },
+  "runtimes": {
+    "whatItIs": "Low-code/no-code builders and hosting platforms that let you assemble, deploy, and run agents and workflows with minimal coding — often a visual canvas plus integrations.",
+    "problem": "Not every team wants to write and operate agent code. Building a chatbot or workflow from scratch — wiring models, tools, memory, and a UI, then hosting it — is a lot of undifferentiated work.",
+    "howItHelps": "These provide drag-and-drop flow builders, prebuilt connectors, and managed hosting so non-engineers (and engineers in a hurry) can ship an agent or automation fast.",
+    "technical101": "Platforms like Flowise, Langflow and Dify expose nodes — models, retrievers, tools, logic — on a visual graph that compiles to a runnable app with an API/UI; n8n and Activepieces focus on workflow automation across SaaS. The tradeoff is speed and accessibility versus the flexibility and version control of code."
+  },
+  "voice": {
+    "whatItIs": "Models and frameworks for the audio side of agents — speech-to-text (ASR) to hear, text-to-speech (TTS) to speak, and realtime pipelines for live voice conversations.",
+    "problem": "Many use cases — phone support, assistants, accessibility — need spoken interaction, which requires fast, accurate transcription, natural-sounding speech, and low end-to-end latency that's hard to stitch together yourself.",
+    "howItHelps": "ASR models turn audio into text the agent can reason over, TTS turns its replies into speech, and realtime frameworks handle streaming, turn-taking, and interruption so conversations feel natural.",
+    "technical101": "Whisper (and faster-whisper/WhisperX) are the de facto open ASR models; TTS engines like Coqui, Piper and Fish-Speech synthesize voices, some cloning from a sample. Orchestrators like LiveKit Agents and Pipecat wire mic→ASR→LLM→TTS→speaker with barge-in and sub-second latency for live calls."
+  }
+}

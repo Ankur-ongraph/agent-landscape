@@ -116,13 +116,26 @@ function sortProjects(list) {
   return [...list].sort(cmp);
 }
 
+// CNCF-style tiers: featured (curated chef's picks) → big highlighted box;
+// open source (has an OSS license) → standard box; proprietary / no detected
+// OSS license → muted gray box.
+function tierOf(p) {
+  if (p.curated) return "featured";
+  return p.license ? "oss" : "proprietary";
+}
+
 function cardHtml(p) {
+  const tier = tierOf(p);
   const lang = p.language
     ? `<span class="dot" style="background:${LANG_COLORS[p.language] || "#888"}"></span>${p.language}`
     : "";
+  const badge =
+    tier === "featured" ? '<span class="badge-tier featured">★ Featured</span>'
+    : tier === "proprietary" ? '<span class="badge-tier prop">no OSS license</span>'
+    : "";
   return `
-    <div class="card" data-repo="${p.repo}">
-      ${p.curated ? '<span class="badge-curated">curated</span>' : ""}
+    <div class="card ${tier}" data-repo="${p.repo}">
+      ${badge}
       <img class="avatar" loading="lazy" src="${avatarUrl(p)}" alt="" onerror="this.style.visibility='hidden'" />
       <div class="body">
         <div class="name" title="${p.repo}">${p.name}</div>
