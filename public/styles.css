@@ -1,8 +1,8 @@
 :root {
-  --bg: #f5efe1;
-  --bg-soft: #ece3d0;
-  --panel: #fffdf8;
-  --panel-2: #faf4e8;
+  --bg: #ffffff;
+  --bg-soft: #f3ecda;
+  --panel: #f7f1e2;
+  --panel-2: #f0e8d4;
   --border: #e6dcc6;
   --border-soft: #efe7d6;
   --text: #2c2417;
@@ -68,7 +68,7 @@ a:hover { text-decoration: underline; }
 /* Toolbar */
 .toolbar { position: sticky; top: 0; z-index: 20;
   backdrop-filter: blur(10px);
-  background: rgba(246, 241, 228, 0.86);
+  background: rgba(255, 255, 255, 0.88);
   border-bottom: 1px solid var(--border-soft);
 }
 .toolbar-inner { display: flex; gap: 14px; align-items: center; padding: 12px 20px; flex-wrap: wrap; }
