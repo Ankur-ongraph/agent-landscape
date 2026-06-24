@@ -1,25 +1,6 @@
 {
   "categories": [
     {
-      "id": "models",
-      "name": "Open Models",
-      "icon": "🧠",
-      "role": "The brain",
-      "pick": "Pick the open-weight model your agent runs on",
-      "description": "Open-weight LLMs from Hugging Face, ranked by community likes and downloads.",
-      "when": "Use to choose the actual open-weight model — DeepSeek, Llama, Qwen, gpt-oss — that your agent reasons with, then run it with a tool from Models & Serving.",
-      "source": "huggingface"
-    },
-    {
-      "id": "serving",
-      "name": "Models & Serving",
-      "icon": "🥩",
-      "role": "Raw ingredients",
-      "pick": "Pick a model + a way to run it",
-      "description": "Run, host, quantize and route the LLMs your agent thinks with. Infra, not agents.",
-      "when": "Use when you want to run or host the LLM yourself — your own hardware or cloud — instead of calling a hosted API."
-    },
-    {
       "id": "frameworks",
       "name": "Agent Frameworks",
       "icon": "🍳",
@@ -65,15 +46,6 @@
       "when": "Use to give your agent ready-made, reusable skills/recipes instead of hand-writing every behavior."
     },
     {
-      "id": "sandboxes",
-      "name": "Sandboxes & MicroVMs",
-      "icon": "🔥",
-      "role": "The stove",
-      "pick": "Add to run agent code safely",
-      "description": "Isolated microVM & sandbox runtimes where agents execute code and tools safely (E2B, Firecracker, microsandbox).",
-      "when": "Use when your agent runs untrusted code or tools and you need an isolated, safe place to execute it."
-    },
-    {
       "id": "computer-use",
       "name": "Browser & Computer Use",
       "icon": "🖐️",
@@ -110,6 +82,15 @@
       "when": "Use to connect your agent to external tools and to other agents via standards like MCP and A2A."
     },
     {
+      "id": "sandboxes",
+      "name": "Sandboxes & MicroVMs",
+      "icon": "🔥",
+      "role": "The stove",
+      "pick": "Add to run agent code safely",
+      "description": "Isolated microVM & sandbox runtimes where agents execute code and tools safely (E2B, Firecracker, microsandbox).",
+      "when": "Use when your agent runs untrusted code or tools and you need an isolated, safe place to execute it."
+    },
+    {
       "id": "observability",
       "name": "Observability & Eval",
       "icon": "🔍",
@@ -135,6 +116,25 @@
       "pick": "Add for speech in / speech out",
       "description": "Speech recognition (Whisper/ASR), text-to-speech, and realtime conversational audio.",
       "when": "Use when your agent needs to listen (speech-to-text), talk (text-to-speech), or hold a live voice call."
+    },
+    {
+      "id": "serving",
+      "name": "Models & Serving",
+      "icon": "🥩",
+      "role": "Raw ingredients",
+      "pick": "Pick a model + a way to run it",
+      "description": "Run, host, quantize and route the LLMs your agent thinks with. Infra, not agents.",
+      "when": "Use when you want to run or host the LLM yourself — your own hardware or cloud — instead of calling a hosted API."
+    },
+    {
+      "id": "models",
+      "name": "Open Models",
+      "icon": "🧠",
+      "role": "The brain",
+      "pick": "Pick the open-weight model your agent runs on",
+      "description": "Open-weight LLMs from Hugging Face, ranked by community likes and downloads.",
+      "when": "Use to choose the actual open-weight model — DeepSeek, Llama, Qwen, gpt-oss — that your agent reasons with, then run it with a tool from Models & Serving.",
+      "source": "huggingface"
     }
   ],
   "projects": [

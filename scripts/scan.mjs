@@ -206,14 +206,23 @@ function normalizeHF(m) {
   };
 }
 
-async function discoverHFModels(limit = 45) {
-  const url = `https://huggingface.co/api/models?pipeline_tag=text-generation&sort=likes&direction=-1&limit=${limit}&full=false`;
+async function discoverHFModels(limit = 25) {
+  // Popular by community likes, but kept to the current model generation
+  // (drops 2-4 year-old relics like GPT-2/bloom/Llama-2) and skips
+  // quantization/format variants (GGUF/AWQ/…) so the aisle stays useful.
+  const url = `https://huggingface.co/api/models?pipeline_tag=text-generation&sort=likes&direction=-1&limit=150&full=false`;
+  const cutoff = Date.now() - 1000 * 60 * 60 * 24 * 610; // ~20 months
+  const quant = /\b(gguf|awq|gptq|int4|int8|fp8|mlx|onnx|w8a8|w4a16|bnb|4bit|8bit)\b/i;
   try {
     const res = await fetch(url, { headers: { "User-Agent": "agent-landscape-scanner" } });
     if (!res.ok) throw new Error(`HF ${res.status}`);
     const arr = await res.json();
     const seen = new Set();
-    return arr.map(normalizeHF).filter((m) => m && !seen.has(m.repo) && seen.add(m.repo));
+    return arr
+      .map(normalizeHF)
+      .filter((m) => m && !quant.test(m.repo) && new Date(m.createdAt || 0).getTime() >= cutoff)
+      .filter((m) => !seen.has(m.repo) && seen.add(m.repo))
+      .slice(0, limit);
   } catch (e) {
     console.warn(`  Hugging Face fetch failed: ${e.message}`);
     return [];
@@ -348,10 +357,20 @@ async function main() {
 
   // 5) Hugging Face — the actual open-weight models (separate source/aisle)
   console.log("Fetching open models from Hugging Face...");
-  const hfModels = await discoverHFModels(45);
+  const hfModels = await discoverHFModels(25);
   console.log(`  added ${hfModels.length} models from Hugging Face`);
 
-  const projects = [...ghProjects, ...hfModels];
+  // Cap each aisle to the top 25 (curated picks first, then by stars/likes) —
+  // a reviewable set of the most relevant, active projects per category.
+  const CAP = 25;
+  const grouped = {};
+  for (const p of [...ghProjects, ...hfModels]) (grouped[p.category] ||= []).push(p);
+  const projects = [];
+  for (const c of seed.categories) {
+    const list = (grouped[c.id] || []).sort((a, b) => (b.curated ? 1 : 0) - (a.curated ? 1 : 0) || b.stars - a.stars);
+    projects.push(...list.slice(0, CAP));
+  }
+  console.log(`  capped to ${CAP}/aisle → ${projects.length} projects`);
 
   // Build per-category counts
   const counts = {};
