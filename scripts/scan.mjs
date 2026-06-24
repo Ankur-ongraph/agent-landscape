@@ -14,6 +14,7 @@ const ROOT = join(__dirname, "..");
 
 const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
 const API = "https://api.github.com";
+const SITE = "https://ankur-ongraph.github.io/agent-landscape";
 
 const headers = {
   Accept: "application/vnd.github+json",
@@ -175,6 +176,62 @@ function categorize(project, seedCategories) {
   return "frameworks";
 }
 
+async function writeAgentFiles(out, projects) {
+  let guide = {};
+  try { guide = JSON.parse(await readFile(join(ROOT, "public", "guide.json"), "utf8")); } catch {}
+
+  const date = out.generatedAt.slice(0, 10);
+  const cats = out.categories.filter((c) => c.count);
+  const topByCat = {};
+  for (const p of projects) (topByCat[p.category] ||= []).push(p);
+  for (const k in topByCat) topByCat[k].sort((a, b) => (b.curated ? 1 : 0) - (a.curated ? 1 : 0) || b.stars - a.stars);
+  const star = (p) => `${(p.stars / 1000).toFixed(p.stars >= 10000 ? 0 : 1).replace(/\.0$/, "")}k★`;
+  const oneLine = (s) => (s || "").replace(/\s+/g, " ").trim();
+
+  // llms.txt — concise index for LLMs/agents
+  const l = [];
+  l.push("# The Agent Pantry — AI Agent Landscape", "");
+  l.push(`> A live, daily-updated landscape of ${out.totals.projects} AI agent frameworks and tools, scanned from GitHub and organized into ${cats.length} categories ("aisles") by the role each plays in building an agent.`, "");
+  l.push(`Each project includes GitHub stars, Hacker News discussion, primary language, license, and a category. The full machine-readable dataset is available as JSON. Last updated ${date}.`, "");
+  l.push("## Data & pages");
+  l.push(`- [Full dataset (JSON)](${SITE}/data.json): every project with category, stars, hnPoints, language, license, description, and repo URL.`);
+  l.push(`- [Landscape](${SITE}/): browse projects by category; filter, search, sort by stars or Hacker News.`);
+  l.push(`- [Field Guide](${SITE}/guide.html): what each category is, the problem it addresses, how it helps, and a technical 101.`);
+  l.push(`- [llms-full.txt](${SITE}/llms-full.txt): this index plus full per-category guide text and every project.`, "");
+  l.push("## Categories");
+  for (const c of cats) {
+    const tops = (topByCat[c.id] || []).slice(0, 3).map((p) => p.name).join(", ");
+    l.push(`- [${c.name}](${SITE}/#cat-${c.id}) (${c.count}) — ${oneLine(c.when || c.description)}${tops ? ` Top: ${tops}.` : ""}`);
+  }
+  l.push("");
+  await writeFile(join(ROOT, "public", "llms.txt"), l.join("\n"));
+
+  // llms-full.txt — everything in one fetch
+  const f = [];
+  f.push("# The Agent Pantry — AI Agent Landscape (full)", "");
+  f.push(`> ${out.totals.projects} AI agent frameworks and tools across ${cats.length} categories, scanned from GitHub. Last updated ${date}. Machine-readable JSON: ${SITE}/data.json`, "");
+  for (const c of cats) {
+    const g = guide[c.id] || {};
+    f.push(`## ${c.name} (${c.count})`);
+    if (c.when) f.push(`When to use: ${c.when}`);
+    if (g.whatItIs) f.push(`What it is: ${g.whatItIs}`);
+    if (g.problem) f.push(`Problem it addresses: ${g.problem}`);
+    if (g.howItHelps) f.push(`How it helps: ${g.howItHelps}`);
+    if (g.technical101) f.push(`Technical 101: ${g.technical101}`);
+    f.push("", "Projects:");
+    for (const p of topByCat[c.id] || []) {
+      f.push(`- ${p.repo} (${star(p)}${p.hnPoints ? `, HN ${p.hnPoints}` : ""}${p.language ? `, ${p.language}` : ""}) — ${oneLine(p.description)} ${p.url}`);
+    }
+    f.push("");
+  }
+  await writeFile(join(ROOT, "public", "llms-full.txt"), f.join("\n"));
+
+  // sitemap.xml
+  const urls = ["/", "/guide.html"].map((u) => `  <url><loc>${SITE}${u}</loc><lastmod>${date}</lastmod></url>`).join("\n");
+  await writeFile(join(ROOT, "public", "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
+}
+
 async function main() {
   if (!TOKEN) {
     console.warn("⚠  No GITHUB_TOKEN set — running unauthenticated (60 req/hr). Results may be partial.");
@@ -269,6 +326,10 @@ async function main() {
     `✓ Wrote public/data.json — ${projects.length} projects ` +
       `(${out.totals.curated} curated, ${out.totals.discovered} discovered), ${apiCalls} API calls.`
   );
+
+  // Agent-friendly indexes: /llms.txt, /llms-full.txt, /sitemap.xml
+  await writeAgentFiles(out, projects);
+  console.log("✓ Wrote llms.txt, llms-full.txt, sitemap.xml");
 }
 
 main().catch((e) => {
