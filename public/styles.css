@@ -52,6 +52,7 @@ a:hover { text-decoration: underline; }
 }
 .brand h1 { margin: 0; font-size: 22px; letter-spacing: -0.02em; }
 .tagline { margin: 2px 0 0; color: var(--muted); font-size: 13.5px; }
+.kicker { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 1px; }
 .header-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; justify-content: flex-end; }
 .guide-link { background: var(--panel-2); border-color: var(--border); }
 .guide-link:hover { border-color: var(--accent); color: #fff; }
