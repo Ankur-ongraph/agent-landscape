@@ -49,6 +49,18 @@ async function load() {
   renderChips();
   bindControls();
   render();
+  // Sections are built here (async), so honor a #cat-… hash now that they exist.
+  setTimeout(scrollToHash, 60);
+}
+
+function scrollToHash() {
+  if (!location.hash) return;
+  const id = decodeURIComponent(location.hash.slice(1));
+  const target = document.getElementById(id);
+  if (!target) return;
+  // Instant jump (not smooth) so deep-links land reliably, offset for the sticky toolbar.
+  const y = target.getBoundingClientRect().top + window.scrollY - 92;
+  window.scrollTo({ top: y, behavior: "instant" });
 }
 
 function renderStats() {
@@ -92,6 +104,7 @@ function bindControls() {
   el("curatedOnly").addEventListener("change", (e) => { state.curatedOnly = e.target.checked; render(); });
   el("backdrop").addEventListener("click", (e) => { if (e.target === el("backdrop")) closeDetail(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDetail(); });
+  window.addEventListener("hashchange", scrollToHash);
 }
 
 function matches(p) {
