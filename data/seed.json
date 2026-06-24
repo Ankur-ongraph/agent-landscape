@@ -1,6 +1,16 @@
 {
   "categories": [
     {
+      "id": "models",
+      "name": "Open Models",
+      "icon": "🧠",
+      "role": "The brain",
+      "pick": "Pick the open-weight model your agent runs on",
+      "description": "Open-weight LLMs from Hugging Face, ranked by community likes and downloads.",
+      "when": "Use to choose the actual open-weight model — DeepSeek, Llama, Qwen, gpt-oss — that your agent reasons with, then run it with a tool from Models & Serving.",
+      "source": "huggingface"
+    },
+    {
       "id": "serving",
       "name": "Models & Serving",
       "icon": "🥩",

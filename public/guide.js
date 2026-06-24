@@ -7,6 +7,7 @@ const avatar = (p) => `https://github.com/${p.owner}.png?size=48`;
 
 // One accent per aisle so chapters read as distinct, colorful cards.
 const CAT_COLORS = {
+  models: "#e8a317",
   serving: "#e0822e", frameworks: "#5b8cff", orchestration: "#c79234", autonomous: "#e0574a",
   coding: "#3fb950", skills: "#b07cff", sandboxes: "#ff7a45", "computer-use": "#1fb6a8",
   "memory-rag": "#d6a02e", data: "#2ea0d6", protocols: "#8b7cff", observability: "#4f9cff",

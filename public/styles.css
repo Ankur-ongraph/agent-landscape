@@ -125,6 +125,10 @@ main.wrap { padding-top: 24px; padding-bottom: 60px; }
 }
 .card .meta .hn::before, .detail-grid .hn::before { content: ""; }
 .site-footer .hn { font-weight: 700; }
+/* Hugging Face model cards */
+.card .avatar.hf-avatar { display: grid; place-items: center; font-size: 20px; background: var(--bg-soft); }
+.badge-tier.hf-badge { background: rgba(255, 170, 0, 0.14); color: #b07000; border: 1px solid rgba(255, 170, 0, 0.42); }
+.card .meta .dl { color: var(--muted); font-variant-numeric: tabular-nums; }
 
 .grid {
   display: grid; gap: 10px;

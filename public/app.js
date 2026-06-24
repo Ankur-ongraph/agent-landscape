@@ -22,6 +22,11 @@ function fmt(n) {
   return String(n);
 }
 
+function fmtBig(n) {
+  if (n >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
+  return fmt(n);
+}
+
 function timeAgo(iso) {
   if (!iso) return "—";
   const d = new Date(iso);
@@ -135,7 +140,7 @@ function sortProjects(list) {
 const FEATURED_PER_AISLE = 3;
 function cardTier(p, featured) {
   if (featured) return "featured";
-  if (p.curated) return "oss"; // vetted picks are known open source even if GitHub didn't detect a license
+  if (p.curated || p.source === "huggingface") return "oss"; // vetted / model entries are open even if no SPDX license detected
   return p.license ? "oss" : "proprietary";
 }
 
@@ -144,6 +149,23 @@ function cardHtml(p, featured) {
   const lang = p.language
     ? `<span class="dot" style="background:${LANG_COLORS[p.language] || "#888"}"></span>${p.language}`
     : "";
+  if (p.source === "huggingface") {
+    return `
+    <div class="card oss hf" data-repo="${p.repo}">
+      <span class="badge-tier hf-badge">🤗 HF</span>
+      <div class="avatar hf-avatar">🤗</div>
+      <div class="body">
+        <div class="name" title="${p.repo}">${escapeHtml(p.name)}</div>
+        <div class="owner">${escapeHtml(p.owner)}</div>
+        <div class="desc">${escapeHtml(p.description) || "<em>No description</em>"}</div>
+        <div class="meta">
+          <span class="star">♥ ${fmt(p.likes || p.stars)}</span>
+          <span class="dl" title="downloads (last month)">⬇ ${fmtBig(p.downloads || 0)}</span>
+          ${lang ? `<span>${escapeHtml(p.language)}</span>` : ""}
+        </div>
+      </div>
+    </div>`;
+  }
   const badge =
     tier === "featured" ? '<span class="badge-tier featured">★ Featured</span>'
     : tier === "proprietary" ? '<span class="badge-tier prop">no OSS license</span>'
@@ -212,28 +234,40 @@ function openDetail(repo) {
   const p = state.data.projects.find((x) => x.repo === repo);
   if (!p) return;
   const cat = state.data.categories.find((c) => c.id === p.category);
-  const topics = p.topics.slice(0, 8).map((t) => `<span class="chip" style="cursor:default">${t}</span>`).join(" ");
-  el("detail").innerHTML = `
-    <button class="close" aria-label="Close">×</button>
-    <div class="detail-head">
-      <img src="${avatarUrl(p)}" alt="" onerror="this.style.visibility='hidden'" />
-      <div>
-        <h3>${p.name}</h3>
-        <div class="sub">${p.repo} · ${cat ? cat.name : ""}</div>
-      </div>
-    </div>
-    <p class="detail-desc">${escapeHtml(p.description) || "No description provided."}</p>
-    <div class="detail-grid">
+  const topics = p.topics.slice(0, 8).map((t) => `<span class="chip" style="cursor:default">${escapeHtml(t)}</span>`).join(" ");
+  const isHF = p.source === "huggingface";
+  const head = isHF
+    ? `<div class="avatar hf-avatar" style="width:54px;height:54px;font-size:26px;border-radius:12px">🤗</div>`
+    : `<img src="${avatarUrl(p)}" alt="" onerror="this.style.visibility='hidden'" />`;
+  const grid = isHF
+    ? `
+      <div class="kv"><div class="k">Likes</div><div class="v">♥ ${(p.likes || 0).toLocaleString()}</div></div>
+      <div class="kv"><div class="k">Downloads</div><div class="v">⬇ ${fmtBig(p.downloads || 0)}</div></div>
+      <div class="kv"><div class="k">Task</div><div class="v" style="font-size:13px">${escapeHtml(p.language || "—")}</div></div>
+      <div class="kv"><div class="k">License</div><div class="v">${escapeHtml(p.license || "—")}</div></div>
+      <div class="kv"><div class="k">Updated</div><div class="v">${timeAgo(p.pushedAt)}</div></div>
+      <div class="kv"><div class="k">Source</div><div class="v" style="font-size:13px">🤗 Hugging Face</div></div>`
+    : `
       <div class="kv"><div class="k">Stars</div><div class="v">★ ${p.stars.toLocaleString()}</div></div>
       <div class="kv"><div class="k">Forks</div><div class="v">${p.forks.toLocaleString()}</div></div>
       <div class="kv"><div class="k">Language</div><div class="v">${p.language || "—"}</div></div>
       <div class="kv"><div class="k">License</div><div class="v">${p.license || "—"}</div></div>
       <div class="kv"><div class="k">Last push</div><div class="v">${timeAgo(p.pushedAt)}</div></div>
-      <div class="kv"><div class="k">Hacker News</div><div class="v">${p.hnPoints ? `<span class="hn">Y ${fmt(p.hnPoints)}</span>` : "—"}</div></div>
+      <div class="kv"><div class="k">Hacker News</div><div class="v">${p.hnPoints ? `<span class="hn">Y ${fmt(p.hnPoints)}</span>` : "—"}</div></div>`;
+  el("detail").innerHTML = `
+    <button class="close" aria-label="Close">×</button>
+    <div class="detail-head">
+      ${head}
+      <div>
+        <h3>${escapeHtml(p.name)}</h3>
+        <div class="sub">${escapeHtml(p.repo)} · ${cat ? escapeHtml(cat.name) : ""}</div>
+      </div>
     </div>
+    <p class="detail-desc">${escapeHtml(p.description) || "No description provided."}</p>
+    <div class="detail-grid">${grid}</div>
     ${topics ? `<div class="chips-inner" style="padding:0 0 12px">${topics}</div>` : ""}
     <div class="detail-actions">
-      <a class="btn primary" href="${p.url}" target="_blank" rel="noopener">Open on GitHub →</a>
+      <a class="btn primary" href="${p.url}" target="_blank" rel="noopener">${isHF ? "View on Hugging Face →" : "Open on GitHub →"}</a>
       ${p.hnUrl ? `<a class="btn" href="${p.hnUrl}" target="_blank" rel="noopener">Hacker News</a>` : ""}
       ${p.homepage ? `<a class="btn" href="${p.homepage}" target="_blank" rel="noopener">Website</a>` : ""}
     </div>`;

@@ -1,4 +1,10 @@
 {
+  "models": {
+    "whatItIs": "The open-weight large language models themselves — the actual neural-network weights your agent uses to reason — published on Hugging Face. Distinct from the serving tools that run them.",
+    "problem": "Closed APIs (GPT, Claude) are easy but cost per token, can't be self-hosted, and can change under you. To own your stack — for cost, privacy, fine-tuning, or offline use — you need open-weight models you can download and run.",
+    "howItHelps": "Open models give you weights you can host anywhere, fine-tune on your own data, and swap freely. Hugging Face is the hub where they're published, versioned, and compared by downloads and community likes, so you can pick the right size and license.",
+    "technical101": "Models ship as weight files (safetensors) plus a config, tagged by task (text-generation), size, and license. Families like DeepSeek, Llama, Qwen, Mistral and gpt-oss trade size against quality; quantized GGUF variants shrink them to run on modest hardware. Pair a model here with an engine from Models & Serving (vLLM, llama.cpp, Ollama) to actually run it."
+  },
   "serving": {
     "whatItIs": "The infrastructure that runs the large language models your agent thinks with — engines and servers that load model weights and turn prompts into tokens, plus gateways that route requests across many models.",
     "problem": "Hosted model APIs are convenient but cost per token, send your data to a third party, and lock you to one vendor's models and rate limits. Many teams need to run open-weight models on their own GPUs for cost, privacy, latency, or offline use.",

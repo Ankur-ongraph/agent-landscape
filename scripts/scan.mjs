@@ -176,6 +176,50 @@ function categorize(project, seedCategories) {
   return "frameworks";
 }
 
+// ── Hugging Face Hub: the actual open-weight models (free API, no key) ──
+function normalizeHF(m) {
+  const id = m.id;
+  if (!id || m.private) return null;
+  const tags = m.tags || [];
+  const lic = (tags.find((t) => t.startsWith("license:")) || "").slice(8);
+  const topics = tags.filter((t) => !t.includes(":") && !["transformers", "text-generation", "safetensors", "conversational"].includes(t)).slice(0, 6);
+  return {
+    repo: id,
+    name: id.split("/").pop(),
+    owner: m.author || id.split("/")[0],
+    description: `Open-weight ${m.pipeline_tag || "model"} on Hugging Face${m.library_name ? " · " + m.library_name : ""}.`,
+    url: `https://huggingface.co/${id}`,
+    stars: m.likes || 0, // HF likes as the headline metric
+    likes: m.likes || 0,
+    downloads: m.downloads || 0,
+    forks: 0,
+    openIssues: 0,
+    language: m.pipeline_tag || "",
+    license: lic && lic !== "other" ? lic : "",
+    topics,
+    pushedAt: m.lastModified || null,
+    createdAt: m.createdAt || null,
+    archived: false,
+    source: "huggingface",
+    category: "models",
+    curated: false,
+  };
+}
+
+async function discoverHFModels(limit = 45) {
+  const url = `https://huggingface.co/api/models?pipeline_tag=text-generation&sort=likes&direction=-1&limit=${limit}&full=false`;
+  try {
+    const res = await fetch(url, { headers: { "User-Agent": "agent-landscape-scanner" } });
+    if (!res.ok) throw new Error(`HF ${res.status}`);
+    const arr = await res.json();
+    const seen = new Set();
+    return arr.map(normalizeHF).filter((m) => m && !seen.has(m.repo) && seen.add(m.repo));
+  } catch (e) {
+    console.warn(`  Hugging Face fetch failed: ${e.message}`);
+    return [];
+  }
+}
+
 async function writeAgentFiles(out, projects) {
   let guide = {};
   try { guide = JSON.parse(await readFile(join(ROOT, "public", "guide.json"), "utf8")); } catch {}
@@ -293,14 +337,21 @@ async function main() {
     console.log(`  added ${kept} repos from keyword search`);
   }
 
-  const projects = [...byRepo.values()].sort((a, b) => b.stars - a.stars);
+  const ghProjects = [...byRepo.values()].sort((a, b) => b.stars - a.stars);
 
   // 4) HackerNews signal — corroborate GitHub stars with real discussion.
   // A repo with huge stars but zero HN presence is a red flag (star-farming).
-  console.log(`Enriching ${projects.length} repos with HackerNews signal...`);
-  await enrichHN(projects);
-  const withHN = projects.filter((p) => p.hnPoints > 0).length;
+  console.log(`Enriching ${ghProjects.length} repos with HackerNews signal...`);
+  await enrichHN(ghProjects);
+  const withHN = ghProjects.filter((p) => p.hnPoints > 0).length;
   console.log(`  ${withHN} repos have HN discussion`);
+
+  // 5) Hugging Face — the actual open-weight models (separate source/aisle)
+  console.log("Fetching open models from Hugging Face...");
+  const hfModels = await discoverHFModels(45);
+  console.log(`  added ${hfModels.length} models from Hugging Face`);
+
+  const projects = [...ghProjects, ...hfModels];
 
   // Build per-category counts
   const counts = {};
