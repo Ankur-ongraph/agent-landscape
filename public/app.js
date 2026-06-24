@@ -116,16 +116,18 @@ function sortProjects(list) {
   return [...list].sort(cmp);
 }
 
-// CNCF-style tiers: featured (curated chef's picks) → big highlighted box;
-// open source (has an OSS license) → standard box; proprietary / no detected
-// OSS license → muted gray box.
-function tierOf(p) {
-  if (p.curated) return "featured";
+// CNCF-style tiers: featured (a few marquee chef's picks per aisle) → big
+// highlighted box; open source (has an OSS license) → standard box;
+// proprietary / no detected OSS license → muted gray box.
+const FEATURED_PER_AISLE = 3;
+function cardTier(p, featured) {
+  if (featured) return "featured";
+  if (p.curated) return "oss"; // vetted picks are known open source even if GitHub didn't detect a license
   return p.license ? "oss" : "proprietary";
 }
 
-function cardHtml(p) {
-  const tier = tierOf(p);
+function cardHtml(p, featured) {
+  const tier = cardTier(p, featured);
   const lang = p.language
     ? `<span class="dot" style="background:${LANG_COLORS[p.language] || "#888"}"></span>${p.language}`
     : "";
@@ -171,7 +173,11 @@ function render() {
   for (const cat of state.data.categories) {
     const items = byCat.get(cat.id);
     if (!items || !items.length) continue;
-    const cards = sortProjects(items).map(cardHtml).join("");
+    // Feature only the top few curated picks in this aisle (by stars).
+    const featured = new Set(
+      items.filter((p) => p.curated).sort((a, b) => b.stars - a.stars).slice(0, FEATURED_PER_AISLE).map((p) => p.repo)
+    );
+    const cards = sortProjects(items).map((p) => cardHtml(p, featured.has(p.repo))).join("");
     sections.push(`
       <section class="category" id="cat-${cat.id}">
         <div class="cat-head">
