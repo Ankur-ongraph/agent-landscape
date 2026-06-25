@@ -110,6 +110,8 @@ function bindControls() {
   el("backdrop").addEventListener("click", (e) => { if (e.target === el("backdrop")) closeDetail(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDetail(); });
   window.addEventListener("hashchange", scrollToHash);
+  const ub = el("useAgentBtn");
+  if (ub) ub.addEventListener("click", openAgentModal);
 }
 
 function matches(p) {
@@ -272,6 +274,35 @@ function openDetail(repo) {
       ${p.homepage ? `<a class="btn" href="${p.homepage}" target="_blank" rel="noopener">Website</a>` : ""}
     </div>`;
   el("detail").querySelector(".close").addEventListener("click", closeDetail);
+  el("backdrop").hidden = false;
+}
+
+function openAgentModal() {
+  const full = new URL("llms-full.txt", location.href).href;
+  const short = new URL("llms.txt", location.href).href;
+  const data = new URL("data.json", location.href).href;
+  const prompt = `Read ${full} — it's a categorized, up-to-date index of AI agent frameworks & tools. Use it to recommend the right tools for what I'm building.`;
+  const map = { full, short, data, prompt };
+  const d = el("detail");
+  d.style.removeProperty("--cat-color");
+  d.innerHTML = `
+    <button class="close" aria-label="Close">×</button>
+    <h3 style="margin:0 0 8px">🤖 Use this in your agent</h3>
+    <p class="detail-desc" style="margin-top:0">Point Claude, Codex, Cursor, or any LLM at this machine-readable index of the whole landscape — it gets the 15 aisles, what each is for, and the top tools per category. Updated daily.</p>
+    <div class="use-row"><div><div class="use-label">Full index — everything</div><code class="use-url">${escapeHtml(full)}</code></div><button class="btn copy" data-copy="full">Copy</button></div>
+    <div class="use-row"><div><div class="use-label">Short index — overview + links</div><code class="use-url">${escapeHtml(short)}</code></div><button class="btn copy" data-copy="short">Copy</button></div>
+    <div class="use-row"><div><div class="use-label">Raw data (JSON)</div><code class="use-url">${escapeHtml(data)}</code></div><button class="btn copy" data-copy="data">Copy</button></div>
+    <div class="use-tip"><b>Paste this into your chat:</b>
+      <code>${escapeHtml(prompt)}</code>
+      <button class="btn copy primary" data-copy="prompt">Copy prompt</button>
+    </div>`;
+  d.querySelectorAll("[data-copy]").forEach((b) =>
+    b.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(map[b.dataset.copy]); } catch { return; }
+      const t = b.textContent; b.textContent = "Copied!"; setTimeout(() => (b.textContent = t), 1300);
+    })
+  );
+  d.querySelector(".close").addEventListener("click", closeDetail);
   el("backdrop").hidden = false;
 }
 
