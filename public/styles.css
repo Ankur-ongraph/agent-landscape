@@ -352,3 +352,7 @@ main.wrap { padding-top: 24px; padding-bottom: 60px; }
   border: 1px solid var(--border); border-radius: 6px; padding: 7px 9px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height: 1.5; }
 .btn.copy { padding: 6px 13px; font-size: 12.5px; white-space: nowrap; }
 .btn.copy.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* Legend emoji icon + Hot (spicy) indicator */
+.legend .lg-ico { font-size: 15px; line-height: 1; }
+.card .meta .hot { font-size: 13px; line-height: 1; filter: saturate(1.1); }

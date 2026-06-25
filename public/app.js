@@ -140,10 +140,19 @@ function sortProjects(list) {
 // highlighted box; open source (has an OSS license) → standard box;
 // proprietary / no detected OSS license → muted gray box.
 const FEATURED_PER_AISLE = 3;
+const HOT_VELOCITY = 6000; // stars/month since creation → "hot" (trending fast)
 function cardTier(p, featured) {
   if (featured) return "featured";
   if (p.curated || p.source === "huggingface") return "oss"; // vetted / model entries are open even if no SPDX license detected
   return p.license ? "oss" : "proprietary";
+}
+
+// Hot = gaining stars fast right now (no time-series, so use stars/month since creation).
+function isHot(p) {
+  if (p.source === "huggingface" || !p.createdAt) return false;
+  const months = (Date.now() - new Date(p.createdAt).getTime()) / (1000 * 60 * 60 * 24 * 30.4);
+  if (months < 1 || (p.stars || 0) < 1500) return false;
+  return p.stars / months >= HOT_VELOCITY;
 }
 
 function cardHtml(p, featured) {
@@ -169,9 +178,10 @@ function cardHtml(p, featured) {
     </div>`;
   }
   const badge =
-    tier === "featured" ? '<span class="badge-tier featured">★ Featured</span>'
+    tier === "featured" ? '<span class="badge-tier featured">🧑‍🍳 Featured</span>'
     : tier === "proprietary" ? '<span class="badge-tier prop">no OSS license</span>'
     : "";
+  const hot = isHot(p) ? '<span class="hot" title="Hot — gaining stars fast right now">🌶️</span>' : "";
   return `
     <div class="card ${tier}" data-repo="${p.repo}">
       ${badge}
@@ -182,6 +192,7 @@ function cardHtml(p, featured) {
         <div class="desc">${escapeHtml(p.description) || "<em>No description</em>"}</div>
         <div class="meta">
           <span class="star">★ ${fmt(p.stars)}</span>
+          ${hot}
           ${p.hnPoints ? `<span class="hn" title="${p.hnStories} HN ${p.hnStories === 1 ? "story" : "stories"}">Y ${fmt(p.hnPoints)}</span>` : ""}
           ${lang ? `<span>${lang}</span>` : ""}
           <span>↻ ${timeAgo(p.pushedAt)}</span>

@@ -61,7 +61,8 @@ async function load() {
         applied here to the AI agent ecosystem. Thanks to the CNCF for the model.</div>
       </div>
       <div class="legend">
-        <span class="lg"><span class="lg-box featured"></span> <b>Featured</b> — top chef's picks</span>
+        <span class="lg"><span class="lg-ico">🧑‍🍳</span> <b>Featured</b> — top chef's picks</span>
+        <span class="lg"><span class="lg-ico">🌶️</span> <b>Hot</b> — gaining stars fast</span>
         <span class="lg"><span class="lg-box oss"></span> <b>Open source</b></span>
         <span class="lg"><span class="lg-box prop"></span> <b>Proprietary</b> / no OSS license</span>
       </div>
