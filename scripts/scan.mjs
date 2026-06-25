@@ -14,7 +14,7 @@ const ROOT = join(__dirname, "..");
 
 const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
 const API = "https://api.github.com";
-const SITE = "https://ankur-ongraph.github.io/agent-landscape";
+const SITE = "https://theagentpantry.com";
 
 const headers = {
   Accept: "application/vnd.github+json",

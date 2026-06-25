@@ -5,9 +5,9 @@ User-agent: *
 Allow: /
 
 # Agent/LLM-friendly index (llms.txt standard):
-#   https://ankur-ongraph.github.io/agent-landscape/llms.txt
-#   https://ankur-ongraph.github.io/agent-landscape/llms-full.txt
+#   https://theagentpantry.com/llms.txt
+#   https://theagentpantry.com/llms-full.txt
 # Machine-readable dataset:
-#   https://ankur-ongraph.github.io/agent-landscape/data.json
+#   https://theagentpantry.com/data.json
 
-Sitemap: https://ankur-ongraph.github.io/agent-landscape/sitemap.xml
+Sitemap: https://theagentpantry.com/sitemap.xml
