@@ -605,6 +605,154 @@
     {
       "repo": "rhasspy/piper",
       "category": "voice"
+    },
+    {
+      "repo": "anthropics/claude-code",
+      "category": "coding"
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "category": "coding"
+    },
+    {
+      "repo": "TabbyML/tabby",
+      "category": "coding"
+    },
+    {
+      "repo": "superset-sh/superset",
+      "category": "coding"
+    },
+    {
+      "repo": "huggingface/transformers",
+      "category": "serving"
+    },
+    {
+      "repo": "nomic-ai/gpt4all",
+      "category": "serving"
+    },
+    {
+      "repo": "bentoml/BentoML",
+      "category": "serving"
+    },
+    {
+      "repo": "elizaOS/eliza",
+      "category": "frameworks"
+    },
+    {
+      "repo": "QwenLM/Qwen-Agent",
+      "category": "frameworks"
+    },
+    {
+      "repo": "langchain4j/langchain4j",
+      "category": "frameworks"
+    },
+    {
+      "repo": "promptfoo/promptfoo",
+      "category": "observability"
+    },
+    {
+      "repo": "lobehub/lobehub",
+      "category": "runtimes"
+    },
+    {
+      "repo": "CherryHQ/cherry-studio",
+      "category": "runtimes"
+    },
+    {
+      "repo": "coze-dev/coze-studio",
+      "category": "runtimes"
+    },
+    {
+      "repo": "simstudioai/sim",
+      "category": "runtimes"
+    },
+    {
+      "repo": "labring/FastGPT",
+      "category": "runtimes"
+    },
+    {
+      "repo": "ChatGPTNextWeb/NextChat",
+      "category": "runtimes"
+    },
+    {
+      "repo": "chatboxai/chatbox",
+      "category": "runtimes"
+    },
+    {
+      "repo": "danny-avila/LibreChat",
+      "category": "runtimes"
+    },
+    {
+      "repo": "AstrBotDevs/AstrBot",
+      "category": "runtimes"
+    },
+    {
+      "repo": "triggerdotdev/trigger.dev",
+      "category": "runtimes"
+    },
+    {
+      "repo": "ComposioHQ/composio",
+      "category": "protocols"
+    },
+    {
+      "repo": "modelscope/FunASR",
+      "category": "voice"
+    },
+    {
+      "repo": "FunAudioLLM/CosyVoice",
+      "category": "voice"
+    },
+    {
+      "repo": "bytedance/deer-flow",
+      "category": "orchestration"
+    },
+    {
+      "repo": "steel-dev/steel-browser",
+      "category": "computer-use"
+    },
+    {
+      "repo": "ntegrals/openbrowser",
+      "category": "computer-use"
+    },
+    {
+      "repo": "karpathy/autoresearch",
+      "category": "autonomous"
+    },
+    {
+      "repo": "charmbracelet/crush",
+      "category": "coding"
+    },
+    {
+      "repo": "thedotmack/claude-mem",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "jeecgboot/JeecgBoot",
+      "category": "runtimes"
+    },
+    {
+      "repo": "alibaba/spring-ai-alibaba",
+      "category": "frameworks"
+    },
+    {
+      "repo": "pathwaycom/llm-app",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "NevaMind-AI/memU",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "iOfficeAI/AionUi",
+      "category": "runtimes"
+    },
+    {
+      "repo": "Fission-AI/OpenSpec",
+      "category": "coding"
+    },
+    {
+      "repo": "router-for-me/CLIProxyAPI",
+      "category": "serving"
     }
   ],
   "discovery": {
@@ -661,7 +809,52 @@
       "github/gitignore",
       "Snailclimb/JavaGuide",
       "jwasham/coding-interview-university",
-      "codecrafters-io/build-your-own-x"
+      "codecrafters-io/build-your-own-x",
+      "nukeop/nuclear",
+      "casdoor/casdoor",
+      "open-metadata/OpenMetadata",
+      "OpenBB-finance/OpenBB",
+      "PostHog/posthog",
+      "ray-project/ray",
+      "Netflix/maestro",
+      "databendlabs/databend",
+      "nexu-io/open-design",
+      "ruvnet/RuView",
+      "keploy/keploy",
+      "asgeirtj/system_prompts_leaks",
+      "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "microsoft/ai-agents-for-beginners",
+      "datawhalechina/hello-agents",
+      "datawhalechina/happy-llm",
+      "AccumulateMore/CV",
+      "liguodongiot/llm-action",
+      "jeinlee1991/chinese-llm-benchmark",
+      "GoogleCloudPlatform/generative-ai",
+      "trycua/acu",
+      "shanraisshan/claude-code-best-practice",
+      "affaan-m/ECC",
+      "multica-ai/andrej-karpathy-skills",
+      "msitarzewski/agency-agents",
+      "NousResearch/hermes-agent",
+      "farion1231/cc-switch",
+      "nextlevelbuilder/ui-ux-pro-max-skill",
+      "Egonex-AI/Understand-Anything",
+      "safishamsi/graphify",
+      "DietrichGebert/ponytail",
+      "santifer/career-ops",
+      "Leonxlnx/taste-skill",
+      "jnMetaCode/agency-agents-zh",
+      "666ghj/BettaFish",
+      "cft0808/edict",
+      "zeroclaw-labs/zeroclaw",
+      "nullclaw/nullclaw",
+      "fathah/hermes-desktop",
+      "EKKOLearnAI/hermes-studio",
+      "gitleaks/gitleaks",
+      "alibaba/nacos",
+      "sansan0/TrendRadar",
+      "0xJacky/nginx-ui",
+      "jarrodwatts/claude-hud"
     ]
   }
 }

@@ -142,7 +142,7 @@ async function enrichHN(projects, concurrency = 8) {
 // and must not be on the denylist. Curated entries bypass this entirely.
 const AGENT_SIGNAL = /\bagent|agentic|autonomous|llm|multi-?agent|crew|\bmcp\b|model context protocol|a2a|gpt|copilot|assistant|orchestrat|rag\b|retrieval-augmented|tool[- ]?use|function[- ]?calling|chatbot|swarm/i;
 // Keyword search surfaces lots of reading material, not tools — exclude it.
-const NON_TOOL = /awesome[-_]|[-_]?roadmap|tutorial|course|handbook|cheat-?sheet|guide|interview|\bbook\b|notes?\b|study-|learn(ing)?[-_]|100-days|from-scratch|examples?$|bootcamp|curriculum|papers?-?list|reading-list|leetcode|system-design|coding-?interview|build-your-own/i;
+const NON_TOOL = /awesome[-_]|[-_]?roadmap|tutorial|course|handbook|cheat-?sheet|guide|interview|\bbook\b|notes?\b|study-|learn(ing)?[-_]|100-days|from-scratch|examples?$|bootcamp|curriculum|papers?-?list|reading-list|leetcode|system-design|coding-?interview|build-your-own|lessons?\b|best[- ]?practice|12-factor|system[-_]?prompts?|prompt[-_]?leak|sample[- ]?code|\bnotebooks?\b|curated list|从零开始|教程|笔记|动手学|评测/i;
 
 function isRelevant(project, denylist) {
   if (denylist.has(project.repo.toLowerCase())) return false;
@@ -362,9 +362,15 @@ async function main() {
 
   // Cap each aisle to the top 25 (curated picks first, then by stars/likes) —
   // a reviewable set of the most relevant, active projects per category.
+  // Star-farm backstop: a non-curated repo with 100k+ stars but zero HN
+  // discussion is almost certainly farmed — drop it.
+  const farmed = ghProjects.filter((p) => !p.curated && p.stars >= 100000 && (p.hnPoints || 0) === 0);
+  if (farmed.length) console.log(`  dropped ${farmed.length} likely star-farmed repos (100k+ stars, 0 HN)`);
+  const ghClean = ghProjects.filter((p) => p.curated || !(p.stars >= 100000 && (p.hnPoints || 0) === 0));
+
   const CAP = 25;
   const grouped = {};
-  for (const p of [...ghProjects, ...hfModels]) (grouped[p.category] ||= []).push(p);
+  for (const p of [...ghClean, ...hfModels]) (grouped[p.category] ||= []).push(p);
   const projects = [];
   for (const c of seed.categories) {
     const list = (grouped[c.id] || []).sort((a, b) => (b.curated ? 1 : 0) - (a.curated ? 1 : 0) || b.stars - a.stars);
