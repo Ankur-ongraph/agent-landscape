@@ -249,7 +249,7 @@ async function writeAgentFiles(out, projects) {
   l.push("## Data & pages");
   l.push(`- [Full dataset (JSON)](${SITE}/data.json): every project with category, stars, hnPoints, language, license, description, and repo URL.`);
   l.push(`- [Landscape](${SITE}/): browse projects by category; filter, search, sort by stars or Hacker News.`);
-  l.push(`- [Field Guide](${SITE}/guide.html): what each category is, the problem it addresses, how it helps, and a technical 101.`);
+  l.push(`- [Pantry Guide](${SITE}/guide.html): what each category is, the problem it addresses, how it helps, and a technical 101.`);
   l.push(`- [llms-full.txt](${SITE}/llms-full.txt): this index plus full per-category guide text and every project.`, "");
   l.push("## Categories");
   for (const c of cats) {

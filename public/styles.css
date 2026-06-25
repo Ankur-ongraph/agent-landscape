@@ -215,7 +215,11 @@ main.wrap { padding-top: 24px; padding-bottom: 60px; }
 
 @media (max-width: 640px) {
   .stats { width: 100%; }
-  .grid { grid-template-columns: 1fr 1fr; }
+  /* One column on phones — content-rich cards need the full width; two
+     columns crushed them and a featured card spanning two tracks overflowed
+     the container and clipped the right column. */
+  .grid { grid-template-columns: 1fr; }
+  .card.featured { grid-column: span 1; }
   .detail-grid { grid-template-columns: 1fr 1fr; }
 }
 
@@ -227,6 +231,11 @@ main.wrap { padding-top: 24px; padding-bottom: 60px; }
 }
 .badge-tier.featured { background: rgba(87, 83, 216, 0.16); color: #5753d8; border: 1px solid rgba(87, 83, 216, 0.4); }
 .badge-tier.prop { background: rgba(139, 149, 167, 0.14); color: #6b7280; border: 1px solid rgba(139, 149, 167, 0.32); }
+/* Reserve room so the name never slides under the absolutely-positioned badge.
+   Sized per badge: "FEATURED" / "no OSS license" / "🤗 HF". */
+.card.featured .name { padding-right: 88px; }
+.card.proprietary .name { padding-right: 104px; }
+.card.hf .name { padding-right: 48px; }
 /* Featured = large highlighted box (spans two columns) */
 .card.featured {
   grid-column: span 2;
@@ -257,7 +266,7 @@ main.wrap { padding-top: 24px; padding-bottom: 60px; }
 .toolbar-legend { border-bottom: 1px solid var(--border-soft); }
 .toolbar-legend .wrap { padding: 10px 20px; }
 
-/* ── Field Guide page ───────────────────────── */
+/* ── Pantry Guide page ───────────────────────── */
 .guide-wrap { display: grid; grid-template-columns: 232px 1fr; gap: 44px; align-items: start; padding-top: 30px; padding-bottom: 80px; }
 .guide-index { position: sticky; top: 18px; }
 .guide-index nav { display: flex; flex-direction: column; gap: 1px; border-left: 1px solid var(--border-soft); }

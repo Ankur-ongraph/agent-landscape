@@ -27,7 +27,7 @@ and Hugging Face every day**, so it's a live map, not a dead awesome-list.
   check), and Hugging Face **likes/downloads** for the actual open models.
 - **CNCF-style tiers:** 🧑‍🍳 **Featured** (hand-picked), open-source, and proprietary — plus a 🌶️ **Hot** marker
   for projects gaining stars fast.
-- **A [Field Guide](https://theagentpantry.com/guide.html)** — *what it is / the problem it addresses / how it
+- **A [Pantry Guide](https://theagentpantry.com/guide.html)** — *what it is / the problem it addresses / how it
   helps / a technical 101* for every aisle.
 - **Agent-readable.** Point Claude, Codex, Cursor, or any LLM at the machine-readable index:
   - [`/llms.txt`](https://theagentpantry.com/llms.txt) — concise overview + links
