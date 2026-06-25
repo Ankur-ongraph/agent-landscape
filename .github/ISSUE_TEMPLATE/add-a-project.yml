@@ -1,0 +1,56 @@
+name: ➕ Add a project
+description: Suggest an AI agent framework, tool, or open model to add to The Agent Pantry
+title: "[Add] owner/repo"
+labels: ["add-project"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping stock the pantry! 🧺
+        The landscape is scanned daily, but curated "chef's picks" and the right
+        category are set by hand — so add what you know below.
+  - type: input
+    id: repo
+    attributes:
+      label: GitHub repo or Hugging Face model
+      description: Just the `owner/name` (e.g. `langchain-ai/langchain` or `deepseek-ai/DeepSeek-R1`).
+      placeholder: owner/name
+    validations:
+      required: true
+  - type: dropdown
+    id: aisle
+    attributes:
+      label: Which aisle does it belong in?
+      options:
+        - Agent Frameworks
+        - Orchestration & Multi-Agent
+        - Autonomous Agents
+        - Coding Agents
+        - Skills & Recipes
+        - Browser & Computer Use
+        - Memory & Knowledge
+        - Data & Documents
+        - Tools & Protocols
+        - Sandboxes & MicroVMs
+        - Observability & Eval
+        - Runtimes & Platforms
+        - Voice & Speech
+        - Models & Serving
+        - Open Models
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: What is it, and why should it be included?
+      placeholder: One or two lines on what it does and why it's worth featuring.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Quick checks
+      options:
+        - label: It's an active, real agent framework / tool / model (not an awesome-list, tutorial, or course).
+          required: true

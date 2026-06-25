@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: "Inter", system-ui, sans-serif; color: #1c2024; position: relative; overflow: hidden;
+    background:
+      radial-gradient(900px 500px at 88% -20%, rgba(87, 83, 216, 0.12), transparent 60%),
+      radial-gradient(700px 500px at -10% 120%, rgba(124, 108, 240, 0.10), transparent 60%),
+      #ffffff;
+    padding: 64px 70px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .top { display: flex; align-items: center; gap: 22px; }
+  .mark { font-size: 76px; line-height: 1; filter: drop-shadow(0 8px 16px rgba(87,83,216,0.25)); }
+  h1 { font-size: 68px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+  .sub { font-size: 30px; color: #4b5563; font-weight: 600; margin-top: 26px; max-width: 940px; line-height: 1.3; }
+  .sub b { color: #5753d8; }
+  .stats { display: flex; gap: 16px; margin-top: 8px; }
+  .stat { background: #f7f8fa; border: 1px solid #e6e8ec; border-radius: 18px; padding: 18px 26px; }
+  .stat .n { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; color: #1c2024; }
+  .stat .l { font-size: 17px; font-weight: 600; color: #6b7280; margin-top: 2px; }
+  .chips { display: flex; gap: 10px; flex-wrap: wrap; max-width: 1060px; }
+  .chip { font-size: 18px; font-weight: 600; color: #4b5563; background: #fff; border: 1px solid #e1e4e8; border-radius: 999px; padding: 7px 16px; }
+  .chip.on { background: #5753d8; border-color: #5753d8; color: #fff; }
+  .foot { display: flex; align-items: center; justify-content: space-between; }
+  .url { font-size: 28px; font-weight: 800; color: #5753d8; }
+  .src { font-size: 18px; font-weight: 600; color: #6b7280; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="top"><span class="mark">🧺</span><h1>The Agent Pantry</h1></div>
+    <div class="sub">A <b>live</b> landscape of AI agent frameworks &amp; tools — organized by what each one does, ranked from GitHub, Hacker News &amp; Hugging Face, <b>updated daily</b>.</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">330+</div><div class="l">tools &amp; models</div></div>
+    <div class="stat"><div class="n">15</div><div class="l">aisles</div></div>
+    <div class="stat"><div class="n">Daily</div><div class="l">auto-scanned</div></div>
+    <div class="stat"><div class="n">llms.txt</div><div class="l">agent-readable</div></div>
+  </div>
+
+  <div class="chips">
+    <span class="chip on">Agent Frameworks</span>
+    <span class="chip">Coding Agents</span>
+    <span class="chip">Memory &amp; RAG</span>
+    <span class="chip">Sandboxes</span>
+    <span class="chip">Tools &amp; MCP</span>
+    <span class="chip">Open Models</span>
+  </div>
+
+  <div class="foot">
+    <span class="url">theagentpantry.com</span>
+    <span class="src">🧑‍🍳 Featured · 🌶️ Hot · scanned from GitHub · HN · 🤗</span>
+  </div>
+</body>
+</html>
