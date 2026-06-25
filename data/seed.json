@@ -143,6 +143,14 @@
       "category": "serving"
     },
     {
+      "repo": "unslothai/unsloth",
+      "category": "serving"
+    },
+    {
+      "repo": "hiyouga/LlamaFactory",
+      "category": "serving"
+    },
+    {
       "repo": "sgl-project/sglang",
       "category": "serving"
     },
@@ -212,6 +220,14 @@
     },
     {
       "repo": "langchain-ai/langchain",
+      "category": "frameworks"
+    },
+    {
+      "repo": "mastra-ai/mastra",
+      "category": "frameworks"
+    },
+    {
+      "repo": "VoltAgent/voltagent",
       "category": "frameworks"
     },
     {

@@ -157,8 +157,8 @@ function categorize(project, seedCategories) {
   const text = `${project.repo} ${project.description} ${project.topics.join(" ")}`.toLowerCase();
   const rules = [
     ["sandboxes", /sandbox|micro-?vm|firecracker|unikernel|code interpreter|isolated (execution|runtime|environment)|\be2b\b/],
-    ["serving", /\bvllm\b|sglang|llama\.?cpp|\bgguf\b|quantiz|inference engine|inference server|model serving|llm serving|serving engine|text-generation-inference|tensorrt|triton inference|lmdeploy|\bollama\b|localai|llm gateway|model gateway|llm proxy|\bnemo\b|megatron/],
-    ["voice", /whisper|speech recognition|speech-to-text|text-to-speech|\btts\b|\bstt\b|\basr\b|\bvoice\b|telephony|realtime audio|transcrib/],
+    ["serving", /\bvllm\b|sglang|llama\.?cpp|\bgguf\b|quantiz|inference engine|inference server|model serving|llm serving|serving engine|text-generation-inference|tensorrt|triton inference|lmdeploy|\bollama\b|localai|llm gateway|model gateway|llm proxy|\bnemo\b|megatron|unsloth|fine-?tun|\bqlora\b|\bpeft\b|axolotl|llama-?factory/],
+    ["voice", /whisper|speech recognition|speech-to-text|text-to-speech|\btts\b|\bstt\b|\basr\b|voice (agent|assistant|ai|chat|clon|conversation|mode)|realtime voice|voice-?to-?voice|voice-?enabled|telephony|realtime audio|transcrib/],
     ["skills", /\bskills?\b|skill[- ]pack|skill registry|superpowers|claude code setup|agent harness|opinionated (claude|agent)/],
     ["computer-use", /browser-use|computer use|gui agent|web automation|playwright agent|screen/],
     ["coding", /coding agent|code agent|software engineer|swe|programmer|developer agent|repo/],
