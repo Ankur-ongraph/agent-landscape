@@ -396,6 +396,26 @@ async function main() {
     projects,
   };
 
+  // Sanity gate — refuse to publish a gutted dataset. Discovery failures are
+  // caught and degrade to empty arrays (a bad API day, a secondary rate limit),
+  // so without this a degraded scan would silently overwrite a healthy
+  // data.json and deploy it. Throwing here fails the CI job before the upload
+  // step, so the last-good site stays live. Floors are relative to the seed so
+  // they self-adjust as the curated list grows.
+  const MIN_TOTAL = 150; // healthy is ~330+; a real scan clears this easily
+  const MIN_CURATED = Math.floor(seed.projects.length * 0.6); // most seed repos must resolve
+  const emptyAisles = seed.categories.filter((c) => !counts[c.id]).map((c) => c.id);
+  const problems = [];
+  if (out.totals.projects < MIN_TOTAL) problems.push(`only ${out.totals.projects} projects (floor ${MIN_TOTAL})`);
+  if (out.totals.curated < MIN_CURATED) problems.push(`only ${out.totals.curated} curated repos resolved (floor ${MIN_CURATED} of ${seed.projects.length})`);
+  if (emptyAisles.length) problems.push(`empty aisles: ${emptyAisles.join(", ")}`);
+  if (problems.length) {
+    throw new Error(
+      `Sanity gate failed — refusing to publish a degraded scan and overwrite the live site:\n  - ${problems.join("\n  - ")}\n` +
+        `This usually means a GitHub/HF API outage or rate limit during the scan. Re-run when the API recovers.`
+    );
+  }
+
   await mkdir(join(ROOT, "public"), { recursive: true });
   await writeFile(join(ROOT, "public", "data.json"), JSON.stringify(out, null, 2));
   console.log(

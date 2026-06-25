@@ -280,9 +280,9 @@ function openDetail(repo) {
     <div class="detail-grid">${grid}</div>
     ${topics ? `<div class="chips-inner" style="padding:0 0 12px">${topics}</div>` : ""}
     <div class="detail-actions">
-      <a class="btn primary" href="${p.url}" target="_blank" rel="noopener">${isHF ? "View on Hugging Face →" : "Open on GitHub →"}</a>
-      ${p.hnUrl ? `<a class="btn" href="${p.hnUrl}" target="_blank" rel="noopener">Hacker News</a>` : ""}
-      ${p.homepage ? `<a class="btn" href="${p.homepage}" target="_blank" rel="noopener">Website</a>` : ""}
+      <a class="btn primary" href="${safeHref(p.url)}" target="_blank" rel="noopener">${isHF ? "View on Hugging Face →" : "Open on GitHub →"}</a>
+      ${p.hnUrl ? `<a class="btn" href="${safeHref(p.hnUrl)}" target="_blank" rel="noopener">Hacker News</a>` : ""}
+      ${p.homepage ? `<a class="btn" href="${safeHref(p.homepage)}" target="_blank" rel="noopener">Website</a>` : ""}
     </div>`;
   el("detail").querySelector(".close").addEventListener("click", closeDetail);
   el("backdrop").hidden = false;
@@ -321,6 +321,21 @@ function closeDetail() { el("backdrop").hidden = true; }
 
 function escapeHtml(s) {
   return (s || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+// Only allow http(s) links. url/homepage come from scanned GitHub/HF metadata,
+// which is owner-controlled — a repo's `homepage` could be a javascript: URL.
+// Returns "#" for anything that isn't a plain http(s) link, then escapes it for
+// safe interpolation into an href attribute.
+function safeHref(u) {
+  if (!u) return "#";
+  try {
+    const parsed = new URL(u, location.href);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return "#";
+    return escapeHtml(parsed.href);
+  } catch {
+    return "#";
+  }
 }
 
 load();
