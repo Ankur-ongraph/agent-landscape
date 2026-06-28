@@ -1,0 +1,26 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://theagentpantry.com/",
+      "service-doc": [
+        {
+          "href": "https://theagentpantry.com/llms.txt",
+          "type": "text/plain",
+          "title": "Agent Pantry — llms.txt index (categories + top projects)"
+        },
+        {
+          "href": "https://theagentpantry.com/llms-full.txt",
+          "type": "text/plain",
+          "title": "Agent Pantry — full llms.txt (guide text + all projects)"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://theagentpantry.com/data.json",
+          "type": "application/json",
+          "title": "Agent Pantry — full dataset (JSON, refreshed daily)"
+        }
+      ]
+    }
+  ]
+}

@@ -11,3 +11,7 @@ Allow: /
 #   https://theagentpantry.com/data.json
 
 Sitemap: https://theagentpantry.com/sitemap.xml
+
+# Content usage preferences (Content Signals draft):
+#   https://contentsignals.org/
+Content-Signal: ai-train=no, search=yes, ai-input=yes
