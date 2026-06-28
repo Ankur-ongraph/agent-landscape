@@ -61,7 +61,27 @@
     </div>
   </div>
 
-  <nav class="chips" id="chips"><div class="wrap chips-inner"></div></nav>
+  <!-- Chips are pre-rendered so the category row occupies its real height from
+       first paint (no layout shift). app.js re-renders them with live counts on
+       load; the markup matches, so the swap doesn't reflow. -->
+  <nav class="chips" id="chips"><div class="wrap chips-inner">
+        <button class="chip active" data-cat="all">All <span class="c">337</span></button>
+        <button class="chip" data-cat="frameworks">Agent Frameworks <span class="c">25</span></button>
+        <button class="chip" data-cat="orchestration">Orchestration &amp; Multi-Agent <span class="c">25</span></button>
+        <button class="chip" data-cat="autonomous">Autonomous Agents <span class="c">23</span></button>
+        <button class="chip" data-cat="coding">Coding Agents <span class="c">25</span></button>
+        <button class="chip" data-cat="skills">Skills &amp; Recipes <span class="c">25</span></button>
+        <button class="chip" data-cat="computer-use">Browser &amp; Computer Use <span class="c">17</span></button>
+        <button class="chip" data-cat="memory-rag">Memory &amp; Knowledge <span class="c">25</span></button>
+        <button class="chip" data-cat="data">Data &amp; Documents <span class="c">17</span></button>
+        <button class="chip" data-cat="protocols">Tools &amp; Protocols <span class="c">25</span></button>
+        <button class="chip" data-cat="sandboxes">Sandboxes &amp; MicroVMs <span class="c">25</span></button>
+        <button class="chip" data-cat="observability">Observability &amp; Eval <span class="c">12</span></button>
+        <button class="chip" data-cat="runtimes">Runtimes &amp; Platforms <span class="c">23</span></button>
+        <button class="chip" data-cat="voice">Voice &amp; Speech <span class="c">20</span></button>
+        <button class="chip" data-cat="serving">Models &amp; Serving <span class="c">25</span></button>
+        <button class="chip" data-cat="models">Open Models <span class="c">25</span></button>
+  </div></nav>
 
   <div class="toolbar-legend">
     <div class="wrap legend">

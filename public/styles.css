@@ -53,7 +53,8 @@ a:hover { text-decoration: underline; }
 .guide-link { background: var(--panel-2); border-color: var(--border); }
 .guide-link:hover { border-color: var(--accent); color: var(--accent); }
 
-.stats { display: flex; gap: 14px; flex-wrap: wrap; }
+/* Reserve height so JS-filled stats don't shove the header when they pop in (CLS). */
+.stats { display: flex; gap: 14px; flex-wrap: wrap; align-content: flex-start; min-height: 62px; }
 .stat {
   background: var(--panel); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 8px 14px; min-width: 92px; text-align: center;
@@ -84,7 +85,8 @@ a:hover { text-decoration: underline; }
 
 /* Chips */
 .chips { border-bottom: 1px solid var(--border-soft); }
-.chips-inner { display: flex; gap: 8px; padding: 12px 20px; flex-wrap: wrap; }
+/* Reserve the chip row so category chips don't push the board down when filled (CLS). */
+.chips-inner { display: flex; gap: 8px; padding: 12px 20px; flex-wrap: wrap; align-content: flex-start; min-height: 55px; }
 .chip {
   background: var(--panel); border: 1px solid var(--border); color: var(--muted);
   padding: 6px 12px; border-radius: 999px; font-size: 12.5px; cursor: pointer;
@@ -92,11 +94,15 @@ a:hover { text-decoration: underline; }
 }
 .chip:hover { border-color: var(--accent); color: var(--text); }
 .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.chip .c { opacity: 0.7; font-variant-numeric: tabular-nums; }
+/* Fixed-width count so a daily count change (25→9→125) can't re-wrap the row (CLS). */
+.chip .c { opacity: 0.7; font-variant-numeric: tabular-nums; display: inline-block; min-width: 2.4ch; text-align: right; }
 .chip.active .c { opacity: 0.9; }
 
 /* Board */
 main.wrap { padding-top: 24px; padding-bottom: 60px; }
+/* Reserve the board's vertical space up front so the "Loading…" → full-grid swap
+   (the dominant CLS source, 0.888) doesn't reflow the page. */
+#board { min-height: 100vh; }
 .loading { color: var(--muted); padding: 60px 0; text-align: center; }
 
 .category { margin-bottom: 26px; scroll-margin-top: 120px; }

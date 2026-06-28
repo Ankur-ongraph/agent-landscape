@@ -223,6 +223,10 @@
       "category": "frameworks"
     },
     {
+      "repo": "omnigent-ai/omnigent",
+      "category": "frameworks"
+    },
+    {
       "repo": "mastra-ai/mastra",
       "category": "frameworks"
     },
