@@ -331,19 +331,11 @@
       "category": "autonomous"
     },
     {
-      "repo": "TransformerOptimus/SuperAGI",
-      "category": "autonomous"
-    },
-    {
       "repo": "AntonOsika/gpt-engineer",
       "category": "autonomous"
     },
     {
       "repo": "assafelovic/gpt-researcher",
-      "category": "autonomous"
-    },
-    {
-      "repo": "OpenBMB/XAgent",
       "category": "autonomous"
     },
     {
@@ -379,15 +371,7 @@
       "category": "coding"
     },
     {
-      "repo": "smol-ai/developer",
-      "category": "coding"
-    },
-    {
       "repo": "OpenInterpreter/open-interpreter",
-      "category": "coding"
-    },
-    {
-      "repo": "stitionai/devika",
       "category": "coding"
     },
     {
@@ -403,15 +387,7 @@
       "category": "computer-use"
     },
     {
-      "repo": "lavague-ai/LaVague",
-      "category": "computer-use"
-    },
-    {
       "repo": "OpenAdaptAI/OpenAdapt",
-      "category": "computer-use"
-    },
-    {
-      "repo": "mannaandpoem/OpenManus",
       "category": "computer-use"
     },
     {
@@ -583,23 +559,11 @@
       "category": "voice"
     },
     {
-      "repo": "vocodedev/vocode-core",
-      "category": "voice"
-    },
-    {
       "repo": "openai/whisper",
       "category": "voice"
     },
     {
-      "repo": "SYSTRAN/faster-whisper",
-      "category": "voice"
-    },
-    {
       "repo": "m-bain/whisperX",
-      "category": "voice"
-    },
-    {
-      "repo": "coqui-ai/TTS",
       "category": "voice"
     },
     {
@@ -628,10 +592,6 @@
     },
     {
       "repo": "huggingface/transformers",
-      "category": "serving"
-    },
-    {
-      "repo": "nomic-ai/gpt4all",
       "category": "serving"
     },
     {

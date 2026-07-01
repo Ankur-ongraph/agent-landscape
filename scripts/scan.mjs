@@ -362,11 +362,22 @@ async function main() {
 
   // Cap each aisle to the top 25 (curated picks first, then by stars/likes) —
   // a reviewable set of the most relevant, active projects per category.
+
+  // Staleness filter: drop repos with no commits this calendar year — dead
+  // projects pollute the landscape regardless of historical star count.
+  // Exempt the "models" aisle: model-weight repos are published once and rarely
+  // see commits after release, and new models trend fast — keep discovery dynamic.
+  const thisYear = new Date().getFullYear();
+  const activeThreshold = new Date(`${thisYear}-01-01`).getTime();
+  const stale = ghProjects.filter((p) => p.category !== "models" && (!p.pushedAt || new Date(p.pushedAt).getTime() < activeThreshold));
+  if (stale.length) console.log(`  dropped ${stale.length} stale repos (no commits in ${thisYear})`);
+  const activeProjects = ghProjects.filter((p) => p.category === "models" || (p.pushedAt && new Date(p.pushedAt).getTime() >= activeThreshold));
+
   // Star-farm backstop: a non-curated repo with 100k+ stars but zero HN
   // discussion is almost certainly farmed — drop it.
-  const farmed = ghProjects.filter((p) => !p.curated && p.stars >= 100000 && (p.hnPoints || 0) === 0);
+  const farmed = activeProjects.filter((p) => !p.curated && p.stars >= 100000 && (p.hnPoints || 0) === 0);
   if (farmed.length) console.log(`  dropped ${farmed.length} likely star-farmed repos (100k+ stars, 0 HN)`);
-  const ghClean = ghProjects.filter((p) => p.curated || !(p.stars >= 100000 && (p.hnPoints || 0) === 0));
+  const ghClean = activeProjects.filter((p) => p.curated || !(p.stars >= 100000 && (p.hnPoints || 0) === 0));
 
   const CAP = 25;
   const grouped = {};
