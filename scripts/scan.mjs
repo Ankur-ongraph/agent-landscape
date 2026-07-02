@@ -167,7 +167,7 @@ function categorize(project, seedCategories) {
     ["memory-rag", /memory|rag\b|retrieval|vector|embedding|knowledge graph/],
     ["observability", /observ|tracing|eval|monitor|telemetry|llmops/],
     ["orchestration", /multi-?agent|orchestrat|crew|swarm|workflow|graph/],
-    ["autonomous", /autonomous|auto-?gpt|babyagi|self-?improv|goal-driven/],
+    ["autonomous", /autonomous|auto-?gpt|babyagi|self-?improv|goal-driven|\bopenclaw\b|personal ai assistant|ai companion|ai harness/],
     ["runtimes", /low-?code|no-?code|platform|deploy|hosting|builder|workflow automation/],
   ];
   for (const [cat, re] of rules) {

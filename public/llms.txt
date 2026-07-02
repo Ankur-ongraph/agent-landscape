@@ -1,6 +1,6 @@
 # The Agent Pantry — AI Agent Landscape
 
-> A live, daily-updated landscape of 369 AI agent frameworks and tools, scanned from GitHub and organized into 15 categories ("aisles") by the role each plays in building an agent.
+> A live, daily-updated landscape of 370 AI agent frameworks and tools, scanned from GitHub and organized into 15 categories ("aisles") by the role each plays in building an agent.
 
 Each project includes GitHub stars, Hacker News discussion, primary language, license, and a category. The full machine-readable dataset is available as JSON. Last updated 2026-07-02.
 
@@ -13,7 +13,7 @@ Each project includes GitHub stars, Hacker News discussion, primary language, li
 ## Categories
 - [Agent Frameworks](https://theagentpantry.com/#cat-frameworks) (30) — Use to build a single agent in code: prompting, tool-calling, the reasoning loop. Pick one as your foundation. Top: langchain, llama_index, agno.
 - [Orchestration & Multi-Agent](https://theagentpantry.com/#cat-orchestration) (30) — Use when one agent isn’t enough and you need several agents, roles, hand-offs, or a workflow/graph. Top: deer-flow, MetaGPT, autogen.
-- [Autonomous Agents](https://theagentpantry.com/#cat-autonomous) (19) — Use when you want a goal-driven agent that plans and runs long tasks on its own (great as reference designs). Top: openclaw, AutoGPT, autoresearch.
+- [Autonomous Agents](https://theagentpantry.com/#cat-autonomous) (20) — Use when you want a goal-driven agent that plans and runs long tasks on its own (great as reference designs). Top: openclaw, AutoGPT, autoresearch.
 - [Coding Agents](https://theagentpantry.com/#cat-coding) (30) — Use when you want an agent that reads, writes, refactors and ships code in your repo or editor. Top: claude-code, gemini-cli, OpenHands.
 - [Skills & Recipes](https://theagentpantry.com/#cat-skills) (30) — Use to give your agent ready-made, reusable skills/recipes instead of hand-writing every behavior. Top: superpowers, skills, skills.
 - [Browser & Computer Use](https://theagentpantry.com/#cat-computer-use) (16) — Use when your agent must act in a real browser, GUI, or desktop by seeing the screen and clicking. Top: browser-use, OmniParser, skyvern.
