@@ -379,7 +379,7 @@ async function main() {
   if (farmed.length) console.log(`  dropped ${farmed.length} likely star-farmed repos (100k+ stars, 0 HN)`);
   const ghClean = activeProjects.filter((p) => p.curated || !(p.stars >= 100000 && (p.hnPoints || 0) === 0));
 
-  const CAP = 25;
+  const CAP = 30;
   const grouped = {};
   for (const p of [...ghClean, ...hfModels]) (grouped[p.category] ||= []).push(p);
   const projects = [];

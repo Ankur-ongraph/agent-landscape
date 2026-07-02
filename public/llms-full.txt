@@ -1,8 +1,8 @@
 # The Agent Pantry — AI Agent Landscape (full)
 
-> 325 AI agent frameworks and tools across 15 categories, scanned from GitHub. Last updated 2026-07-02. Machine-readable JSON: https://theagentpantry.com/data.json
+> 369 AI agent frameworks and tools across 15 categories, scanned from GitHub. Last updated 2026-07-02. Machine-readable JSON: https://theagentpantry.com/data.json
 
-## Agent Frameworks (25)
+## Agent Frameworks (30)
 When to use: Use to build a single agent in code: prompting, tool-calling, the reasoning loop. Pick one as your foundation.
 What it is: Libraries for building a single agent in code — they wrap the model call in a loop that can use tools, parse structured output, and decide what to do next.
 Problem it addresses: A raw model call just returns text. Turning that into an agent that can call functions, retry, validate output, and chain steps means writing a lot of plumbing (prompt templates, tool schemas, parsing, error handling) that's easy to get wrong.
@@ -29,14 +29,19 @@ Projects:
 - superagent-ai/superagent (6.7k★, TypeScript) — Superagent protects your AI applications against prompt injections, data leaks, and harmful outputs. Embed safety directly into your app and prove compliance to your customers. https://github.com/superagent-ai/superagent
 - strands-agents/harness-sdk (6.4k★, Python) — Build an agent harness and control it end-to-end. Open-source SDK for production AI agents in Python & TypeScript - any model, any cloud. https://github.com/strands-agents/harness-sdk
 - omnigent-ai/omnigent (6k★, HN 5, Python) — Omnigent is an open-source AI agent framework and meta-harness: orchestrate Claude Code, Codex, Cursor, Pi, and custom agents — swap harnesses without rewriting, enforce policies and sandboxing, and collaborate in real time from any device. https://github.com/omnigent-ai/omnigent
+- ZhuLinsen/daily_stock_analysis (53k★, HN 9, Python) — LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs. https://github.com/ZhuLinsen/daily_stock_analysis
 - CopilotKit/CopilotKit (36k★, HN 197, TypeScript) — The Frontend Stack for Agents & Generative UI. React, Angular, Mobile, Slack, and more. Makers of the AG-UI Protocol https://github.com/CopilotKit/CopilotKit
+- Gitlawb/openclaude (30k★, HN 3, TypeScript) — runs anywhere. uses anything https://github.com/Gitlawb/openclaude
 - hsliuping/TradingAgents-CN (30k★, Python) — 基于多智能体LLM的中文金融交易框架 - TradingAgents中文增强版 https://github.com/hsliuping/TradingAgents-CN
 - zai-org/Open-AutoGLM (26k★, HN 2, Python) — An Open Phone Agent Model & Framework. Unlocking the AI Phone for Everyone https://github.com/zai-org/Open-AutoGLM
 - microsoft/agent-lightning (17k★, HN 98, Python) — The absolute trainer to light up AI agents. https://github.com/microsoft/agent-lightning
 - HKUDS/DeepCode (16k★, HN 18, Python) — "DeepCode: Open Agentic Coding (Paper2Code & Text2Web & Text2Backend)" https://github.com/HKUDS/DeepCode
 - GreyDGL/PentestGPT (14k★, HN 3, Python) — Automated Penetration Testing Agentic Framework Powered by Large Language Models https://github.com/GreyDGL/PentestGPT
+- NoFxAiOS/nofx (12k★, Go) — Your AI trading terminal assistant for US stocks, commodities, forex, and crypto. https://github.com/NoFxAiOS/nofx
+- nearai/ironclaw (12k★, HN 149, Rust) — IronClaw is an Agent OS focused on privacy, security and extensibility https://github.com/nearai/ironclaw
+- tambo-ai/tambo (11k★, HN 101, TypeScript) — Generative UI SDK for React https://github.com/tambo-ai/tambo
 
-## Orchestration & Multi-Agent (25)
+## Orchestration & Multi-Agent (30)
 When to use: Use when one agent isn’t enough and you need several agents, roles, hand-offs, or a workflow/graph.
 What it is: Frameworks for coordinating multiple agents (or multiple steps) — assigning roles, passing work between them, and defining the control flow as a graph or workflow.
 Problem it addresses: One agent with one prompt struggles with big, multi-stage tasks. Splitting work across specialized agents (planner, researcher, coder, reviewer) needs a way to route messages, share state, and control who runs when — otherwise you get loops, lost context, and chaos.
@@ -55,12 +60,15 @@ Projects:
 - i-am-bee/beeai-framework (3.3k★, Python) — Build production-ready AI agents in both Python and Typescript. https://github.com/i-am-bee/beeai-framework
 - TauricResearch/TradingAgents (90k★, HN 2, Python) — TradingAgents: Multi-Agents LLM Financial Trading Framework https://github.com/TauricResearch/TradingAgents
 - HKUDS/nanobot (45k★, HN 257, Python) — Lightweight, open-source AI agent for your tools, chats, and workflows. https://github.com/HKUDS/nanobot
+- nocobase/nocobase (23k★, HN 33, TypeScript) — NocoBase is an open-source AI + no-code platform for building business systems fast. Instead of generating everything from scratch, AI works on top of production-proven infrastructure and a WYSIWYG no-code interface, so you get both speed and reliability. https://github.com/nocobase/nocobase
 - openai/swarm (22k★, HN 258, Python) — Educational framework exploring ergonomic, lightweight multi-agent orchestration. Managed by OpenAI Solution team. https://github.com/openai/swarm
 - camel-ai/owl (20k★, HN 41, Python) — 🦉 OWL: Optimized Workforce Learning for General Multi-Agent Assistance in Real-World Task Automation https://github.com/camel-ai/owl
 - THU-MAIC/OpenMAIC (19k★, HN 3, TypeScript) — Open Multi-Agent Interactive Classroom — Get an immersive, multi-agent learning experience in just one click https://github.com/THU-MAIC/OpenMAIC
 - vxcontrol/pentagi (18k★, HN 2, Go) — Fully autonomous AI Agents system capable of performing complex penetration testing tasks https://github.com/vxcontrol/pentagi
 - gastownhall/gastown (16k★, HN 253, Go) — Gas Town - multi-agent workspace manager https://github.com/gastownhall/gastown
 - ag-ui-protocol/ag-ui (15k★, HN 36, TypeScript) — AG-UI: the Agent-User Interaction Protocol. Bring Agents into Frontend Applications. https://github.com/ag-ui-protocol/ag-ui
+- aiming-lab/AutoResearchClaw (14k★, HN 2, Python) — Fully autonomous & self-evolving research from idea to paper. Chat an Idea. Get a Paper. 🦞 https://github.com/aiming-lab/AutoResearchClaw
+- waooAI/waoowaoo (13k★, TypeScript) — 首家工业级全流程 AI 影视生产平台。Industry-first professional AI Agent platform for controllable film & video production. From shorts to live-action with Hollywood-standard workflows. https://github.com/waooAI/waoowaoo
 - microsoft/agent-framework (12k★, HN 4, Python) — A framework for building, orchestrating and deploying AI agents and multi-agent workflows with support for Python and .NET. https://github.com/microsoft/agent-framework
 - kyegomez/swarms (6.9k★, HN 2, Python) — The Enterprise-Grade Production-Ready Multi-Agent Orchestration Framework. Website: https://swarms.ai https://github.com/kyegomez/swarms
 - sentient-agi/ROMA (5.1k★, HN 4, Python) — Recursive-Open-Meta-Agent v0.1 (Beta). A meta-agent framework to build high-performance multi-agent systems. https://github.com/sentient-agi/ROMA
@@ -69,6 +77,8 @@ Projects:
 - algorithmicsuperintelligence/optillm (4.2k★, HN 2, Python) — Optimizing inference proxy for LLMs https://github.com/algorithmicsuperintelligence/optillm
 - golutra/golutra (3.7k★, HN 1, Rust) — Multi-agent AI orchestration platform for automation, workflows, and developer tools. Golutra transforms Codex, Claude Code, and OpenClaw into a unified agent system with parallel execution, task orchestration, long-running workflows, and AI productivity workspace. https://github.com/golutra/golutra
 - The-Swarm-Corporation/AutoHedge (3.7k★, Python) — Build your autonomous hedge fund in minutes. AutoHedge harnesses the power of swarm intelligence and AI agents to automate market analysis, risk management, and trade execution. https://github.com/The-Swarm-Corporation/AutoHedge
+- GammaLabTechnologies/harmonist (2.1k★, Python) — Portable AI agent orchestration with mechanical protocol enforcement. 186 agents, zero runtime dependencies. https://github.com/GammaLabTechnologies/harmonist
+- 4thfever/cultivation-world-simulator (1.9k★, HN 4, Python) — 基于 AI Agent 工作流的修仙世界模拟器，旨在还原智能、开放的仙侠世界。| An open-source Cultivation World Simulator using Agentic Workflow to create a dynamic, emerging Xianxia world. https://github.com/4thfever/cultivation-world-simulator
 
 ## Autonomous Agents (19)
 When to use: Use when you want a goal-driven agent that plans and runs long tasks on its own (great as reference designs).
@@ -98,7 +108,7 @@ Projects:
 - stakpak/agent (1.6k★, HN 7, Rust) — Ship your code, on autopilot. An open source agent that lives on your machines 24/7 and keeps your apps running. 🦀 https://github.com/stakpak/agent
 - HumanSignal/Adala (1.6k★, HN 12, Python) — Adala: Autonomous DAta (Labeling) Agent framework https://github.com/HumanSignal/Adala
 
-## Coding Agents (25)
+## Coding Agents (30)
 When to use: Use when you want an agent that reads, writes, refactors and ships code in your repo or editor.
 What it is: Agents specialized for software — they read your repository, write and edit code, run commands and tests, and ship changes, usually inside an editor, terminal, or CI.
 Problem it addresses: General chat models can suggest code but can't navigate a real codebase, run the build, see the errors, and iterate. Doing that by hand — copy-pasting between editor and chat — is slow and loses context.
@@ -131,8 +141,13 @@ Projects:
 - Kilo-Org/kilocode (25k★, HN 5, TypeScript) — Kilo is the all-in-one agentic engineering platform. Build, ship, and iterate faster with the most popular open source coding agent. https://github.com/Kilo-Org/kilocode
 - rohitg00/agentmemory (24k★, TypeScript) — #1 Persistent memory for AI coding agents based on real-world benchmarks https://github.com/rohitg00/agentmemory
 - DeusData/codebase-memory-mcp (24k★, HN 4, C) — High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies. https://github.com/DeusData/codebase-memory-mcp
+- manaflow-ai/cmux (23k★, HN 198, Swift) — Open source Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents. Built for multitasking, organization, and programmability. https://github.com/manaflow-ai/cmux
+- dzhng/deep-research (19k★, HN 4, TypeScript) — An AI-powered research assistant that performs iterative, deep research on any topic by combining search engines, web scraping, and large language models. The goal of this repo is to provide the simplest implementation of a deep research agent - e.g. an agent that can refine its research direction overtime and deep dive into a topic. https://github.com/dzhng/deep-research
+- can1357/oh-my-pi (16k★, HN 1, TypeScript) — ⌥ AI Coding agent for the terminal — hash-anchored edits, optimized tool harness, LSP, Python, browser, subagents, and more https://github.com/can1357/oh-my-pi
+- coleam00/context-engineering-intro (14k★, HN 1, Python) — Context engineering is the new vibe coding - it's the way to actually make AI coding assistants work. Claude Code is the best for this so that's what this repo is centered around, but you can apply this strategy with any AI coding assistant! https://github.com/coleam00/context-engineering-intro
+- chenhg5/cc-connect (13k★, HN 1, Go) — Bridge local AI coding agents (Claude Code, Cursor, Gemini CLI, Codex) to messaging platforms (Feishu/Lark, DingTalk, Slack, Telegram, Discord, LINE, WeChat Work). Chat with your AI dev assistant from anywhere — no public IP required for most platforms. https://github.com/chenhg5/cc-connect
 
-## Skills & Recipes (25)
+## Skills & Recipes (30)
 When to use: Use to give your agent ready-made, reusable skills/recipes instead of hand-writing every behavior.
 What it is: Packaged, reusable "skills" — prompt + tools + instructions for a specific capability — and the opinionated harnesses and registries that let an agent load many of them on demand.
 Problem it addresses: Re-teaching an agent the same procedure (how to open a PR, run research, format a doc) in every project is wasteful, and giant prompts bloat context. Teams want to share proven agent behaviors like libraries.
@@ -144,6 +159,7 @@ Projects:
 - anthropics/skills (157k★, HN 2, Python) — Public repository for Agent Skills https://github.com/anthropics/skills
 - mattpocock/skills (154k★, HN 2, Shell) — Skills for Real Engineers. Straight from my .claude directory. https://github.com/mattpocock/skills
 - garrytan/gstack (119k★, HN 115, TypeScript) — Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA https://github.com/garrytan/gstack
+- nexu-io/open-design (74k★, HN 232, TypeScript) — 🎨 Local-first, open-source Claude Design alternative. 🖥️ Native desktop app. ⚡ 259+ Skills · ✨ 142+ Design Systems 🖼️ Web · desktop · mobile prototypes · slides · images · videos · HyperFrames 📦 Sandboxed preview · HTML/PDF/PPTX/MP4 export 🤖 Claude Code / OpenClaw / Codex / Cursor / OpenCode / Qwen / Copilot / Hermes / Kimi & 17+ CLIs. https://github.com/nexu-io/open-design
 - addyosmani/agent-skills (68k★, HN 2, Shell) — Production-grade engineering skills for AI coding agents. https://github.com/addyosmani/agent-skills
 - kepano/obsidian-skills (39k★) — Agent skills for Obsidian. Teach your agent to use Obsidian CLI and open formats including Markdown, Bases, JSON Canvas. https://github.com/kepano/obsidian-skills
 - nanocoai/nanoclaw (30k★, TypeScript) — A lightweight alternative to OpenClaw that runs in containers for security. Connects to WhatsApp, Telegram, Slack, Discord, Gmail and other messaging apps,, has memory, scheduled jobs, and runs directly on Anthropic's Agents SDK https://github.com/nanocoai/nanoclaw
@@ -165,8 +181,12 @@ Projects:
 - JCodesMore/ai-website-cloner-template (25k★, HN 5, TypeScript) — Clone any website with one command using AI coding agents https://github.com/JCodesMore/ai-website-cloner-template
 - OthmanAdi/planning-with-files (24k★, HN 1, Python) — Persistent file-based planning for AI coding agents and long-running agentic tasks. Crash-proof markdown plans that survive context loss and /clear, plus a deterministic completion gate and multi-agent shared state on disk. Manus-style. Works with Claude Code, Codex CLI, Cursor, Kiro, OpenCode and 60+ agents via the SKILL.md standard. https://github.com/OthmanAdi/planning-with-files
 - zarazhangrui/frontend-slides (24k★, JavaScript) — Create beautiful slides on the web using a coding agent's frontend skills https://github.com/zarazhangrui/frontend-slides
+- mukul975/Anthropic-Cybersecurity-Skills (24k★, HN 5, Python) — 817 structured cybersecurity skills for AI agents · Mapped to 6 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND, NIST AI RMF & MITRE F3 (Fight Fraud) · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 29 security domains · Apache 2.0 https://github.com/mukul975/Anthropic-Cybersecurity-Skills
+- JimLiu/baoyu-skills (23k★, TypeScript) —  https://github.com/JimLiu/baoyu-skills
+- micro/go-micro (23k★, HN 82, Go) — A Go agent harness and service framework https://github.com/micro/go-micro
+- Donchitos/Claude-Code-Game-Studios (23k★, Shell) — Turn Claude Code into a full game dev studio — 49 AI agents, 72 workflow skills, and a complete coordination system mirroring real studio hierarchy. https://github.com/Donchitos/Claude-Code-Game-Studios
 
-## Browser & Computer Use (13)
+## Browser & Computer Use (16)
 When to use: Use when your agent must act in a real browser, GUI, or desktop by seeing the screen and clicking.
 What it is: Agents that operate a real browser, GUI, or desktop the way a person does — seeing the screen and clicking, typing, and navigating.
 Problem it addresses: Lots of software has no API. To book a flight, fill a portal, or test a web app, an agent must drive the actual interface, which means perceiving a screen and producing mouse/keyboard actions reliably.
@@ -181,6 +201,9 @@ Projects:
 - steel-dev/steel-browser (7.3k★, HN 114, TypeScript) — 🔥 Open Source Browser API for AI Agents & Apps. Steel Browser is a batteries-included browser sandbox that lets you automate the web without worrying about infrastructure. https://github.com/steel-dev/steel-browser
 - OpenAdaptAI/OpenAdapt (1.6k★, HN 6, Python) — Open Source Generative Process Automation (i.e. Generative RPA). AI-First Process Automation with Large ([Language (LLMs) / Action (LAMs) / Multimodal (LMMs)] / Visual Language (VLMs)) Models https://github.com/OpenAdaptAI/OpenAdapt
 - bytedance/UI-TARS-desktop (37k★, HN 8, TypeScript) — The Open-Source Multimodal AI Agent Stack: Connecting Cutting-Edge AI Models and Agent Infra https://github.com/bytedance/UI-TARS-desktop
+- jackwener/OpenCLI (26k★, HN 6, JavaScript) — Make Any Website into CLI & Use your logged-in browser by AI agent. https://github.com/jackwener/OpenCLI
+- browser-use/web-ui (16k★, HN 4, Python) — 🖥️ Run AI Agent in your browser. https://github.com/browser-use/web-ui
+- browser-use/browser-harness (16k★, HN 134, Python) — Browser Harness | Self-healing harness that enables LLMs to complete any task. https://github.com/browser-use/browser-harness
 - microsoft/fara (6k★, HN 191, Python) — Fara-7B: An Efficient Agentic Model for Computer Use https://github.com/microsoft/fara
 - the-open-agent/openagent (5.3k★, Go) — ⚡️next-generation personal AI assistant powered by LLM, RAG and agent loops, supporting computer-use, browser-use and coding agent, demo: https://demo.openagentai.org https://github.com/the-open-agent/openagent
 - TurixAI/TuriX-CUA (3.1k★, HN 3, Python) — This is the official website for TuriX Computer-use-Agent https://github.com/TurixAI/TuriX-CUA
@@ -188,7 +211,7 @@ Projects:
 - ghostwright/ghost-os (1.6k★, Swift) — Full computer-use for AI agents. Self-learning workflows. Native macOS. No screenshots required. https://github.com/ghostwright/ghost-os
 - mediar-ai/terminator (1.5k★, HN 3, Rust) — playwright for windows computer use https://github.com/mediar-ai/terminator
 
-## Memory & Knowledge (25)
+## Memory & Knowledge (29)
 When to use: Use to give your agent long-term memory and retrieval over your own knowledge (RAG, vector stores).
 What it is: Systems that give an agent long-term memory and retrieval over your own data — vector stores, memory layers, and RAG pipelines that fetch relevant facts at query time.
 Problem it addresses: Models have a fixed context window and no memory between sessions, and they don't know your private or up-to-date data. Stuffing everything into the prompt is impossible and expensive.
@@ -221,8 +244,12 @@ Projects:
 - MervinPraison/PraisonAI (8.3k★, HN 2, Python) — PraisonAI 🦞 — Hire a 24/7 AI Workforce. Stop writing boilerplate and start shipping autonomous self-improving agents that research, plan, code, and execute tasks. Deployed in 5 lines of code with built-in memory, RAG, and support for 100+ LLMs. https://github.com/MervinPraison/PraisonAI
 - ATH-MaaS/ComfyUI-Copilot (5.3k★, TypeScript) — An AI-powered custom node for ComfyUI designed to enhance workflow automation and provide intelligent assistance https://github.com/ATH-MaaS/ComfyUI-Copilot
 - FellouAI/eko (4.9k★, HN 2, TypeScript) — Eko (Eko Keeps Operating) - Build Production-ready Agentic Workflow with Natural Language - eko.fellou.ai https://github.com/FellouAI/eko
+- Marker-Inc-Korea/AutoRAG (4.9k★, HN 18, Python) — AutoRAG: An Open-Source Framework for Retrieval-Augmented Generation (RAG) Evaluation & Optimization with AutoML-Style Automation https://github.com/Marker-Inc-Korea/AutoRAG
+- langroid/langroid (4k★, Python) — Harness LLMs with Multi-Agent Programming https://github.com/langroid/langroid
+- tnm/zclaw (2.2k★, HN 284, C) — Your personal AI assistant at all-in 888KiB (~35KB in app code). Running on an ESP32. GPIO, cron, custom tools, memory, and more. https://github.com/tnm/zclaw
+- lioensky/VCPToolBox (2.2k★, JavaScript) — VCP 部署在 AI 模型 API 与前端应用之间，是面向AGI OS开发和探索的工业级基建示范项目。通过统一指令协议、多层级持久化记忆、分布式插件引擎及多 Agent 协作框架，将原本“无状态、无记忆、无工具调用能力”的大语言模型，彻底改造成拥有永久自我意识、物理世界操作权及群体协作智能的完整智能体系统。 https://github.com/lioensky/VCPToolBox
 
-## Data & Documents (15)
+## Data & Documents (16)
 When to use: Use to turn messy docs, PDFs and web pages into clean, structured text your agent or RAG can consume.
 What it is: Tools that turn messy, real-world inputs — PDFs, Office docs, HTML, scans — into clean, structured text and chunks an agent or RAG system can actually use.
 Problem it addresses: Your knowledge lives in formats models can't read well: complex PDFs, tables, slide decks, images, websites. Feeding raw bytes in produces garbage; you need faithful extraction first.
@@ -239,6 +266,7 @@ Projects:
 - opendatalab/MinerU (73k★, HN 61, Python) — Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows. https://github.com/opendatalab/MinerU
 - D4Vinci/Scrapling (68k★, HN 4, Python) — 🕷️ An adaptive Web Scraping framework that handles everything from a single request to a full-scale crawl! https://github.com/D4Vinci/Scrapling
 - pathwaycom/pathway (63k★, HN 73, Python) — Python ETL framework for stream processing, real-time analytics, LLM pipelines, and RAG. https://github.com/pathwaycom/pathway
+- siyuan-note/siyuan (45k★, HN 308, TypeScript) — A privacy-first, self-hosted, fully open source personal knowledge management software, written in typescript and golang. https://github.com/siyuan-note/siyuan
 - opendataloader-project/opendataloader-pdf (26k★, HN 109, Java) — PDF Parser for AI-ready data. Automate PDF accessibility. Open-source. https://github.com/opendataloader-project/opendataloader-pdf
 - TeamWiseFlow/wiseflow (8.3k★, Python) — 为所有人准备的AI搞钱团队，帮你把经验和方法跑成一门生意。 https://github.com/TeamWiseFlow/wiseflow
 - firerpa/lamda (7.8k★, Python) — Android Full-Stack Device Control Platform: WebRTC/H.264 remote desktop, UI/OCR/image-matching automation, one-click MITM, built-in Frida, proxy/VPN/frp/P2P networking, MCP/Agent, 160+ APIs, designed for multi-device clusters and engineered deployments. https://github.com/firerpa/lamda
@@ -246,7 +274,7 @@ Projects:
 - ruvnet/RuVector (4.3k★, HN 1, Rust) — RuVector is a High Performance, Real-Time, Self-Learning Ai, Vector GNN, Memory DB built in Rust. https://github.com/ruvnet/RuVector
 - run-llama/llama_cloud_services (4.3k★, TypeScript) — Knowledge Agents and Management in the Cloud https://github.com/run-llama/llama_cloud_services
 
-## Tools & Protocols (25)
+## Tools & Protocols (30)
 When to use: Use to connect your agent to external tools and to other agents via standards like MCP and A2A.
 What it is: Open standards and servers that connect agents to external tools and to each other — most notably the Model Context Protocol (MCP) and agent-to-agent (A2A) protocols.
 Problem it addresses: Every tool integration used to be bespoke glue code, and every framework reinvented it. Without a standard, tools aren't portable across agents and agents can't interoperate.
@@ -279,8 +307,13 @@ Projects:
 - mrexodia/ida-pro-mcp (9.8k★, HN 1, Python) — AI-powered reverse engineering assistant that bridges IDA Pro with language models through MCP. https://github.com/mrexodia/ida-pro-mcp
 - brokermr810/QuantDinger (9.1k★, HN 2, Python) — AI quantitative trading platform for crypto, stocks, and forex with backtesting, live trading, market data, and multi-agent research.vibe-trading ,trading-agents,ai-trader,ai-trading https://github.com/brokermr810/QuantDinger
 - iflytek/astron-agent (8.6k★, Java) — Enterprise-grade, commercial-friendly agentic workflow platform for building next-generation SuperAgents. https://github.com/iflytek/astron-agent
+- xbtlin/ai-berkshire (8.4k★, HN 2, Python) — AI 时代的伯克希尔：基于 Claude Code / Codex 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built for Claude Code / Codex. 4 masters' methodologies + multi-agent adversarial analysis. https://github.com/xbtlin/ai-berkshire
+- Upsonic/Upsonic (7.9k★, HN 9, Python) — Build autonomous AI agents in Python. https://github.com/Upsonic/Upsonic
+- GetBindu/Bindu (7.2k★, HN 4, Python) — Bindu: The identity, communication, and payments layer for AI agents. https://github.com/GetBindu/Bindu
+- osaurus-ai/osaurus (6.5k★, Swift) — Own your AI. The native macOS harness for AI agents -- any model, persistent memory, autonomous execution, cryptographic identity. Built in Swift. Fully offline. Open source. https://github.com/osaurus-ai/osaurus
+- builderz-labs/mission-control (5.5k★, TypeScript) — Self-hosted AI agent orchestration platform: dispatch tasks, run multi-agent workflows, monitor spend, and govern operations from one mission control dashboard. https://github.com/builderz-labs/mission-control
 
-## Sandboxes & MicroVMs (25)
+## Sandboxes & MicroVMs (30)
 When to use: Use when your agent runs untrusted code or tools and you need an isolated, safe place to execute it.
 What it is: Isolated execution environments — microVMs and sandboxes — where an agent can run code, install packages, and use a shell without touching your machine or production.
 Problem it addresses: Agents that execute model-generated code are a security risk: that code can delete files, exfiltrate secrets, or run forever. You need to run it somewhere disposable and contained, with hard limits.
@@ -296,6 +329,7 @@ Projects:
 - smol-machines/smolvm (4.1k★, HN 499, Rust) — Tool to build & run portable, lightweight, self-contained virtual machines. https://github.com/smol-machines/smolvm
 - kubernetes-sigs/agent-sandbox (3k★, Go) — agent-sandbox enables easy management of isolated, stateful, singleton workloads, ideal for use cases like AI agent runtimes. https://github.com/kubernetes-sigs/agent-sandbox
 - daytonaio/daytona (72k★, HN 73) — Daytona is a Secure and Elastic Infrastructure for Running AI-Generated Code https://github.com/daytonaio/daytona
+- NVIDIA/NemoClaw (22k★, HN 385, TypeScript) — Run agents like Hermes and OpenClaw more securely inside NVIDIA OpenShell with managed inference https://github.com/NVIDIA/NemoClaw
 - mksglu/context-mode (18k★, TypeScript) — Context window optimization for AI coding agents. Sandboxes tool output (98% reduction), persists session memory, and enforces routing across 17 platforms via MCP + hooks. https://github.com/mksglu/context-mode
 - opensandbox-group/OpenSandbox (12k★, Python) — Secure, Fast, and Extensible Sandbox runtime for AI agents. https://github.com/opensandbox-group/OpenSandbox
 - nexu-io/html-anything (7.5k★, HN 3, HTML) — ✨ The agentic HTML editor — your local AI agent writes the HTML, you ship it. 🚀 75 Skills × 9 Surfaces (magazine · deck · poster · XHS / tweet · prototype · data report · Hyperframes) 🛡️ Sandboxed preview · 📤 1-click to WeChat / X / Zhihu / HTML / PNG 🔑 Zero API key — Claude Code / Cursor / Codex / Gemini / Copilot / OpenCode / Qwen / Aider. https://github.com/nexu-io/html-anything
@@ -313,6 +347,10 @@ Projects:
 - moltis-org/moltis (2.8k★, Rust) — A secure persistent personal agent server in Rust. One binary, sandboxed execution, multi-provider LLMs, voice, memory, Telegram, WhatsApp, Discord, Teams, and MCP tools. Secure by design, runs on your hardware. https://github.com/moltis-org/moltis
 - deeplethe/forkd (2.7k★, HN 2, Rust) — Fork() for AI agent microVMs. Spawn 100 children in ~100ms from a warm parent; BRANCH a live VM in ~150ms. KVM-isolated, snapshot CoW. https://github.com/deeplethe/forkd
 - KsanaDock/Microverse (2.4k★, GDScript) — A god-simulation sandbox game built on Godot 4 as a multi-agent AI social simulation system. In this virtual world, AI characters possess independent thinking and memory, capable of autonomous social interactions, task completion, and developing complex social relationships through continuous communication. https://github.com/KsanaDock/Microverse
+- zerobootdev/zeroboot (2.4k★, Rust) — Sub-millisecond VM sandboxes for AI agents via copy-on-write forking https://github.com/zerobootdev/zeroboot
+- boxlite-ai/boxlite (2.1k★, HN 6, Rust) — The compute substrate for AI agents — light enough to embed on your laptop, elastic enough to power an agentic cloud. https://github.com/boxlite-ai/boxlite
+- eugene1g/agent-safehouse (1.9k★, Shell) — Sandbox your local AI agents so they can read/write only what they need https://github.com/eugene1g/agent-safehouse
+- superagent-ai/vibekit (1.8k★, HN 1, TypeScript) — Run Claude Code, Gemini, Codex — or any coding agent — in a clean, isolated sandbox with sensitive data redaction and observability baked in. https://github.com/superagent-ai/vibekit
 
 ## Observability & Eval (12)
 When to use: Use to trace, evaluate and monitor what your agent actually did — in development and in production.
@@ -335,7 +373,7 @@ Projects:
 - THUDM/AgentBench (3.5k★, HN 2, Python) — A Comprehensive Benchmark to Evaluate LLMs as Agents (ICLR'24) https://github.com/THUDM/AgentBench
 - msoedov/agentic_security (1.9k★, HN 2, Python) — Agentic LLM Vulnerability Scanner / AI red teaming kit 🧪 https://github.com/msoedov/agentic_security
 
-## Runtimes & Platforms (23)
+## Runtimes & Platforms (24)
 When to use: Use to assemble or host an agent with little-to-no code: low-code builders, workflow automation, hosting.
 What it is: Low-code/no-code builders and hosting platforms that let you assemble, deploy, and run agents and workflows with minimal coding — often a visual canvas plus integrations.
 Problem it addresses: Not every team wants to write and operate agent code. Building a chatbot or workflow from scratch — wiring models, tools, memory, and a UI, then hosting it — is a lot of undifferentiated work.
@@ -365,6 +403,7 @@ Projects:
 - openvinotoolkit/openvino (10k★, HN 9, C++) — OpenVINO™ is an open source toolkit for optimizing and deploying AI inference https://github.com/openvinotoolkit/openvino
 - github/copilot-sdk (9.5k★, HN 3, Java) — Multi-platform SDK for integrating GitHub Copilot Agent into apps and services https://github.com/github/copilot-sdk
 - GoogleCloudPlatform/kubectl-ai (7.5k★, HN 3, Go) — AI powered Kubernetes Assistant https://github.com/GoogleCloudPlatform/kubectl-ai
+- cloudflare/vibesdk (5.1k★, HN 3, TypeScript) — An open-source vibe coding platform that helps you build your own vibe-coding platform, built entirely on Cloudflare stack https://github.com/cloudflare/vibesdk
 - Intelligent-Internet/ii-agent (3.4k★, HN 1, Python) — II-Agent: a new open-source framework to build and deploy intelligent agents https://github.com/Intelligent-Internet/ii-agent
 
 ## Voice & Speech (18)
@@ -394,7 +433,7 @@ Projects:
 - huggingface/speech-to-speech (5k★, HN 27, Python) — Build local voice agents with open-source models https://github.com/huggingface/speech-to-speech
 - dograh-hq/dograh (4.7k★, HN 16, Python) — Open source voice AI platform. Self-hosted alternative to Vapi and Retell. On Prem, BYOK across Speech to Speech or LLM/STT/TTS, with a visual workflow builder, MCP native and telephony support. https://github.com/dograh-hq/dograh
 
-## Models & Serving (25)
+## Models & Serving (30)
 When to use: Use when you want to run or host the LLM yourself — your own hardware or cloud — instead of calling a hosted API.
 What it is: The infrastructure that runs the large language models your agent thinks with — engines and servers that load model weights and turn prompts into tokens, plus gateways that route requests across many models.
 Problem it addresses: Hosted model APIs are convenient but cost per token, send your data to a third party, and lock you to one vendor's models and rate limits. Many teams need to run open-weight models on their own GPUs for cost, privacy, latency, or offline use.
@@ -419,6 +458,7 @@ Projects:
 - bentoml/BentoML (8.7k★, HN 35, Python) — The easiest way to serve AI apps and models - Build Model Inference APIs, Job queues, LLM apps, Multi-model pipelines, and more! https://github.com/bentoml/BentoML
 - InternLM/lmdeploy (7.9k★, Python) — LMDeploy is a toolkit for compressing, deploying, and serving LLMs. https://github.com/InternLM/lmdeploy
 - Mintplex-Labs/anything-llm (62k★, HN 368, JavaScript) — Stop renting your intelligence. Own it with AnythingLLM. Everything you need for a powerful local-first agent experience https://github.com/Mintplex-Labs/anything-llm
+- 1Panel-dev/1Panel (36k★, Go) — 🔥 1Panel is a modern, open-source VPS control panel — and the only one with native AI agent support. Run Ollama models, deploy OpenClaw agents, and manage your entire server stack from one clean web interface. https://github.com/1Panel-dev/1Panel
 - mozilla-ai/llamafile (25k★, HN 43, C++) — Distribute and run LLMs with a single file. https://github.com/mozilla-ai/llamafile
 - 1Panel-dev/MaxKB (22k★, Python) — 🔥 MaxKB is an open-source platform for building enterprise-grade agents. 强大易用的开源企业级智能体平台。 https://github.com/1Panel-dev/MaxKB
 - Tencent/WeKnora (18k★, HN 2, Go) — Open-source LLM knowledge platform: turn raw documents into a queryable RAG, an autonomous reasoning agent, and a self-maintaining Wiki. https://github.com/Tencent/WeKnora
@@ -426,7 +466,11 @@ Projects:
 - Lightning-AI/litgpt (13k★, Python) — 20+ high-performance LLMs with recipes to pretrain, finetune and deploy at scale. https://github.com/Lightning-AI/litgpt
 - bentoml/OpenLLM (12k★, HN 659, Python) — Run any open-source LLMs, such as DeepSeek and Llama, as OpenAI compatible API endpoint in the cloud. https://github.com/bentoml/OpenLLM
 - sigoden/aichat (10k★, HN 4, Rust) — All-in-one LLM CLI tool featuring Shell Assistant, Chat-REPL, RAG, AI Tools & Agents, with access to OpenAI, Claude, Gemini, Ollama, Groq, and more. https://github.com/sigoden/aichat
+- alibaba/open-code-review (9.8k★, HN 284, Go) — Open-source & free — Battle-tested at Alibaba's scale. Hybrid architecture code review tool: deterministic pipelines + LLM Agent, precise line-level comments, built-in fine-tuned ruleset (NPE, thread-safety, XSS, SQL injection), OpenAI & Anthropic compatible. https://github.com/alibaba/open-code-review
 - OpenRLHF/OpenRLHF (9.7k★, Python) — An Easy-to-use, Scalable and High-performance Agentic RL Framework based on Ray (PPO & DAPO & REINFORCE++ & VLM & TIS & vLLM & Ray & Async RL) https://github.com/OpenRLHF/OpenRLHF
+- Tiiny-AI/PowerInfer (9.6k★, HN 1, C++) — High-speed Large Language Model Serving for Local Deployment https://github.com/Tiiny-AI/PowerInfer
+- ai-dynamo/dynamo (7.4k★, HN 150, Rust) — A Datacenter Scale Distributed Inference Serving Framework https://github.com/ai-dynamo/dynamo
+- open-multi-agent/open-multi-agent (6.5k★, TypeScript) — TypeScript multi-agent orchestration framework. Describe a goal, a coordinator decomposes it into a task DAG that runs on any LLM: Claude, ChatGPT, Gemini, DeepSeek, or local models. https://github.com/open-multi-agent/open-multi-agent
 
 ## Open Models (25)
 When to use: Use to choose the actual open-weight model — DeepSeek, Llama, Qwen, gpt-oss — that your agent reasons with, then run it with a tool from Models & Serving.
