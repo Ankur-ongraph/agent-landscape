@@ -124,10 +124,17 @@ function matches(p) {
   return true;
 }
 
+// HN-weighted star score: discounts stars by lack of HN developer interest.
+// 0 HN → 40% weight; 10 HN → ~65%; 50 HN → ~85%; 100+ HN → ~95%+.
+function hnScore(p) {
+  const hn = p.hnPoints || 0;
+  return (p.stars || 0) * (0.4 + 0.6 * (1 - 1 / (1 + hn / 20)));
+}
+
 function sortProjects(list) {
   const s = state.sort;
   const cmp = {
-    stars: (a, b) => b.stars - a.stars,
+    stars: (a, b) => hnScore(b) - hnScore(a),
     hn: (a, b) => (b.hnPoints || 0) - (a.hnPoints || 0) || b.stars - a.stars,
     updated: (a, b) => new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0),
     created: (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0),
@@ -146,10 +153,12 @@ function cardTier(p, featured) {
   return p.license ? "oss" : "proprietary";
 }
 
-// Hot = gained 200+ stars since the last daily scan (actual trending, not lifetime velocity).
-// Falls back to lifetime velocity (≥6000 stars/month) if delta isn't available yet.
+// Hot = on GitHub Trending at scan time, or gained 200+ stars since the last
+// daily scan. Falls back to lifetime velocity (≥6000 stars/month) if neither
+// signal is available yet.
 function isHot(p) {
   if (p.source === "huggingface") return false;
+  if (p.trending) return true;
   if (p.starsDelta != null) return p.starsDelta >= 200;
   if (!p.createdAt) return false;
   const months = (Date.now() - new Date(p.createdAt).getTime()) / (1000 * 60 * 60 * 24 * 30.4);

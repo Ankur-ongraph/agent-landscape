@@ -105,6 +105,30 @@ async function discoverByQuery(query, minStars, perQuery) {
   }
 }
 
+// GitHub Trending scrape — no API exists, but the HTML is stable. This is the
+// same underlying data Trendshift aggregates. Catches repos gaining stars fast
+// that our topic/keyword searches miss (vague descriptions, no topic tags).
+const TRENDING_PAGES = [
+  "?since=daily", "?since=weekly",
+  "/python?since=weekly", "/typescript?since=weekly", "/rust?since=weekly", "/go?since=weekly",
+];
+async function discoverTrending() {
+  const names = new Set();
+  for (const page of TRENDING_PAGES) {
+    try {
+      const res = await fetch(`https://github.com/trending${page}`, { headers: { "User-Agent": "agent-landscape-scanner" } });
+      if (!res.ok) continue;
+      const html = await res.text();
+      for (const m of html.matchAll(/href="\/([\w.-]+\/[\w.-]+)" data-view-component="true" class="Link"/g)) {
+        names.add(m[1]);
+      }
+    } catch (e) {
+      console.warn(`  trending page ${page} failed: ${e.message}`);
+    }
+  }
+  return [...names];
+}
+
 // HackerNews (Algolia) signal — free, no key. Returns top story points and
 // the number of stories that linked this repo. A reliable, hard-to-game source.
 async function fetchHN(repo) {
@@ -140,7 +164,7 @@ async function enrichHN(projects, concurrency = 8) {
 
 // Keep auto-discovery credible: a discovered repo must show an agent-ish signal,
 // and must not be on the denylist. Curated entries bypass this entirely.
-const AGENT_SIGNAL = /\bagent|agentic|autonomous|llm|multi-?agent|crew|\bmcp\b|model context protocol|a2a|gpt|copilot|assistant|orchestrat|rag\b|retrieval-augmented|tool[- ]?use|function[- ]?calling|chatbot|swarm/i;
+const AGENT_SIGNAL = /\bagent|agentic|autonomous|llm|multi-?agent|crew|\bmcp\b|model context protocol|a2a|gpt|copilot|assistant|orchestrat|rag\b|retrieval-augmented|tool[- ]?use|function[- ]?calling|chatbot|swarm|text-to-speech|speech-to-text|speech recognition|\btts\b|\basr\b|voice ai/i;
 // Keyword search surfaces lots of reading material, not tools — exclude it.
 const NON_TOOL = /awesome[-_]|[-_]?roadmap|tutorial|course|handbook|cheat-?sheet|guide|interview|\bbook\b|notes?\b|study-|learn(ing)?[-_]|100-days|from-scratch|examples?$|bootcamp|curriculum|papers?-?list|reading-list|leetcode|system-design|coding-?interview|build-your-own|lessons?\b|best[- ]?practice|12-factor|system[-_]?prompts?|prompt[-_]?leak|sample[- ]?code|\bnotebooks?\b|curated list|从零开始|教程|笔记|动手学|评测/i;
 
@@ -346,6 +370,29 @@ async function main() {
     console.log(`  added ${kept} repos from keyword search`);
   }
 
+  // 3.5) GitHub Trending — repos gaining stars fast right now. Lower star floor
+  // than topic/keyword discovery (trending repos are often young), but still
+  // gated by isRelevant so only agent-adjacent projects get in.
+  console.log("Discovering via GitHub Trending...");
+  {
+    const trendingNames = await discoverTrending();
+    let kept = 0;
+    for (const name of trendingNames) {
+      const key = name.toLowerCase();
+      if (byRepo.has(key)) { byRepo.get(key).trending = true; continue; }
+      const data = await fetchRepo(name);
+      if (!data || data.archived) continue;
+      if ((data.stars || 0) < 500) continue;
+      if (!isRelevant(data, denylist)) continue;
+      data.category = categorize(data, categoryIds);
+      data.curated = false;
+      data.trending = true;
+      byRepo.set(key, data);
+      kept++;
+    }
+    console.log(`  scanned ${trendingNames.length} trending repos, added ${kept} new`);
+  }
+
   const ghProjects = [...byRepo.values()].sort((a, b) => b.stars - a.stars);
 
   // 4) HackerNews signal — corroborate GitHub stars with real discussion.
@@ -373,19 +420,37 @@ async function main() {
   if (stale.length) console.log(`  dropped ${stale.length} stale repos (no commits in ${thisYear})`);
   const activeProjects = ghProjects.filter((p) => p.category === "models" || (p.pushedAt && new Date(p.pushedAt).getTime() >= activeThreshold));
 
-  // Star-farm backstop: a non-curated repo with 100k+ stars but zero HN
-  // discussion is almost certainly farmed — drop it.
+  // Star-farm backstop: only hard-drop the most extreme cases (100k+ stars, 0 HN).
+  // For everything else, HN is used as a ranking weight — not a binary kill switch.
   const farmed = activeProjects.filter((p) => !p.curated && p.stars >= 100000 && (p.hnPoints || 0) === 0);
   if (farmed.length) console.log(`  dropped ${farmed.length} likely star-farmed repos (100k+ stars, 0 HN)`);
   const ghClean = activeProjects.filter((p) => p.curated || !(p.stars >= 100000 && (p.hnPoints || 0) === 0));
+
+  // HN-weighted score: stars discounted by lack of HN developer interest.
+  // 0 HN → 40% of stars; 10 HN → ~65%; 50 HN → ~85%; 100+ HN → ~95%+.
+  function hnScore(p) {
+    const hn = p.hnPoints || 0;
+    const weight = 0.4 + 0.6 * (1 - 1 / (1 + hn / 20));
+    return (p.stars || 0) * weight;
+  }
 
   const CAP = 30;
   const grouped = {};
   for (const p of [...ghClean, ...hfModels]) (grouped[p.category] ||= []).push(p);
   const projects = [];
   for (const c of seed.categories) {
-    const list = (grouped[c.id] || []).sort((a, b) => (b.curated ? 1 : 0) - (a.curated ? 1 : 0) || b.stars - a.stars);
-    projects.push(...list.slice(0, CAP));
+    const list = (grouped[c.id] || []).sort((a, b) =>
+      (b.curated ? 1 : 0) - (a.curated ? 1 : 0) || hnScore(b) - hnScore(a)
+    );
+    const picked = list.slice(0, CAP);
+    // Trending repos always make the cut — a young repo gaining stars fast is
+    // the most newsworthy thing in the aisle, but by raw stars it would lose
+    // the cap to established giants and never appear.
+    const inPicked = new Set(picked.map((p) => p.repo));
+    for (const p of list.slice(CAP)) {
+      if (p.trending && !inPicked.has(p.repo)) picked.push(p);
+    }
+    projects.push(...picked);
   }
   console.log(`  capped to ${CAP}/aisle → ${projects.length} projects`);
 

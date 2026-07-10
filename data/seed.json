@@ -531,6 +531,22 @@
       "category": "skills"
     },
     {
+      "repo": "agentscope-ai/agentscope",
+      "category": "orchestration"
+    },
+    {
+      "repo": "langchain-ai/openwiki",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "RVC-Boss/GPT-SoVITS",
+      "category": "voice"
+    },
+    {
+      "repo": "czlonkowski/n8n-mcp",
+      "category": "protocols"
+    },
+    {
       "repo": "e2b-dev/e2b",
       "category": "sandboxes"
     },
@@ -725,6 +741,18 @@
     {
       "repo": "router-for-me/CLIProxyAPI",
       "category": "serving"
+    },
+    {
+      "repo": "TencentCloud/TencentDB-Agent-Memory",
+      "category": "memory-rag"
+    },
+    {
+      "repo": "tutti-os/tutti",
+      "category": "orchestration"
+    },
+    {
+      "repo": "synthetic-sciences/openscience",
+      "category": "autonomous"
     }
   ],
   "discovery": {
