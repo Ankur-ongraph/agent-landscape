@@ -140,19 +140,21 @@ function sortProjects(list) {
 // highlighted box; open source (has an OSS license) → standard box;
 // proprietary / no detected OSS license → muted gray box.
 const FEATURED_PER_AISLE = 3;
-const HOT_VELOCITY = 6000; // stars/month since creation → "hot" (trending fast)
 function cardTier(p, featured) {
   if (featured) return "featured";
   if (p.curated || p.source === "huggingface") return "oss"; // vetted / model entries are open even if no SPDX license detected
   return p.license ? "oss" : "proprietary";
 }
 
-// Hot = gaining stars fast right now (no time-series, so use stars/month since creation).
+// Hot = gained 200+ stars since the last daily scan (actual trending, not lifetime velocity).
+// Falls back to lifetime velocity (≥6000 stars/month) if delta isn't available yet.
 function isHot(p) {
-  if (p.source === "huggingface" || !p.createdAt) return false;
+  if (p.source === "huggingface") return false;
+  if (p.starsDelta != null) return p.starsDelta >= 200;
+  if (!p.createdAt) return false;
   const months = (Date.now() - new Date(p.createdAt).getTime()) / (1000 * 60 * 60 * 24 * 30.4);
   if (months < 1 || (p.stars || 0) < 1500) return false;
-  return p.stars / months >= HOT_VELOCITY;
+  return p.stars / months >= 6000;
 }
 
 function cardHtml(p, featured) {
@@ -221,9 +223,14 @@ function render() {
   for (const cat of state.data.categories) {
     const items = byCat.get(cat.id);
     if (!items || !items.length) continue;
-    // Feature only the top few curated picks in this aisle (by stars).
+    // Feature top curated picks per aisle — must be active (pushed within 90 days).
+    const cutoff90 = Date.now() - 90 * 24 * 60 * 60 * 1000;
     const featured = new Set(
-      items.filter((p) => p.curated).sort((a, b) => b.stars - a.stars).slice(0, FEATURED_PER_AISLE).map((p) => p.repo)
+      items
+        .filter((p) => p.curated && p.pushedAt && new Date(p.pushedAt).getTime() >= cutoff90)
+        .sort((a, b) => b.stars - a.stars)
+        .slice(0, FEATURED_PER_AISLE)
+        .map((p) => p.repo)
     );
     const cards = sortProjects(items).map((p) => cardHtml(p, featured.has(p.repo))).join("");
     sections.push(`

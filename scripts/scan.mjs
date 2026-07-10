@@ -427,6 +427,19 @@ async function main() {
     );
   }
 
+  // Compute star deltas vs previous scan — drives the "Hot today" signal.
+  const prevPath = join(ROOT, "public", "data.json");
+  try {
+    const prev = JSON.parse(await readFile(prevPath, "utf8"));
+    const prevStars = new Map(prev.projects.map((p) => [p.repo, p.stars || 0]));
+    for (const p of projects) {
+      const was = prevStars.get(p.repo);
+      p.starsDelta = was != null ? (p.stars || 0) - was : null;
+    }
+  } catch {
+    // first run or missing file — no delta available
+  }
+
   await mkdir(join(ROOT, "public"), { recursive: true });
   await writeFile(join(ROOT, "public", "data.json"), JSON.stringify(out, null, 2));
   console.log(
