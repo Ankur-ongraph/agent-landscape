@@ -18,8 +18,9 @@
   <meta name="twitter:description" content="A live, daily-updated map of AI agent tools — ranked from GitHub, Hacker News & Hugging Face. Agent-readable via llms.txt." />
   <meta name="twitter:image" content="https://theagentpantry.com/og.png" />
   <link rel="preconnect" href="https://github.com" />
-  <script>document.write('<link rel="stylesheet" href="styles.css?t=' + Date.now() + '">');</script>
-  <noscript><link rel="stylesheet" href="styles.css" /></noscript>
+  <!-- Static versioned URL (bump ?v= when styles change): render-blocking so the
+       first paint is styled (no CLS), and cacheable unlike the old Date.now() hack. -->
+  <link rel="stylesheet" href="styles.css?v=20260710" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧺</text></svg>" />
 </head>
 <body>
@@ -119,6 +120,6 @@
     <div class="detail-card" id="detail" role="dialog" aria-modal="true"></div>
   </div>
 
-  <script>document.write('<scr'+'ipt src="app.js?t=' + Date.now() + '"></scr'+'ipt>');</script>
+  <script src="app.js?v=20260710" defer></script>
 </body>
 </html>
