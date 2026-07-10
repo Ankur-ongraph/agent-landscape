@@ -50,9 +50,15 @@ jobs:
         uses: actions/deploy-pages@v4
 
       - name: Purge Cloudflare cache
-        if: ${{ secrets.CLOUDFLARE_ZONE_ID != '' }}
+        env:
+          CF_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+          if [ -z "$CF_ZONE" ] || [ -z "$CF_TOKEN" ]; then
+            echo "Cloudflare secrets not set; skipping cache purge."
+            exit 0
+          fi
+          curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$CF_ZONE/purge_cache" \
+            -H "Authorization: Bearer $CF_TOKEN" \
             -H "Content-Type: application/json" \
             --data '{"files":["https://theagentpantry.com/","https://theagentpantry.com/data.json","https://theagentpantry.com/llms.txt","https://theagentpantry.com/llms-full.txt"]}'
