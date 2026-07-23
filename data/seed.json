@@ -753,6 +753,22 @@
     {
       "repo": "synthetic-sciences/openscience",
       "category": "autonomous"
+    },
+    {
+      "repo": "anomalyco/opencode",
+      "category": "coding"
+    },
+    {
+      "repo": "MadsLorentzen/ai-job-search",
+      "category": "autonomous"
+    },
+    {
+      "repo": "block/buzz",
+      "category": "orchestration"
+    },
+    {
+      "repo": "NousResearch/hermes-agent",
+      "category": "autonomous"
     }
   ],
   "discovery": {
@@ -838,7 +854,6 @@
       "affaan-m/ECC",
       "multica-ai/andrej-karpathy-skills",
       "msitarzewski/agency-agents",
-      "NousResearch/hermes-agent",
       "farion1231/cc-switch",
       "nextlevelbuilder/ui-ux-pro-max-skill",
       "Egonex-AI/Understand-Anything",
