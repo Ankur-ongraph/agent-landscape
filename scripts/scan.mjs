@@ -164,27 +164,40 @@ async function enrichHN(projects, concurrency = 8) {
 
 // Keep auto-discovery credible: a discovered repo must show an agent-ish signal,
 // and must not be on the denylist. Curated entries bypass this entirely.
-const AGENT_SIGNAL = /\bagent|agentic|autonomous|llm|multi-?agent|crew|\bmcp\b|model context protocol|a2a|gpt|copilot|assistant|orchestrat|rag\b|retrieval-augmented|tool[- ]?use|function[- ]?calling|chatbot|swarm|text-to-speech|speech-to-text|speech recognition|\btts\b|\basr\b|voice ai/i;
+// `\bagent(?!less)` so "agentless" (Ansible's own pitch) doesn't grant relevance.
+const AGENT_SIGNAL = /\bagent(?!less)|agentic|autonomous|llm|multi-?agent|crew|\bmcp\b|model context protocol|a2a|gpt|copilot|assistant|orchestrat|rag\b|retrieval-augmented|tool[- ]?use|function[- ]?calling|chatbot|swarm|text-to-speech|speech-to-text|speech recognition|\btts\b|\basr\b|voice ai/i;
 // Keyword search surfaces lots of reading material, not tools — exclude it.
 const NON_TOOL = /awesome[-_]|[-_]?roadmap|tutorial|course|handbook|cheat-?sheet|guide|interview|\bbook\b|notes?\b|study-|learn(ing)?[-_]|100-days|from-scratch|examples?$|bootcamp|curriculum|papers?-?list|reading-list|leetcode|system-design|coding-?interview|build-your-own|lessons?\b|best[- ]?practice|12-factor|system[-_]?prompts?|prompt[-_]?leak|sample[- ]?code|\bnotebooks?\b|curated list|从零开始|教程|笔记|动手学|评测/i;
+// Vertical applications that stuff "agent" into their pitch but are really a
+// finance/e-commerce/infra/video product, not agent-building infrastructure.
+// Keeps the pantry about tools you BUILD agents with, not apps built with agents.
+const VERTICAL_APP = /trading (agent|bot|platform|system|signal)|algorithmic trading|quantitative|quant trading|stock (analysis|trading|market|picking)|\bstocks\b|value investing|investment research|金融交易|股票|量化|e-?commerce|commerce platform|\bspreadsheet\b|airtable|no-?code platform|control panel|\bvps\b|it automation|configuration management|saas boilerplate|short[- ]?video|video (generation|montage|production|generator)|money.?printer|短视频/i;
 
 function isRelevant(project, denylist) {
   if (denylist.has(project.repo.toLowerCase())) return false;
   const name = project.repo.split("/")[1] || "";
   const text = `${project.repo} ${project.description} ${project.topics.join(" ")}`;
-  if (NON_TOOL.test(name) || NON_TOOL.test(project.description)) return false;
+  const desc = project.description || "";
+  if (NON_TOOL.test(name) || NON_TOOL.test(desc)) return false;
+  if (VERTICAL_APP.test(name) || VERTICAL_APP.test(desc)) return false;
   return AGENT_SIGNAL.test(text);
 }
 
 function categorize(project, seedCategories) {
   // Heuristic auto-categorization for discovered repos.
   const text = `${project.repo} ${project.description} ${project.topics.join(" ")}`.toLowerCase();
+  const name = (project.repo.split("/")[1] || "").toLowerCase();
+  // High-precision, name-based overrides that beat the general rules below:
+  // an MCP server is a protocol tool no matter what domain it serves, and a
+  // repo named "*memory" is a memory store no matter what mentions it.
+  if (/(?:^|[-_])mcp(?:[-_]server)?$|mcp-server/.test(name)) return "protocols";
+  if (/(?:agent[-_]?)?memor(?:y|ies)$|[-_]mem$/.test(name)) return "memory-rag";
   const rules = [
     ["sandboxes", /sandbox|micro-?vm|firecracker|unikernel|code interpreter|isolated (execution|runtime|environment)|\be2b\b/],
     ["serving", /\bvllm\b|sglang|llama\.?cpp|\bgguf\b|quantiz|inference engine|inference server|model serving|llm serving|serving engine|text-generation-inference|tensorrt|triton inference|lmdeploy|\bollama\b|localai|llm gateway|model gateway|llm proxy|\bnemo\b|megatron|unsloth|fine-?tun|\bqlora\b|\bpeft\b|axolotl|llama-?factory/],
     ["voice", /whisper|speech recognition|speech-to-text|text-to-speech|\btts\b|\bstt\b|\basr\b|voice (agent|assistant|ai|chat|clon|conversation|mode)|realtime voice|voice-?to-?voice|voice-?enabled|telephony|realtime audio|transcrib/],
     ["skills", /\bskills?\b|skill[- ]pack|skill registry|superpowers|claude code setup|agent harness|opinionated (claude|agent)/],
-    ["computer-use", /browser-use|computer use|gui agent|web automation|playwright agent|screen/],
+    ["computer-use", /browser-use|computer[- ]use|gui agent|agent-computer-interface|web automation|playwright agent|screen/],
     ["coding", /coding agent|code agent|software engineer|swe|programmer|developer agent|repo/],
     ["data", /markitdown|docling|unstructured|to markdown|document (parsing|conversion|extraction|loader)|\bpdf\b|\bocr\b|\betl\b|data extraction|web scrap|firecrawl|\bcrawl|ingest|chunking/],
     ["protocols", /\bmcp\b|model context protocol|a2a|agent2agent|interop/],
@@ -457,9 +470,12 @@ async function main() {
     // Trending repos always make the cut — a young repo gaining stars fast is
     // the most newsworthy thing in the aisle, but by raw stars it would lose
     // the cap to established giants and never appear.
+    // Cap bypass additions so one relevance-filter miss can't permanently flood
+    // an aisle with trending-but-off-topic repos.
     const inPicked = new Set(picked.map((p) => p.repo));
+    let bypassed = 0;
     for (const p of list.slice(CAP)) {
-      if (p.trending && !inPicked.has(p.repo)) picked.push(p);
+      if (p.trending && !inPicked.has(p.repo) && bypassed < 6) { picked.push(p); bypassed++; }
     }
     projects.push(...picked);
   }

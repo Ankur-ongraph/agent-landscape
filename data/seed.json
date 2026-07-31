@@ -435,10 +435,6 @@
       "category": "protocols"
     },
     {
-      "repo": "punkpeye/awesome-mcp-servers",
-      "category": "protocols"
-    },
-    {
       "repo": "modelcontextprotocol/inspector",
       "category": "protocols"
     },
@@ -769,6 +765,10 @@
     {
       "repo": "NousResearch/hermes-agent",
       "category": "autonomous"
+    },
+    {
+      "repo": "stablyai/orca",
+      "category": "coding"
     }
   ],
   "discovery": {
@@ -872,7 +872,8 @@
       "alibaba/nacos",
       "sansan0/TrendRadar",
       "0xJacky/nginx-ui",
-      "jarrodwatts/claude-hud"
+      "jarrodwatts/claude-hud",
+      "micro/go-micro"
     ]
   }
 }

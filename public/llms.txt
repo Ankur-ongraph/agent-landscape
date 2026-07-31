@@ -1,6 +1,6 @@
 # The Agent Pantry — AI Agent Landscape
 
-> A live, daily-updated landscape of 404 AI agent frameworks and tools, scanned from GitHub and organized into 15 categories ("aisles") by the role each plays in building an agent.
+> A live, daily-updated landscape of 407 AI agent frameworks and tools, scanned from GitHub and organized into 15 categories ("aisles") by the role each plays in building an agent.
 
 Each project includes GitHub stars, Hacker News discussion, primary language, license, and a category. The full machine-readable dataset is available as JSON. Last updated 2026-07-31.
 
@@ -11,18 +11,18 @@ Each project includes GitHub stars, Hacker News discussion, primary language, li
 - [llms-full.txt](https://theagentpantry.com/llms-full.txt): this index plus full per-category guide text and every project.
 
 ## Categories
-- [Agent Frameworks](https://theagentpantry.com/#cat-frameworks) (31) — Use to build a single agent in code: prompting, tool-calling, the reasoning loop. Pick one as your foundation. Top: langchain, llama_index, agno.
+- [Agent Frameworks](https://theagentpantry.com/#cat-frameworks) (32) — Use to build a single agent in code: prompting, tool-calling, the reasoning loop. Pick one as your foundation. Top: langchain, llama_index, agno.
 - [Orchestration & Multi-Agent](https://theagentpantry.com/#cat-orchestration) (30) — Use when one agent isn’t enough and you need several agents, roles, hand-offs, or a workflow/graph. Top: deer-flow, MetaGPT, autogen.
 - [Autonomous Agents](https://theagentpantry.com/#cat-autonomous) (28) — Use when you want a goal-driven agent that plans and runs long tasks on its own (great as reference designs). Top: openclaw, hermes-agent, AutoGPT.
 - [Coding Agents](https://theagentpantry.com/#cat-coding) (32) — Use when you want an agent that reads, writes, refactors and ships code in your repo or editor. Top: opencode, claude-code, gemini-cli.
 - [Skills & Recipes](https://theagentpantry.com/#cat-skills) (33) — Use to give your agent ready-made, reusable skills/recipes instead of hand-writing every behavior. Top: superpowers, skills, skills.
-- [Browser & Computer Use](https://theagentpantry.com/#cat-computer-use) (16) — Use when your agent must act in a real browser, GUI, or desktop by seeing the screen and clicking. Top: browser-use, OmniParser, skyvern.
+- [Browser & Computer Use](https://theagentpantry.com/#cat-computer-use) (18) — Use when your agent must act in a real browser, GUI, or desktop by seeing the screen and clicking. Top: browser-use, OmniParser, skyvern.
 - [Memory & Knowledge](https://theagentpantry.com/#cat-memory-rag) (30) — Use to give your agent long-term memory and retrieval over your own knowledge (RAG, vector stores). Top: claude-mem, mem0, llm-app.
-- [Data & Documents](https://theagentpantry.com/#cat-data) (17) — Use to turn messy docs, PDFs and web pages into clean, structured text your agent or RAG can consume. Top: markitdown, firecrawl, docling.
-- [Tools & Protocols](https://theagentpantry.com/#cat-protocols) (31) — Use to connect your agent to external tools and to other agents via standards like MCP and A2A. Top: awesome-mcp-servers, servers, composio.
+- [Data & Documents](https://theagentpantry.com/#cat-data) (18) — Use to turn messy docs, PDFs and web pages into clean, structured text your agent or RAG can consume. Top: markitdown, firecrawl, docling.
+- [Tools & Protocols](https://theagentpantry.com/#cat-protocols) (31) — Use to connect your agent to external tools and to other agents via standards like MCP and A2A. Top: servers, composio, A2A.
 - [Sandboxes & MicroVMs](https://theagentpantry.com/#cat-sandboxes) (30) — Use when your agent runs untrusted code or tools and you need an isolated, safe place to execute it. Top: firecracker, cua, E2B.
-- [Observability & Eval](https://theagentpantry.com/#cat-observability) (13) — Use to trace, evaluate and monitor what your agent actually did — in development and in production. Top: langfuse, promptfoo, opik.
-- [Runtimes & Platforms](https://theagentpantry.com/#cat-runtimes) (28) — Use to assemble or host an agent with little-to-no code: low-code builders, workflow automation, hosting. Top: n8n, langflow, dify.
+- [Observability & Eval](https://theagentpantry.com/#cat-observability) (14) — Use to trace, evaluate and monitor what your agent actually did — in development and in production. Top: langfuse, promptfoo, opik.
+- [Runtimes & Platforms](https://theagentpantry.com/#cat-runtimes) (26) — Use to assemble or host an agent with little-to-no code: low-code builders, workflow automation, hosting. Top: n8n, langflow, dify.
 - [Voice & Speech](https://theagentpantry.com/#cat-voice) (30) — Use when your agent needs to listen (speech-to-text), talk (text-to-speech), or hold a live voice call. Top: whisper, GPT-SoVITS, fish-speech.
 - [Models & Serving](https://theagentpantry.com/#cat-serving) (30) — Use when you want to run or host the LLM yourself — your own hardware or cloud — instead of calling a hosted API. Top: ollama, transformers, llama.cpp.
 - [Open Models](https://theagentpantry.com/#cat-models) (25) — Use to choose the actual open-weight model — DeepSeek, Llama, Qwen, gpt-oss — that your agent reasons with, then run it with a tool from Models & Serving. Top: DeepSeek-V4-Pro, gpt-oss-120b, GLM-5.2.

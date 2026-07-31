@@ -177,9 +177,14 @@ function cardHtml(p, featured) {
     ? `<span class="dot" style="background:${LANG_COLORS[p.language] || "#888"}"></span>${p.language}`
     : "";
   if (p.source === "huggingface") {
+    // Featured models show the chef's-pick badge (the 🤗 identity stays via the
+    // avatar); otherwise the corner shows the HF badge.
+    const cornerBadge = featured
+      ? '<span class="badge-tier featured">🧑‍🍳 Featured</span>'
+      : '<span class="badge-tier hf-badge">🤗 HF</span>';
     return `
-    <div class="card oss hf" data-repo="${p.repo}">
-      <span class="badge-tier hf-badge">🤗 HF</span>
+    <div class="card ${featured ? "featured" : "oss"} hf" data-repo="${p.repo}">
+      ${cornerBadge}
       <div class="avatar hf-avatar">🤗</div>
       <div class="body">
         <div class="name" title="${p.repo}">${escapeHtml(p.name)}</div>
@@ -238,11 +243,17 @@ function render() {
     const items = byCat.get(cat.id);
     if (!items || !items.length) continue;
     // Feature top curated picks per aisle — must be active (pushed within 90 days).
+    // Models are never curated (they come from HF), so feature the top trending
+    // ones instead — keeps visual parity with every other aisle and the marquee
+    // rotates with the daily trending refresh.
     const cutoff90 = Date.now() - 90 * 24 * 60 * 60 * 1000;
     const featured = new Set(
-      items
-        .filter((p) => p.curated && p.pushedAt && new Date(p.pushedAt).getTime() >= cutoff90)
-        .sort((a, b) => b.stars - a.stars)
+      (cat.id === "models"
+        ? [...items].sort((a, b) => (a.trendRank ?? 1e9) - (b.trendRank ?? 1e9))
+        : items
+            .filter((p) => p.curated && p.pushedAt && new Date(p.pushedAt).getTime() >= cutoff90)
+            .sort((a, b) => b.stars - a.stars)
+      )
         .slice(0, FEATURED_PER_AISLE)
         .map((p) => p.repo)
     );
