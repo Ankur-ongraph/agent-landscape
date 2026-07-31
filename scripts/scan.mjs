@@ -231,22 +231,30 @@ function normalizeHF(m) {
 }
 
 async function discoverHFModels(limit = 25) {
-  // Popular by community likes, but kept to the current model generation
-  // (drops 2-4 year-old relics like GPT-2/bloom/Llama-2) and skips
-  // quantization/format variants (GGUF/AWQ/…) so the aisle stays useful.
-  const url = `https://huggingface.co/api/models?pipeline_tag=text-generation&sort=likes&direction=-1&limit=150&full=false`;
+  // Sort by HF trending score, not all-time likes — likes only accumulate, so a
+  // like-sorted list freezes on old favourites (DeepSeek-R1) and never rotates.
+  // Trending reflects current momentum, so the aisle refreshes daily. A quality
+  // floor (likes/downloads) plus a quant/format filter keeps out the noise that
+  // trending surfaces: experimental toys and GGUF/AWQ/FP4 repackagings.
+  const url = `https://huggingface.co/api/models?pipeline_tag=text-generation&sort=trendingScore&direction=-1&limit=200&full=false`;
   const cutoff = Date.now() - 1000 * 60 * 60 * 24 * 610; // ~20 months
-  const quant = /\b(gguf|awq|gptq|int4|int8|fp8|mlx|onnx|w8a8|w4a16|bnb|4bit|8bit)\b/i;
+  const quant = /\b(gguf|awq|gptq|int2|int4|int8|fp4|fp8|nvfp4|mxfp4|w2a16|w4a16|w8a8|w2|w4|w8|mlx|onnx|exl2|exl3|hqq|bnb|nf4|2bit|4bit|8bit)\b/i;
+  const MIN_LIKES = 40, MIN_DL = 5000; // cut experimental one-off uploads
   try {
     const res = await fetch(url, { headers: { "User-Agent": "agent-landscape-scanner" } });
     if (!res.ok) throw new Error(`HF ${res.status}`);
     const arr = await res.json();
     const seen = new Set();
-    return arr
+    const models = arr
       .map(normalizeHF)
       .filter((m) => m && !quant.test(m.repo) && new Date(m.createdAt || 0).getTime() >= cutoff)
+      .filter((m) => (m.likes || 0) >= MIN_LIKES || (m.downloads || 0) >= MIN_DL)
       .filter((m) => !seen.has(m.repo) && seen.add(m.repo))
       .slice(0, limit);
+    // Preserve HF trending order — the aisle cap and the frontend otherwise
+    // re-sort by likes (an all-time metric) and re-freeze the aisle.
+    models.forEach((m, i) => { m.trendRank = i; });
+    return models;
   } catch (e) {
     console.warn(`  Hugging Face fetch failed: ${e.message}`);
     return [];
@@ -439,9 +447,12 @@ async function main() {
   for (const p of [...ghClean, ...hfModels]) (grouped[p.category] ||= []).push(p);
   const projects = [];
   for (const c of seed.categories) {
-    const list = (grouped[c.id] || []).sort((a, b) =>
-      (b.curated ? 1 : 0) - (a.curated ? 1 : 0) || hnScore(b) - hnScore(a)
-    );
+    // Models rank by HF trending order (trendRank); every other aisle by
+    // curated-first then HN-weighted stars.
+    const sorter = c.id === "models"
+      ? (a, b) => (b.curated ? 1 : 0) - (a.curated ? 1 : 0) || (a.trendRank ?? 1e9) - (b.trendRank ?? 1e9)
+      : (a, b) => (b.curated ? 1 : 0) - (a.curated ? 1 : 0) || hnScore(b) - hnScore(a);
+    const list = (grouped[c.id] || []).sort(sorter);
     const picked = list.slice(0, CAP);
     // Trending repos always make the cut — a young repo gaining stars fast is
     // the most newsworthy thing in the aisle, but by raw stars it would lose

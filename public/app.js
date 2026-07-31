@@ -134,7 +134,12 @@ function hnScore(p) {
 function sortProjects(list) {
   const s = state.sort;
   const cmp = {
-    stars: (a, b) => hnScore(b) - hnScore(a),
+    // Default sort: HN-weighted stars, but HF models keep their trending rank
+    // (likes are all-time and would re-freeze the aisle on old favourites).
+    stars: (a, b) =>
+      (a.trendRank != null && b.trendRank != null)
+        ? a.trendRank - b.trendRank
+        : hnScore(b) - hnScore(a),
     hn: (a, b) => (b.hnPoints || 0) - (a.hnPoints || 0) || b.stars - a.stars,
     updated: (a, b) => new Date(b.pushedAt || 0) - new Date(a.pushedAt || 0),
     created: (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0),
