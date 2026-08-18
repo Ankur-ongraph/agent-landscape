@@ -11,7 +11,7 @@ Each project includes GitHub stars, Hacker News discussion, primary language, li
 - [llms-full.txt](https://theagentpantry.com/llms-full.txt): this index plus full per-category guide text and every project.
 
 ## Categories
-- [Agent Frameworks](https://theagentpantry.com/#cat-frameworks) (35) — Use to build a single agent in code: prompting, tool-calling, the reasoning loop. Pick one as your foundation. Top: langchain, llama_index, agno.
+- [Agent Frameworks](https://theagentpantry.com/#cat-frameworks) (35) — Use to build a single agent in code: prompting, tool-calling, the reasoning loop. Pick one as your foundation. Top: deepseek-harness, langchain, llama_index.
 - [Orchestration & Multi-Agent](https://theagentpantry.com/#cat-orchestration) (30) — Use when one agent isn’t enough and you need several agents, roles, hand-offs, or a workflow/graph. Top: deer-flow, autogen, crewAI.
 - [Autonomous Agents](https://theagentpantry.com/#cat-autonomous) (27) — Use when you want a goal-driven agent that plans and runs long tasks on its own (great as reference designs). Top: openclaw, hermes-agent, AutoGPT.
 - [Coding Agents](https://theagentpantry.com/#cat-coding) (32) — Use when you want an agent that reads, writes, refactors and ships code in your repo or editor. Top: opencode, claude-code, gemini-cli.

@@ -781,6 +781,10 @@
     {
       "repo": "cloudflare/cloudflare-os",
       "category": "runtimes"
+    },
+    {
+      "repo": "deepseek-ai/deepseek-harness",
+      "category": "frameworks"
     }
   ],
   "discovery": {
