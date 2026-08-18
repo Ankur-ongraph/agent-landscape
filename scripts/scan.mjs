@@ -129,6 +129,27 @@ async function discoverTrending() {
   return [...names];
 }
 
+// Recently-created popular repos, regardless of topics. Closes the biggest
+// discovery gap: brand-new viral projects (deepseek-harness, prime-agent, qm,
+// cloudflare-os) that haven't been tagged with our discovery topics yet — or
+// carry none at all. Sorted by stars, then narrowed by the relevance filter.
+async function discoverRecent(sinceISO, minStars, pages = 2) {
+  const out = [];
+  for (let page = 1; page <= pages; page++) {
+    const q = encodeURIComponent(`created:>=${sinceISO} stars:>=${minStars}`);
+    try {
+      const data = await gh(`/search/repositories?q=${q}&sort=stars&order=desc&per_page=100&page=${page}`);
+      const items = data.items ?? [];
+      out.push(...items.map(normalizeRepo));
+      if (items.length < 100) break; // no more pages
+    } catch (e) {
+      console.warn(`  recent page ${page} failed: ${e.message}`);
+      break;
+    }
+  }
+  return out;
+}
+
 // HackerNews (Algolia) signal — free, no key. Returns top story points and
 // the number of stories that linked this repo. A reliable, hard-to-game source.
 async function fetchHN(repo) {
@@ -414,6 +435,27 @@ async function main() {
     console.log(`  scanned ${trendingNames.length} trending repos, added ${kept} new`);
   }
 
+  // 3.6) Recently-created popular repos, regardless of topics — catches new
+  // viral agent projects that carry no/nonstandard GitHub topics.
+  {
+    const since = disc.recentSince || `${new Date().getFullYear()}-01-01`;
+    const floor = disc.recentMinStars ?? 4000;
+    console.log(`Discovering recent popular repos (created >= ${since}, ${floor}+ stars)...`);
+    const found = await discoverRecent(since, floor, disc.recentPages ?? 2);
+    let kept = 0;
+    for (const data of found) {
+      if (data.archived) continue;
+      const key = data.repo.toLowerCase();
+      if (byRepo.has(key)) continue;
+      if (!isRelevant(data, denylist)) continue;
+      data.category = categorize(data, categoryIds);
+      data.curated = false;
+      byRepo.set(key, data);
+      kept++;
+    }
+    console.log(`  scanned ${found.length} recent repos, added ${kept} new`);
+  }
+
   const ghProjects = [...byRepo.values()].sort((a, b) => b.stars - a.stars);
 
   // 4) HackerNews signal — corroborate GitHub stars with real discussion.
@@ -431,21 +473,31 @@ async function main() {
   // Cap each aisle to the top 25 (curated picks first, then by stars/likes) —
   // a reviewable set of the most relevant, active projects per category.
 
-  // Staleness filter: drop repos with no commits this calendar year — dead
-  // projects pollute the landscape regardless of historical star count.
-  // Exempt the "models" aisle: model-weight repos are published once and rarely
-  // see commits after release, and new models trend fast — keep discovery dynamic.
-  const thisYear = new Date().getFullYear();
-  const activeThreshold = new Date(`${thisYear}-01-01`).getTime();
+  // Staleness filter: drop repos with no push in the last N months. A live
+  // landscape shouldn't list frameworks that stopped shipping — obsolete
+  // projects pollute the aisles regardless of historical star count. A rolling
+  // window self-adjusts (a calendar-year cutoff is lenient in January and harsh
+  // in December). Exempt the "models" aisle: weight repos are published once and
+  // rarely see commits after release, and new models trend fast.
+  const STALE_MONTHS = disc.maxStaleMonths ?? 6;
+  const activeThreshold = Date.now() - STALE_MONTHS * 30.4 * 24 * 60 * 60 * 1000;
   const stale = ghProjects.filter((p) => p.category !== "models" && (!p.pushedAt || new Date(p.pushedAt).getTime() < activeThreshold));
-  if (stale.length) console.log(`  dropped ${stale.length} stale repos (no commits in ${thisYear})`);
+  if (stale.length) console.log(`  dropped ${stale.length} stale repos (no push in ${STALE_MONTHS} months)`);
   const activeProjects = ghProjects.filter((p) => p.category === "models" || (p.pushedAt && new Date(p.pushedAt).getTime() >= activeThreshold));
 
-  // Star-farm backstop: only hard-drop the most extreme cases (100k+ stars, 0 HN).
-  // For everything else, HN is used as a ranking weight — not a binary kill switch.
-  const farmed = activeProjects.filter((p) => !p.curated && p.stars >= 100000 && (p.hnPoints || 0) === 0);
-  if (farmed.length) console.log(`  dropped ${farmed.length} likely star-farmed repos (100k+ stars, 0 HN)`);
-  const ghClean = activeProjects.filter((p) => p.curated || !(p.stars >= 100000 && (p.hnPoints || 0) === 0));
+  // Star-farm backstop: a genuine 100k+ repo has thousands of forks (stars:forks
+  // ratio well under ~40:1). Only hard-drop when huge stars pair with implausibly
+  // few forks AND zero HN — the real star-farm signature. HN-weighting (below)
+  // handles ranking otherwise, so we don't nuke legitimate non-US flagships with
+  // a low HN footprint (e.g. deepseek-harness: 156k stars, 0 HN, but 16k forks).
+  const isFarmed = (p) => {
+    if (p.curated || p.stars < 100000 || (p.hnPoints || 0) > 0) return false;
+    const forks = p.forks || 0;
+    return forks === 0 || p.stars / forks > 40;
+  };
+  const farmed = activeProjects.filter(isFarmed);
+  if (farmed.length) console.log(`  dropped ${farmed.length} likely star-farmed repos (100k+ stars, 0 HN, thin forks)`);
+  const ghClean = activeProjects.filter((p) => !isFarmed(p));
 
   // HN-weighted score: stars discounted by lack of HN developer interest.
   // 0 HN → 40% of stars; 10 HN → ~65%; 50 HN → ~85%; 100+ HN → ~95%+.

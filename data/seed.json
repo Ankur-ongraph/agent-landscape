@@ -769,6 +769,18 @@
     {
       "repo": "stablyai/orca",
       "category": "coding"
+    },
+    {
+      "repo": "PrimeIntellect-ai/prime-agent",
+      "category": "autonomous"
+    },
+    {
+      "repo": "yc-software/qm",
+      "category": "orchestration"
+    },
+    {
+      "repo": "cloudflare/cloudflare-os",
+      "category": "runtimes"
     }
   ],
   "discovery": {
