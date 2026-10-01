@@ -785,6 +785,22 @@
     {
       "repo": "deepseek-ai/deepseek-harness",
       "category": "frameworks"
+    },
+    {
+      "repo": "ifixai-ai/iFixAi",
+      "category": "observability"
+    },
+    {
+      "repo": "tigerless-labs/autoharness",
+      "category": "skills"
+    },
+    {
+      "repo": "magnitudedev/magnitude",
+      "category": "serving"
+    },
+    {
+      "repo": "Niko1221/Strata",
+      "category": "serving"
     }
   ],
   "discovery": {
