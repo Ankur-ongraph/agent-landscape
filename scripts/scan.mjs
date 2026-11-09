@@ -16,6 +16,8 @@ const TOKEN = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
 const API = "https://api.github.com";
 const SITE = "https://theagentpantry.com";
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 const headers = {
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2022-11-28",
@@ -113,17 +115,29 @@ const TRENDING_PAGES = [
   "/python?since=weekly", "/typescript?since=weekly", "/rust?since=weekly", "/go?since=weekly",
 ];
 async function discoverTrending() {
+  // A browser-like UA + retry/backoff: the unauthenticated trending HTML is
+  // throttled when it runs after the API-heavy discovery passes, which silently
+  // zeroed out trending discovery. Retry on non-OK/empty before giving up.
+  const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36";
   const names = new Set();
-  for (const page of TRENDING_PAGES) {
-    try {
-      const res = await fetch(`https://github.com/trending${page}`, { headers: { "User-Agent": "agent-landscape-scanner" } });
-      if (!res.ok) continue;
-      const html = await res.text();
-      for (const m of html.matchAll(/href="\/([\w.-]+\/[\w.-]+)" data-view-component="true" class="Link"/g)) {
-        names.add(m[1]);
+  const fetchPage = async (page) => {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        const res = await fetch(`https://github.com/trending${page}`, { headers: { "User-Agent": UA, "Accept": "text/html" } });
+        if (res.ok) return await res.text();
+        if (res.status === 429 || res.status >= 500) { await sleep(2000 * (attempt + 1)); continue; }
+        return null; // 4xx other than 429 — don't retry
+      } catch (e) {
+        await sleep(1500 * (attempt + 1));
       }
-    } catch (e) {
-      console.warn(`  trending page ${page} failed: ${e.message}`);
+    }
+    return null;
+  };
+  for (const page of TRENDING_PAGES) {
+    const html = await fetchPage(page);
+    if (!html) { console.warn(`  trending page ${page} failed after retries`); continue; }
+    for (const m of html.matchAll(/href="\/([\w.-]+\/[\w.-]+)" data-view-component="true" class="Link"/g)) {
+      names.add(m[1]);
     }
   }
   return [...names];
